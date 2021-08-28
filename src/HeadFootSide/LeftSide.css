@@ -1,0 +1,14 @@
+div cock {
+  color: black;
+  font-size: 32px;
+  flex: 60%;
+  border: 1px black solid;
+}
+@keyframes example {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: yellow;
+  }
+}
