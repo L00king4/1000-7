@@ -7,15 +7,13 @@ import { CompetitionModelProp, SortedTrainees } from "./ICompetitions";
 import * as api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
 
-export let fetchSortedTrainees = (id: number) => {};
-
 export const Competition = ({ competition }: CompetitionModelProp) => {
   const [sortedTrainees, setSortedTrainees] = useState<SortedTrainees | null>(
     null
   );
   const [showAttending, setShowAttending] = useState(false);
-  fetchSortedTrainees = (id: number) => {
-    axios.get(api.GetSortedTrainees(id)).then((res) => {
+  const fetchSortedTrainees = () => {
+    axios.get(api.GetSortedTrainees(competition.id)).then((res) => {
       setSortedTrainees(res.data);
       console.log(res.data);
     });
@@ -28,7 +26,7 @@ export const Competition = ({ competition }: CompetitionModelProp) => {
       <div
         onClick={() => {
           if (sortedTrainees == null) {
-            fetchSortedTrainees(competition.id);
+            fetchSortedTrainees();
           }
           setShowAttending(!showAttending);
         }}
@@ -54,6 +52,7 @@ export const Competition = ({ competition }: CompetitionModelProp) => {
         <CompetitionSortedTrainees
           sortedTrainees={sortedTrainees}
           competition={competition}
+          fetchSortedTrainees={fetchSortedTrainees}
         />
       )}
     </li>

@@ -13,15 +13,16 @@ import {
 } from "./ICompetitions";
 import * as api from "../ApiEndpoints";
 import { TraineeModel, TraineeModelProp } from "../Trainees/ITrainees";
-import { fetchSortedTrainees } from "./Competition";
 import AddCompetitionAttendanceButton from "./AddCompetitionAttendanceButton";
 
 export const CompetitionSortedTrainees = ({
   sortedTrainees,
   competition,
+  fetchSortedTrainees,
 }: {
   sortedTrainees: SortedTrainees;
   competition: CompetitionModel;
+  fetchSortedTrainees: Function;
 }) => {
   const [showNotAttending, setShowNotAttending] = useState(false);
   return (
@@ -68,8 +69,9 @@ export const CompetitionSortedTrainees = ({
             >
               <Trainee trainee={trainee} />
               <AddCompetitionAttendanceButton
-                eventID={competition.id}
                 traineeID={trainee.id}
+                eventID={competition.id}
+                fetchSortedTrainees={fetchSortedTrainees}
               />
             </li>
           ))}

@@ -3,12 +3,16 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { CompetitionAttendanceModel } from "./ICompetitions";
 import * as api from "../ApiEndpoints";
-import { fetchSortedTrainees } from "./Competition";
 
 export const AddCompetitionAttendanceButton = ({
   eventID,
   traineeID,
-}: CompetitionAttendanceModel) => (
+  fetchSortedTrainees,
+}: {
+  eventID: number;
+  traineeID: number;
+  fetchSortedTrainees: Function;
+}) => (
   <div
     css={css`
       width: 50px;
@@ -22,7 +26,7 @@ export const AddCompetitionAttendanceButton = ({
           traineeID: traineeID,
         })
         .then(() => {
-          fetchSortedTrainees(eventID);
+          fetchSortedTrainees();
         });
     }}
   >
