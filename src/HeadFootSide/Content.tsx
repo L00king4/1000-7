@@ -8,7 +8,8 @@ interface Props {
 export const Content = ({ children }: Props) => (
   <div
     css={css`
-      flex: 80%;
+      border: 1px black solid;
+      background-color: #a7a7a7;
     `}
   >
     {children}
