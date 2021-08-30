@@ -1,5 +1,3 @@
-import { idText } from "typescript";
-
 const urlPrefix = "https://localhost:44360/api/";
 
 // COMPETITIONS
