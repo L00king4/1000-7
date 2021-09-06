@@ -1,30 +1,37 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CompetitionModel,
   CompetitionPayment,
+  CompetitionTraineeModel,
   SortedTrainees,
 } from "./ICompetitions";
 import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
+import { createStore } from "redux";
+import { CompetitionTrainee } from "./CompetitionTrainee";
+import { type } from "os";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Competition = ({
   competition,
 }: {
   competition: CompetitionModel;
 }) => {
-  const [sortedTrainees, setSortedTrainees] = useState<SortedTrainees | null>(
-    null
+  const dispatch = useDispatch();
+  const sortedTrainees = useSelector<SortedTrainees, SortedTrainees>(
+    (state) => state
   );
+
   const [showAttending, setShowAttending] = useState(false);
   const fetchSortedTrainees = () => {
     axios
       .get(api.Competitions.Events.GetSortedTrainees(competition.id))
       .then((res) => {
-        setSortedTrainees(res.data);
         console.log(res.data);
+        dispatch({ type: "UPDATE_ALL", many: res.data });
       });
   };
   // useEffect(() => {
@@ -34,7 +41,10 @@ export const Competition = ({
     <li>
       <div
         onClick={() => {
-          if (sortedTrainees == null) {
+          if (
+            sortedTrainees.attendingTrainees.length === 0 &&
+            sortedTrainees.notAttendingTrainees.length === 0
+          ) {
             fetchSortedTrainees();
           }
           setShowAttending(!showAttending);

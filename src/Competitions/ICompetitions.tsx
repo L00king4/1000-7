@@ -7,7 +7,7 @@ export interface CompetitionModel {
 }
 
 export interface CompetitionTraineeModel extends TraineeModel {
-  amountPayed: number | null;
+  amountPayed: number;
 }
 
 export interface SortedTrainees {

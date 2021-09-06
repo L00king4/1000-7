@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import api from "../ApiEndpoints";
 import { CompetitionModel, CompetitionTraineeModel } from "./ICompetitions";
 
@@ -18,6 +19,7 @@ export const AddCompetitionPaymentButton = ({
   trainee: CompetitionTraineeModel;
   fetchSortedTrainees: Function;
 }) => {
+  const dispatch = useDispatch();
   const AddCompetitionPayment = (amount: number) => {
     axios
       .post(api.Competitions.Payments.Add, {
@@ -26,8 +28,13 @@ export const AddCompetitionPaymentButton = ({
         traineeID: trainee.id,
       })
       .then((res) => {
-        console.log(res.data === 1);
-        fetchSortedTrainees();
+        if (res.data === 1) {
+          dispatch({
+            type: "UPDATE_ONE",
+            one: { ...trainee, amountPayed: trainee.amountPayed + amount },
+          });
+        }
+        //fetchSortedTrainees();
       });
   };
   const [amount, setAmount] = useState(0);

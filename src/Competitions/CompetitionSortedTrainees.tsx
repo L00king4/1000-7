@@ -35,7 +35,6 @@ export const CompetitionSortedTrainees = ({
         onClick={() => setShowAttending(!showAttending)}
         css={css`
           text-align: center;
-          border: 1px solid black;
           margin-bottom: 30px;
         `}
       >
@@ -90,8 +89,8 @@ export const CompetitionSortedTrainees = ({
               }
             >
               <AddCompetitionAttendanceButton
-                traineeID={trainee.id}
-                eventID={competition.id}
+                trainee={trainee}
+                competition={competition}
                 fetchSortedTrainees={fetchSortedTrainees}
               />
               <Trainee trainee={trainee} />

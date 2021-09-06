@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import api from "../ApiEndpoints";
 import { Competition } from "./Competition";
 import { CompetitionModel } from "./ICompetitions";
+import { CompetitionStore } from "./CompetitionStore";
 
 const testCompetitions: CompetitionModel[] = [
   { id: 1, toPay: 200, name: "first" },
@@ -42,7 +43,7 @@ export const Competitions = () => {
         `}
       >
         {competitions.map((competition) => (
-          <Competition
+          <CompetitionStore
             key={competition.id.toString() + " " + competition.name}
             competition={competition}
           />
