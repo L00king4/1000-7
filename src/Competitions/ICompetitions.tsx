@@ -6,17 +6,13 @@ export interface CompetitionModel {
   name: string;
 }
 
-export interface CompetitionModelProp {
-  competition: CompetitionModel;
+export interface CompetitionTraineeModel extends TraineeModel {
+  amountPayed: number | null;
 }
 
 export interface SortedTrainees {
-  attendingTrainees: TraineeModel[];
-  notAttendingTrainees: TraineeModel[];
-}
-
-export interface SortedTraineesProp {
-  sortedTrainees: SortedTrainees;
+  attendingTrainees: CompetitionTraineeModel[];
+  notAttendingTrainees: CompetitionTraineeModel[];
 }
 
 export interface CompetitionAttendanceModel {
@@ -24,10 +20,10 @@ export interface CompetitionAttendanceModel {
   traineeID: number;
 }
 
-export interface CompetitionAttendanceModelProp {
-  competitionAttendance: CompetitionAttendanceModel;
+export interface CompetitionPayment {
+  amount: number;
+  traineeID: number;
 }
-
 // export interface TraineesChecklist {
 //   id: number;
 //   enabled: boolean;

@@ -3,9 +3,10 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import * as api from "../ApiEndpoints";
+import { Link } from "react-router-dom";
+import api from "../ApiEndpoints";
 import { Competition } from "./Competition";
-import { CompetitionModel, SortedTrainees } from "./ICompetitions";
+import { CompetitionModel } from "./ICompetitions";
 
 const testCompetitions: CompetitionModel[] = [
   { id: 1, toPay: 200, name: "first" },
@@ -16,7 +17,7 @@ const testCompetitions: CompetitionModel[] = [
 
 const fetchCompetitions = (setCompetitions: Function) => {
   axios
-    .get(api.GetAllCompetitions)
+    .get(api.Competitions.Events.GetAll)
     .then((res) => {
       setCompetitions(res.data);
     })
@@ -34,6 +35,7 @@ export const Competitions = () => {
 
   return (
     <div>
+      <Link to="Add">ADD COMPETITION</Link>
       <ul
         css={css`
           list-style-type: none;

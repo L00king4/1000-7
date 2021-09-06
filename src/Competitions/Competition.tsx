@@ -2,21 +2,30 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import { useState } from "react";
-import { Trainee } from "../Trainees/Trainee";
-import { CompetitionModelProp, SortedTrainees } from "./ICompetitions";
-import * as api from "../ApiEndpoints";
+import {
+  CompetitionModel,
+  CompetitionPayment,
+  SortedTrainees,
+} from "./ICompetitions";
+import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
 
-export const Competition = ({ competition }: CompetitionModelProp) => {
+export const Competition = ({
+  competition,
+}: {
+  competition: CompetitionModel;
+}) => {
   const [sortedTrainees, setSortedTrainees] = useState<SortedTrainees | null>(
     null
   );
   const [showAttending, setShowAttending] = useState(false);
   const fetchSortedTrainees = () => {
-    axios.get(api.GetSortedTrainees(competition.id)).then((res) => {
-      setSortedTrainees(res.data);
-      console.log(res.data);
-    });
+    axios
+      .get(api.Competitions.Events.GetSortedTrainees(competition.id))
+      .then((res) => {
+        setSortedTrainees(res.data);
+        console.log(res.data);
+      });
   };
   // useEffect(() => {
   //   fetchSortedTrainees(id, setSortedTrainees);
@@ -46,7 +55,7 @@ export const Competition = ({ competition }: CompetitionModelProp) => {
           }
         `}
       >
-        {competition.name} | {competition.toPay}
+        [{competition.toPay}] | {competition.name}
       </div>
       {showAttending && sortedTrainees !== null && (
         <CompetitionSortedTrainees

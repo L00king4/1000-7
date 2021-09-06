@@ -5,10 +5,6 @@ export interface TraineeModel {
   beltColor: number;
 }
 
-export interface TraineeModelProp {
-  trainee: TraineeModel;
-}
-
 export interface TraineeModels {
   trainees: TraineeModel[];
 }

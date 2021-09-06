@@ -5,6 +5,8 @@ import { Competitions } from "./Competitions/Competitions";
 import { Idle } from "./Idle";
 import { Content } from "./HeadFootSide/Content";
 import Header from "./HeadFootSide/Header";
+import "./App.css";
+import { AddCompetition } from "./Competitions/AddCompetitions";
 
 export const App = () => (
   <BrowserRouter>
@@ -18,6 +20,7 @@ export const App = () => (
       <Content>
         <Routes>
           <Route path="Competitions" element={<Competitions />} />
+          <Route path="Competitions/Add" element={<AddCompetition />} />
           <Route path="*" element={<Idle />} />
           {/* <Route path="Competitions/:id" element={<ViewCompetition  />} /> */}
         </Routes>

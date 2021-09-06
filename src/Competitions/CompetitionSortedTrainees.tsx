@@ -1,19 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import axios from "axios";
 import { useState } from "react";
 import { Trainee } from "../Trainees/Trainee";
-import {
-  CompetitionAttendanceModel,
-  CompetitionAttendanceModelProp,
-  CompetitionModel,
-  CompetitionModelProp,
-  SortedTrainees,
-  SortedTraineesProp,
-} from "./ICompetitions";
-import * as api from "../ApiEndpoints";
-import { TraineeModel, TraineeModelProp } from "../Trainees/ITrainees";
+import { CompetitionModel, SortedTrainees } from "./ICompetitions";
 import AddCompetitionAttendanceButton from "./AddCompetitionAttendanceButton";
+import RemoveCompetitionAttendanceButton from "./RemoveCompetitionAttendanceButton";
+import AddCompetitionPaymentButton from "./AddCompetitionPaymentButton";
+import { CompetitionTrainee } from "./CompetitionTrainee";
 
 export const CompetitionSortedTrainees = ({
   sortedTrainees,
@@ -25,6 +18,7 @@ export const CompetitionSortedTrainees = ({
   fetchSortedTrainees: Function;
 }) => {
   const [showNotAttending, setShowNotAttending] = useState(false);
+  const [showAttending, setShowAttending] = useState(true);
   return (
     <div
       css={css`
@@ -34,26 +28,54 @@ export const CompetitionSortedTrainees = ({
         padding: 10px;
         width: 665px;
         margin-left: 30px;
+        display: block;
       `}
     >
-      Attending:
-      <ul>
-        {sortedTrainees.attendingTrainees.map((trainee) => (
-          <li
-            key={
-              competition.id.toString() +
-              " " +
-              trainee.id.toString() +
-              trainee.fullname +
-              trainee.beltColor.toString()
-            }
-          >
-            <Trainee trainee={trainee} />
-          </li>
-        ))}
-      </ul>
-      <div onClick={() => setShowNotAttending(!showNotAttending)}>
-        Not Attending:{" "}
+      <div
+        onClick={() => setShowAttending(!showAttending)}
+        css={css`
+          text-align: center;
+          border: 1px solid black;
+          margin-bottom: 30px;
+        `}
+      >
+        Attending:
+      </div>
+      {showAttending && (
+        <ul>
+          {sortedTrainees.attendingTrainees.map((trainee) => (
+            <li
+              key={
+                competition.id.toString() +
+                " " +
+                trainee.id.toString() +
+                trainee.fullname +
+                trainee.beltColor.toString()
+              }
+            >
+              <RemoveCompetitionAttendanceButton
+                trainee={trainee}
+                competition={competition}
+                fetchSortedTrainees={fetchSortedTrainees}
+              />
+              <CompetitionTrainee trainee={trainee} />
+              <AddCompetitionPaymentButton
+                competition={competition}
+                trainee={trainee}
+                fetchSortedTrainees={fetchSortedTrainees}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+      <div
+        css={css`
+          text-align: center;
+          padding-bottom: 30px;
+        `}
+        onClick={() => setShowNotAttending(!showNotAttending)}
+      >
+        Not Attending:
       </div>
       {showNotAttending && (
         <ul>
@@ -67,12 +89,12 @@ export const CompetitionSortedTrainees = ({
                 trainee.beltColor.toString()
               }
             >
-              <Trainee trainee={trainee} />
               <AddCompetitionAttendanceButton
                 traineeID={trainee.id}
                 eventID={competition.id}
                 fetchSortedTrainees={fetchSortedTrainees}
               />
+              <Trainee trainee={trainee} />
             </li>
           ))}
         </ul>

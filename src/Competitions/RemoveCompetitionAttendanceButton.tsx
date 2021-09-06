@@ -2,14 +2,15 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import api from "../ApiEndpoints";
+import { CompetitionModel, CompetitionTraineeModel } from "./ICompetitions";
 
-export const AddCompetitionAttendanceButton = ({
-  eventID,
-  traineeID,
+export const RemoveCompetitionAttendanceButton = ({
+  competition,
+  trainee,
   fetchSortedTrainees,
 }: {
-  eventID: number;
-  traineeID: number;
+  competition: CompetitionModel;
+  trainee: CompetitionTraineeModel;
   fetchSortedTrainees: Function;
 }) => (
   <button
@@ -17,23 +18,24 @@ export const AddCompetitionAttendanceButton = ({
       width: 50px;
       height: 50px;
       display: inline-block;
-      background-color: green;
+      background-color: red;
       font-size: 50px;
       margin-right: 30px;
     `}
+    className="trainee"
     onClick={() => {
       axios
-        .post(api.Competitions.Attendances.Add, {
-          eventID: eventID,
-          traineeID: traineeID,
+        .post(api.Competitions.Attendances.Remove, {
+          eventID: competition.id,
+          traineeID: trainee.id,
         })
         .then(() => {
           fetchSortedTrainees();
         });
     }}
   >
-    +
+    -
   </button>
 );
 
-export default AddCompetitionAttendanceButton;
+export default RemoveCompetitionAttendanceButton;

@@ -10,7 +10,7 @@ export const Header = () => (
       display: inline-block;
     `}
   >
-    <Link css to="Competitions">Competitions</Link>
+    <Link to="Competitions">Competitions</Link>
     <Link to="Trainings">Trainings</Link>
     <Link to="PayEvents">Other Events</Link>
   </div>
