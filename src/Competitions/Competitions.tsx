@@ -6,14 +6,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../ApiEndpoints";
 import { CompetitionModel } from "./ICompetitions";
-import { CompetitionStore } from "./CompetitionStore";
-
-const testCompetitions: CompetitionModel[] = [
-  { id: 1, toPay: 200, name: "first" },
-  { id: 2, toPay: 300, name: "second" },
-  { id: 3, toPay: 400, name: "thjird" },
-  { id: 4, toPay: 500, name: "foruth" },
-];
+import { CompetitionStore } from "./Stores/CompetitionStore";
+import { useDispatch, useSelector } from "react-redux";
 
 const fetchCompetitions = (setCompetitions: Function) => {
   axios
@@ -21,18 +15,19 @@ const fetchCompetitions = (setCompetitions: Function) => {
     .then((res) => {
       setCompetitions(res.data);
     })
-    .catch(() => {
-      setCompetitions(testCompetitions);
-    });
+    .catch(() => {});
 };
 
 export const Competitions = () => {
-  const [competitions, setCompetitions] = useState<CompetitionModel[]>([]);
-
+  const dispatch = useDispatch();
+  const competitions = useSelector<CompetitionModel[], CompetitionModel[]>(
+    (state) => state
+  );
   useEffect(() => {
-    fetchCompetitions(setCompetitions);
+    axios
+      .get(api.Competitions.Events.GetAll)
+      .then((res) => dispatch({ type: "SET_MANY", many: res.data }));
   }, []);
-
   return (
     <div
       css={css`

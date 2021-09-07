@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { Competition } from "./Competition";
+import { Competition } from "../Competition";
 import {
   CompetitionModel,
   CompetitionTraineeModel,
   SortedTrainees,
-} from "./ICompetitions";
+} from "../ICompetitions";
 
 export const CompetitionStore = ({
   competition,
