@@ -6,7 +6,9 @@ import { Idle } from "./Idle";
 import { Content } from "./HeadFootSide/Content";
 import Header from "./HeadFootSide/Header";
 import "./App.css";
-import { AddCompetition } from "./Competitions/AddCompetitions";
+import { AddCompetition } from "./AddCompetitions/AddCompetitions";
+import { Provider } from "react-redux";
+import { competitionsStore } from "./Competitions/CompetitionsStore";
 
 export const App = () => (
   <BrowserRouter>
@@ -19,10 +21,11 @@ export const App = () => (
       <Header />
       <Content>
         <Routes>
-          <Route path="Competitions" element={<Competitions />} />
-          <Route path="Competitions/Add" element={<AddCompetition />} />
+          <Provider store={competitionsStore}>
+            <Route path="Competitions" element={<Competitions />} />
+            <Route path="Competitions/Add" element={<AddCompetition />} />
+          </Provider>
           <Route path="*" element={<Idle />} />
-          {/* <Route path="Competitions/:id" element={<ViewCompetition  />} /> */}
         </Routes>
       </Content>
     </div>

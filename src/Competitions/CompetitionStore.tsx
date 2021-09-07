@@ -71,10 +71,10 @@ export const CompetitionStore = ({
         return state;
     }
   };
-  const store = createStore(reducer);
+  const sortedTraineesStore = createStore(reducer);
 
   return (
-    <Provider store={store}>
+    <Provider store={sortedTraineesStore}>
       <Competition
         key={competition.id.toString() + " " + competition.name}
         competition={competition}

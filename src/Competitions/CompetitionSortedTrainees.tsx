@@ -3,9 +3,9 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 import { Trainee } from "../Trainees/Trainee";
 import { CompetitionModel, SortedTrainees } from "./ICompetitions";
-import AddCompetitionAttendanceButton from "./AddCompetitionAttendanceButton";
-import RemoveCompetitionAttendanceButton from "./RemoveCompetitionAttendanceButton";
-import AddCompetitionPaymentButton from "./AddCompetitionPaymentButton";
+import AddCompetitionAttendanceButton from "./Buttons/AddCompetitionAttendanceButton";
+import RemoveCompetitionAttendanceButton from "./Buttons/RemoveCompetitionAttendanceButton";
+import AddCompetitionPaymentButton from "./Buttons/AddCompetitionPaymentButton";
 import { CompetitionTrainee } from "./CompetitionTrainee";
 
 export const CompetitionSortedTrainees = ({

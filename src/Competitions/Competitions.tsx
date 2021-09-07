@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../ApiEndpoints";
-import { Competition } from "./Competition";
 import { CompetitionModel } from "./ICompetitions";
 import { CompetitionStore } from "./CompetitionStore";
 
@@ -35,7 +34,12 @@ export const Competitions = () => {
   }, []);
 
   return (
-    <div>
+    <div
+      css={css`
+        align-items: center;
+        justify-content: center;
+      `}
+    >
       <Link to="Add">ADD COMPETITION</Link>
       <ul
         css={css`

@@ -9,6 +9,8 @@ export class api {
         urlPrefix + `competitions/${id.toString()}`;
       static GetSortedTrainees = (id: number) =>
         urlPrefix + `competitions/${id.toString()}/trainees`;
+      static Remove = (id: number) =>
+        urlPrefix + `competitions/remove/${id.toString()}`;
     };
     static Attendances = class {
       static Add = urlPrefix + "competitionattendances/add";

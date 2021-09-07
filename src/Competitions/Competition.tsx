@@ -14,6 +14,7 @@ import { createStore } from "redux";
 import { CompetitionTrainee } from "./CompetitionTrainee";
 import { type } from "os";
 import { useDispatch, useSelector } from "react-redux";
+import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
 
 export const Competition = ({
   competition,
@@ -50,6 +51,7 @@ export const Competition = ({
           setShowAttending(!showAttending);
         }}
         css={css`
+          display: inline-block;
           background-color: #6ac46a;
           border-radius: 10px;
           border-radius: 8px;
@@ -67,6 +69,7 @@ export const Competition = ({
       >
         [{competition.toPay}] | {competition.name}
       </div>
+      <RemoveCompetitionButton competition={competition} />
       {showAttending && sortedTrainees !== null && (
         <CompetitionSortedTrainees
           sortedTrainees={sortedTrainees}

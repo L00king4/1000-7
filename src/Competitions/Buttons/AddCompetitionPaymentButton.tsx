@@ -3,12 +3,8 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import api from "../ApiEndpoints";
-import { CompetitionModel, CompetitionTraineeModel } from "./ICompetitions";
-
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import api from "../../ApiEndpoints";
+import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
 
 export const AddCompetitionPaymentButton = ({
   competition,

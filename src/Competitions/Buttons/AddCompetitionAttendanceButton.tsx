@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import api from "../ApiEndpoints";
-import { CompetitionModel, CompetitionTraineeModel } from "./ICompetitions";
+import { useDispatch } from "react-redux";
+import api from "../../ApiEndpoints";
+import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
 
-export const RemoveCompetitionAttendanceButton = ({
+export const AddCompetitionAttendanceButton = ({
   competition,
   trainee,
   fetchSortedTrainees,
@@ -21,14 +21,13 @@ export const RemoveCompetitionAttendanceButton = ({
         width: 50px;
         height: 50px;
         display: inline-block;
-        background-color: red;
+        background-color: green;
         font-size: 50px;
         margin-right: 30px;
       `}
-      className="trainee"
       onClick={() => {
         axios
-          .post(api.Competitions.Attendances.Remove, {
+          .post(api.Competitions.Attendances.Add, {
             eventID: competition.id,
             traineeID: trainee.id,
           })
@@ -36,13 +35,12 @@ export const RemoveCompetitionAttendanceButton = ({
             if (res.data === 1) {
               dispatch({ type: "SWITCH", one: trainee });
             }
-            //fetchSortedTrainees();
           });
       }}
     >
-      -
+      +
     </button>
   );
 };
 
-export default RemoveCompetitionAttendanceButton;
+export default AddCompetitionAttendanceButton;
