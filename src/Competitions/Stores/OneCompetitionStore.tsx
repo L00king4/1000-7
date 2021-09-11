@@ -8,7 +8,13 @@ import {
   SortedTrainees,
 } from "../ICompetitions";
 
-export const CompetitionStore = ({
+export class OneCompetitionActions {
+  static SWITCH = "SWITCH";
+  static SET_MANY = "SET_MANY";
+  static UPDATE_ONE = "UPDATE_ONE";
+}
+
+export const OneCompetitionStore = ({
   competition,
 }: {
   competition: CompetitionModel;
@@ -48,7 +54,7 @@ export const CompetitionStore = ({
           };
         }
         return state;
-      case "UPDATE_ALL":
+      case "SET_MANY":
         return action.many;
       case "UPDATE_ONE":
         console.log("UPDATE_ONE");

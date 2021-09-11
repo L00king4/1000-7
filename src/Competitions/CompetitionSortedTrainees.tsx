@@ -91,7 +91,6 @@ export const CompetitionSortedTrainees = ({
               <AddCompetitionAttendanceButton
                 trainee={trainee}
                 competition={competition}
-                fetchSortedTrainees={fetchSortedTrainees}
               />
               <Trainee trainee={trainee} />
             </li>

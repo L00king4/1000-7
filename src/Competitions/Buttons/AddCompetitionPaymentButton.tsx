@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
 import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
+import { OneCompetitionActions } from "../Stores/OneCompetitionStore";
 
 export const AddCompetitionPaymentButton = ({
   competition,
@@ -26,7 +27,7 @@ export const AddCompetitionPaymentButton = ({
       .then((res) => {
         if (res.data === 1) {
           dispatch({
-            type: "UPDATE_ONE",
+            type: OneCompetitionActions.UPDATE_ONE,
             one: { ...trainee, amountPayed: trainee.amountPayed + amount },
           });
         }

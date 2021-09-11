@@ -8,7 +8,7 @@ import Header from "./HeadFootSide/Header";
 import "./App.css";
 import { AddCompetition } from "./AddCompetitions/AddCompetitions";
 import { Provider } from "react-redux";
-import { competitionsStore } from "./Competitions/Stores/CompetitionsStore";
+import { competitionsStore } from "./Competitions/Stores/AllCompetitionsStore";
 
 export const App = () => (
   <BrowserRouter>

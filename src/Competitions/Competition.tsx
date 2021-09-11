@@ -1,20 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import {
-  CompetitionModel,
-  CompetitionPayment,
-  CompetitionTraineeModel,
-  SortedTrainees,
-} from "./ICompetitions";
+import { useState } from "react";
+import { CompetitionModel, SortedTrainees } from "./ICompetitions";
 import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
-import { createStore } from "redux";
-import { CompetitionTrainee } from "./CompetitionTrainee";
-import { type } from "os";
 import { useDispatch, useSelector } from "react-redux";
 import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
+import { OneCompetitionActions } from "./Stores/OneCompetitionStore";
 
 export const Competition = ({
   competition,
@@ -32,7 +25,7 @@ export const Competition = ({
       .get(api.Competitions.Events.GetSortedTrainees(competition.id))
       .then((res) => {
         console.log(res.data);
-        dispatch({ type: "UPDATE_ALL", many: res.data });
+        dispatch({ type: OneCompetitionActions.SET_MANY, many: res.data });
       });
   };
   // useEffect(() => {

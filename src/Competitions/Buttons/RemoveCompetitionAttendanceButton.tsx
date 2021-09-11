@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../ApiEndpoints";
 import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
+import { OneCompetitionActions } from "../Stores/OneCompetitionStore";
 
 export const RemoveCompetitionAttendanceButton = ({
   competition,
@@ -34,7 +35,7 @@ export const RemoveCompetitionAttendanceButton = ({
           })
           .then((res) => {
             if (res.data === 1) {
-              dispatch({ type: "SWITCH", one: trainee });
+              dispatch({ type: OneCompetitionActions.SWITCH, one: trainee });
             }
             //fetchSortedTrainees();
           });

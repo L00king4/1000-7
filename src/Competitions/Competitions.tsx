@@ -6,17 +6,9 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../ApiEndpoints";
 import { CompetitionModel } from "./ICompetitions";
-import { CompetitionStore } from "./Stores/CompetitionStore";
+import { OneCompetitionStore } from "./Stores/OneCompetitionStore";
 import { useDispatch, useSelector } from "react-redux";
-
-const fetchCompetitions = (setCompetitions: Function) => {
-  axios
-    .get(api.Competitions.Events.GetAll)
-    .then((res) => {
-      setCompetitions(res.data);
-    })
-    .catch(() => {});
-};
+import { AllCompetitionsActions } from "./Stores/AllCompetitionsStore";
 
 export const Competitions = () => {
   const dispatch = useDispatch();
@@ -24,9 +16,9 @@ export const Competitions = () => {
     (state) => state
   );
   useEffect(() => {
-    axios
-      .get(api.Competitions.Events.GetAll)
-      .then((res) => dispatch({ type: "SET_MANY", many: res.data }));
+    axios.get(api.Competitions.Events.GetAll).then((res) => {
+      dispatch({ type: AllCompetitionsActions.SET_MANY, many: res.data });
+    });
   }, []);
   return (
     <div
@@ -42,7 +34,7 @@ export const Competitions = () => {
         `}
       >
         {competitions.map((competition) => (
-          <CompetitionStore
+          <OneCompetitionStore
             key={competition.id.toString() + " " + competition.name}
             competition={competition}
           />

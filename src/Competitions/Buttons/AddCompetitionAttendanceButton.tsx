@@ -4,15 +4,14 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
 import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
+import { OneCompetitionActions } from "../Stores/OneCompetitionStore";
 
 export const AddCompetitionAttendanceButton = ({
   competition,
   trainee,
-  fetchSortedTrainees,
 }: {
   competition: CompetitionModel;
   trainee: CompetitionTraineeModel;
-  fetchSortedTrainees: Function;
 }) => {
   const dispatch = useDispatch();
   return (
@@ -33,7 +32,7 @@ export const AddCompetitionAttendanceButton = ({
           })
           .then((res) => {
             if (res.data === 1) {
-              dispatch({ type: "SWITCH", one: trainee });
+              dispatch({ type: OneCompetitionActions.SWITCH, one: trainee });
             }
           });
       }}
