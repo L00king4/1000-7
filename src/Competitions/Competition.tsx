@@ -7,16 +7,24 @@ import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
 import { useDispatch, useSelector } from "react-redux";
 import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
-import { CompetitionStore, GlobalStoreActions } from "../Redux/GlobalStore";
+import {
+  CompetitionStore,
+  GlobalStoreActions,
+  GlobalStore,
+} from "../Redux/GlobalStore";
 import { SortedTrainees } from "../Trainees/SortedTrainees";
 
 export const Competition = ({
-  competitionStore,
+  competitionStore2,
 }: {
-  competitionStore: CompetitionStore;
+  competitionStore2: CompetitionStore;
 }) => {
   const dispatch = useDispatch();
-
+  const competitionStore = useSelector(
+    (state: GlobalStore) =>
+      state.competitionStores.find((x) => x === competitionStore2) ??
+      competitionStore2
+  );
   const [showAttending, setShowAttending] = useState(false);
   const fetchSortedTrainees = () => {
     axios
@@ -26,12 +34,15 @@ export const Competition = ({
         )
       )
       .then((res) => {
-        console.log(res.data);
-        competitionStore.sortedTrainees = new SortedTrainees(res);
+        console.log("BEFORE DISPATCH", competitionStore);
         dispatch({
           type: GlobalStoreActions.CompetitionStore.UPDATE_ONE,
-          oneCompetitionStore: competitionStore,
+          oneCompetitionStore: {
+            competition: competitionStore.competition,
+            sortedTrainees: new SortedTrainees(res),
+          },
         });
+        console.log("AFTER DISPATCH", competitionStore);
       });
   };
   // useEffect(() => {

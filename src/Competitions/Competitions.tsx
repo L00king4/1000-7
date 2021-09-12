@@ -56,7 +56,7 @@ export const Competitions = () => {
               " " +
               competitionStore.competition.name
             }
-            competitionStore={competitionStore}
+            competitionStore2={competitionStore}
           />
         ))}
       </ul>

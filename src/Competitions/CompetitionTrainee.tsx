@@ -6,13 +6,16 @@ export const CompetitionTrainee = ({
   trainee,
 }: {
   trainee: CompetitionTraineeModel;
-}) => (
-  <div
-    css={css`
-      display: inline;
-      margin-right: 30px;
-    `}
-  >
-    {trainee.fullname} : {trainee.amountPayed}
-  </div>
-);
+}) => {
+  console.log("TRAINEE SPAWNED");
+  return (
+    <div
+      css={css`
+        display: inline;
+        margin-right: 30px;
+      `}
+    >
+      {trainee.fullname} : {trainee.amountPayed}
+    </div>
+  );
+};

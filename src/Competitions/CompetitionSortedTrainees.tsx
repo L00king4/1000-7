@@ -15,7 +15,7 @@ export const CompetitionSortedTrainees = ({
 }) => {
   const [showNotAttending, setShowNotAttending] = useState(false);
   const [showAttending, setShowAttending] = useState(true);
-  console.log(competitionStore);
+  console.log(competitionStore.sortedTrainees);
   return (
     <div
       css={css`

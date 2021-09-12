@@ -1,9 +1,12 @@
+import { type } from "os";
 import { createStore } from "redux";
 import {
   CompetitionTraineeModel,
   CompetitionModel,
 } from "../Competitions/ICompetitions";
 import { SortedTrainees } from "../Trainees/SortedTrainees";
+import { CompetitionStoredTraineesSwitch } from "./Competitions/CompetitionSortedTraineesSwitch";
+import { CompetitionStoreSelfSwitch } from "./Competitions/CompetitionStoreSelfSwitch";
 
 class ActionNames {
   static ADD_ONE = "ADD_ONE";
@@ -57,6 +60,24 @@ export interface GlobalStore {
   // PayedEvents: ...
 }
 
+export interface reducerProps {
+  state: GlobalStore;
+  action: {
+    type: string;
+    oneCompetitionStore: CompetitionStore;
+    manyCompetitionStores: CompetitionStore[];
+    oneCompetitionTrainee: CompetitionTraineeModel;
+  };
+}
+
+// state: GlobalStore = { competitionStores: [] },
+//   action: {
+//     type: string;
+//     oneCompetitionStore: CompetitionStore;
+//     manyCompetitionStores: CompetitionStore[];
+//     oneCompetitionTrainee: CompetitionTraineeModel;
+//   }
+
 const reducer = (
   state: GlobalStore = { competitionStores: [] },
   action: {
@@ -71,72 +92,9 @@ const reducer = (
     case GlobalStoreActions.CompetitionStore.prefix:
       switch (object) {
         case GlobalStoreActions.selfPrefix:
-          switch (action.type) {
-            case GlobalStoreActions.CompetitionStore.UPDATE_ONE:
-              const updateCompetitionStoreIndex =
-                state.competitionStores.findIndex(
-                  (x) =>
-                    x.competition === action.oneCompetitionStore.competition
-                );
-              state.competitionStores[updateCompetitionStoreIndex] =
-                action.oneCompetitionStore;
-              return state;
-            case GlobalStoreActions.CompetitionStore.ADD_ONE:
-              return {
-                ...state,
-                competitionStores: [
-                  ...state.competitionStores,
-                  action.oneCompetitionStore,
-                ],
-              };
-            case GlobalStoreActions.CompetitionStore.SET_MANY:
-              return {
-                ...state,
-                competitionStores: action.manyCompetitionStores,
-              };
-            case GlobalStoreActions.CompetitionStore.ADD_MANY:
-              return {
-                ...state,
-                competitionStores: [
-                  ...state.competitionStores,
-                  ...action.manyCompetitionStores,
-                ],
-              };
-            case GlobalStoreActions.CompetitionStore.REMOVE_ONE:
-              const index = state.competitionStores.findIndex(
-                (x) => x.competition === action.oneCompetitionStore.competition
-              );
-              state.competitionStores.splice(index, 1);
-              return state;
-            default:
-              return state;
-          }
+          return CompetitionStoreSelfSwitch({ action, state });
         case GlobalStoreActions.CompetitionStore.SortedTrainees.prefix:
-          switch (action.type) {
-            case GlobalStoreActions.CompetitionStore.SortedTrainees.UPDATE_ONE:
-              const updateCompetitionStoreIndex =
-                state.competitionStores.indexOf(action.oneCompetitionStore);
-              state.competitionStores[
-                updateCompetitionStoreIndex
-              ].sortedTrainees?.updateTrainee(action.oneCompetitionTrainee);
-              return state;
-            case GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH:
-              console.log("SWITCH");
-              const switchCompetitionStore = state.competitionStores.find(
-                (x) => x === action.oneCompetitionStore
-              );
-              console.log("--------------");
-              console.log(switchCompetitionStore?.sortedTrainees);
-              switchCompetitionStore?.sortedTrainees?.switchTrainee(
-                action.oneCompetitionTrainee
-              );
-              console.log(switchCompetitionStore?.sortedTrainees);
-              console.log("--------------");
-              return state;
-            default:
-              console.log("HIT COMPET.SORTTRAIN DEFAULT!");
-              return state;
-          }
+          return CompetitionStoredTraineesSwitch({ action, state });
         default:
           return state;
       }
