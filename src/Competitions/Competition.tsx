@@ -2,30 +2,36 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import { useState } from "react";
-import { CompetitionModel, SortedTrainees } from "./ICompetitions";
+import { CompetitionModel, CompetitionTraineeModel } from "./ICompetitions";
 import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
 import { useDispatch, useSelector } from "react-redux";
 import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
-import { OneCompetitionActions } from "./Stores/OneCompetitionStore";
+import { CompetitionStore, GlobalStoreActions } from "../Redux/GlobalStore";
+import { SortedTrainees } from "../Trainees/SortedTrainees";
 
 export const Competition = ({
-  competition,
+  competitionStore,
 }: {
-  competition: CompetitionModel;
+  competitionStore: CompetitionStore;
 }) => {
   const dispatch = useDispatch();
-  const sortedTrainees = useSelector<SortedTrainees, SortedTrainees>(
-    (state) => state
-  );
 
   const [showAttending, setShowAttending] = useState(false);
   const fetchSortedTrainees = () => {
     axios
-      .get(api.Competitions.Events.GetSortedTrainees(competition.id))
+      .get<CompetitionTraineeModel[]>(
+        api.Competitions.Events.GetSortedTrainees(
+          competitionStore.competition.id
+        )
+      )
       .then((res) => {
         console.log(res.data);
-        dispatch({ type: OneCompetitionActions.SET_MANY, many: res.data });
+        competitionStore.sortedTrainees = new SortedTrainees(res);
+        dispatch({
+          type: GlobalStoreActions.CompetitionStore.UPDATE_ONE,
+          oneCompetitionStore: competitionStore,
+        });
       });
   };
   // useEffect(() => {
@@ -36,8 +42,8 @@ export const Competition = ({
       <div
         onClick={() => {
           if (
-            sortedTrainees.attendingTrainees.length === 0 &&
-            sortedTrainees.notAttendingTrainees.length === 0
+            competitionStore.sortedTrainees?.attendingTrainees.length === 0 &&
+            competitionStore.sortedTrainees?.notAttendingTrainees.length === 0
           ) {
             fetchSortedTrainees();
           }
@@ -60,15 +66,12 @@ export const Competition = ({
           }
         `}
       >
-        [{competition.toPay}] | {competition.name}
+        [{competitionStore.competition.toPay}] |{" "}
+        {competitionStore.competition.name}
       </div>
-      <RemoveCompetitionButton competition={competition} />
-      {showAttending && sortedTrainees !== null && (
-        <CompetitionSortedTrainees
-          sortedTrainees={sortedTrainees}
-          competition={competition}
-          fetchSortedTrainees={fetchSortedTrainees}
-        />
+      <RemoveCompetitionButton competitionStore={competitionStore} />
+      {showAttending && competitionStore.sortedTrainees !== undefined && (
+        <CompetitionSortedTrainees competitionStore={competitionStore} />
       )}
     </li>
   );

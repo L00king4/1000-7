@@ -4,31 +4,33 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
-import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
-import { OneCompetitionActions } from "../Stores/OneCompetitionStore";
+import { CompetitionStore, GlobalStoreActions } from "../../Redux/GlobalStore";
+import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const AddCompetitionPaymentButton = ({
-  competition,
+  competitionStore,
   trainee,
-  fetchSortedTrainees,
 }: {
-  competition: CompetitionModel;
+  competitionStore: CompetitionStore;
   trainee: CompetitionTraineeModel;
-  fetchSortedTrainees: Function;
 }) => {
   const dispatch = useDispatch();
   const AddCompetitionPayment = (amount: number) => {
     axios
       .post(api.Competitions.Payments.Add, {
-        eventID: competition.id,
+        eventID: competitionStore.competition.id,
         amount: amount,
         traineeID: trainee.id,
       })
       .then((res) => {
         if (res.data === 1) {
           dispatch({
-            type: OneCompetitionActions.UPDATE_ONE,
-            one: { ...trainee, amountPayed: trainee.amountPayed + amount },
+            type: GlobalStoreActions.CompetitionStore.SortedTrainees.UPDATE_ONE,
+            oneCompetitionStore: competitionStore,
+            oneSortedTrainee: {
+              ...trainee,
+              amountPayed: trainee.amountPayed + amount,
+            },
           });
         }
         //fetchSortedTrainees();
@@ -42,10 +44,10 @@ export const AddCompetitionPaymentButton = ({
     <div>
       <button
         onClick={() => {
-          AddCompetitionPayment(competition.toPay);
+          AddCompetitionPayment(competitionStore.competition.toPay);
         }}
       >
-        Pay {competition.toPay}
+        Pay {competitionStore.competition.toPay}
       </button>
       <input type="number" onChange={onAmountChangeHandler} />
       <button onClick={() => AddCompetitionPayment(amount)}>

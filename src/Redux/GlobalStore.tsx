@@ -1,41 +1,60 @@
-import { stat } from "fs";
 import { createStore } from "redux";
-import { Competition } from "../Competitions/Competition";
 import {
-  CompetitionModel,
-  SortedTrainees,
   CompetitionTraineeModel,
+  CompetitionModel,
 } from "../Competitions/ICompetitions";
+import { SortedTrainees } from "../Trainees/SortedTrainees";
 
-const delimiter = ".";
-const competitionStorePrefix = "COMPETITIONSTORE" + delimiter;
-const competitionStoreSortedTraineesPrefix =
-  "COMPETITIONSTORESORTEDTRAINEES" + delimiter;
+class ActionNames {
+  static ADD_ONE = "ADD_ONE";
+  static ADD_MANY = "ADD_MANY";
+  static SET_MANY = "SET_MANY";
+  static REMOVE_ONE = "REMOVE_ONE";
+  static SWITCH_ONE = "SWITCH_ONE";
+  static UPDATE_ONE = "UPDATE_ONE";
+}
 
 export class GlobalStoreActions {
-  static CompetitionStore = class {
-    static prefix = competitionStorePrefix;
-    static ADD_ONE = this.prefix + "ADD_ONE";
-    static SET_MANY = this.prefix + "SET_MANY";
-    static ADD_MANY = this.prefix + "ADD_MANY";
-    static REMOVE_ONE = this.prefix + "REMOVE_ONE";
-    static SortedTrainees = class {
-      static prefix = competitionStoreSortedTraineesPrefix;
-      static SWITCH = this.prefix + "SWITCH_ONE";
-      static SET_MANY = this.prefix + "SET_MANY";
-      static UPDATE_ONE = this.prefix + "UPDATE_ONE";
+  static delimiter = ".";
+  static selfPrefix = "SELF";
+  static CompetitionStore = class CompetitionStore {
+    static prefix = "COMPETITIONSTORE";
+    private static fullPrefix =
+      CompetitionStore.prefix +
+      GlobalStoreActions.delimiter +
+      GlobalStoreActions.selfPrefix +
+      GlobalStoreActions.delimiter;
+    static ADD_ONE = CompetitionStore.fullPrefix + ActionNames.ADD_ONE;
+    static SET_MANY = CompetitionStore.fullPrefix + ActionNames.SET_MANY;
+    static ADD_MANY = CompetitionStore.fullPrefix + ActionNames.ADD_MANY;
+    static REMOVE_ONE = CompetitionStore.fullPrefix + ActionNames.REMOVE_ONE;
+    static UPDATE_ONE = CompetitionStore.fullPrefix + ActionNames.UPDATE_ONE;
+
+    static SortedTrainees = class CompetitionStoreSortedTrainees {
+      static prefix = "COMPETITIONSTORESORTEDTRAINEES";
+      private static fullPrefix =
+        CompetitionStore.prefix +
+        GlobalStoreActions.delimiter +
+        CompetitionStoreSortedTrainees.prefix +
+        GlobalStoreActions.delimiter;
+      static SWITCH =
+        CompetitionStoreSortedTrainees.fullPrefix + ActionNames.SWITCH_ONE;
+      static SET_MANY =
+        CompetitionStoreSortedTrainees.fullPrefix + ActionNames.SET_MANY;
+      static UPDATE_ONE =
+        CompetitionStoreSortedTrainees.fullPrefix + ActionNames.UPDATE_ONE;
     };
   };
 }
 
-interface GlobalStore {
-  competitionStores: CompetitionStore[];
-  // PayedEvents: ...
+export interface CompetitionStore {
+  competition: CompetitionModel;
+  sortedTrainees: SortedTrainees<CompetitionTraineeModel>;
 }
 
-interface CompetitionStore {
-  competition: CompetitionModel;
-  sortedTrainees: SortedTrainees;
+export interface GlobalStore {
+  competitionStores: CompetitionStore[];
+  // PayedEvents: ...
 }
 
 const reducer = (
@@ -47,127 +66,83 @@ const reducer = (
     oneCompetitionTrainee: CompetitionTraineeModel;
   }
 ) => {
-  const [prefix, type] = action.type.split(".");
-  switch (prefix) {
+  const [group, object] = action.type.split(".");
+  switch (group) {
     case GlobalStoreActions.CompetitionStore.prefix:
-      switch (type) {
-        case GlobalStoreActions.CompetitionStore.ADD_ONE:
-          return {
-            ...state,
-            CompetitionStores: [
-              ...state.competitionStores,
-              action.oneCompetitionStore,
-            ],
-          };
-        case GlobalStoreActions.CompetitionStore.SET_MANY:
-          return {
-            ...state,
-            CompetitionStore: action.manyCompetitionStores,
-          };
-        case GlobalStoreActions.CompetitionStore.ADD_MANY:
-          return {
-            ...state,
-            Competitions: [
-              ...state.competitionStores,
-              ...action.manyCompetitionStores,
-            ],
-          };
-        case GlobalStoreActions.CompetitionStore.REMOVE_ONE:
-          console.log(state);
-          const index = state.competitionStores.findIndex(
-            (x) => x.competition === action.oneCompetitionStore.competition
-          );
-          console.log(state.competitionStores.splice(index, 1));
-          return state.competitionStores.splice(index, 1);
-        default:
-          return state;
-      }
-    case GlobalStoreActions.CompetitionStore.SortedTrainees.prefix:
-      switch (type) {
-        case GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH:
-          const competitionStoreIndex = state.competitionStores.findIndex(
-            (x) => x === action.oneCompetitionStore
-          );
-          const attIndex = state.competitionStores[
-            competitionStoreIndex
-          ].sortedTrainees.attendingTrainees.indexOf(
-            action.oneCompetitionTrainee
-          );
-          const notAttIndex = state.competitionStores[
-            competitionStoreIndex
-          ].sortedTrainees.notAttendingTrainees.indexOf(
-            action.oneCompetitionTrainee
-          );
-          if (attIndex !== -1) {
-            return {
-              ...state,
-              competitionStores: [
-                ...state.competitionStores.slice(0, competitionStoreIndex),
-                {
-                  competition: action.oneCompetitionStore.competition,
-                  sortedTrainees: {
-                    notAttendingTrainees: [
-                      ...action.oneCompetitionStore.sortedTrainees
-                        .notAttendingTrainees,
-                      action.oneCompetitionTrainee,
-                    ],
-                    attendingTrainees: [
-                      ...action.oneCompetitionStore.sortedTrainees.attendingTrainees.slice(
-                        0,
-                        attIndex
-                      ),
-                      ...action.oneCompetitionStore.sortedTrainees.attendingTrainees.slice(
-                        attIndex + 1
-                      ),
-                    ],
-                  },
-                },
-                ...state.competitionStores.slice(competitionStoreIndex + 1),
-              ],
-            };
-          } else if (notAttIndex !== -1) {
-            return {
-              ...state,
-              competitionStores: [
-                ...state.competitionStores.slice(0, competitionStoreIndex),
-                {
-                  competition: action.oneCompetitionStore.competition,
-                  sortedTrainees: {
-                    notAttendingTrainees: [
-                      ...action.oneCompetitionStore.sortedTrainees.notAttendingTrainees.slice(
-                        0,
-                        notAttIndex
-                      ),
-                      ...action.oneCompetitionStore.sortedTrainees.notAttendingTrainees.slice(
-                        notAttIndex + 1
-                      ),
-                    ],
-                    attendingTrainees: [
-                      ...action.oneCompetitionStore.sortedTrainees
-                        .attendingTrainees,
-                      action.oneCompetitionTrainee,
-                    ],
-                  },
-                },
-                ...state.competitionStores.slice(competitionStoreIndex + 1),
-              ],
-            };
+      switch (object) {
+        case GlobalStoreActions.selfPrefix:
+          switch (action.type) {
+            case GlobalStoreActions.CompetitionStore.UPDATE_ONE:
+              const updateCompetitionStoreIndex =
+                state.competitionStores.findIndex(
+                  (x) =>
+                    x.competition === action.oneCompetitionStore.competition
+                );
+              state.competitionStores[updateCompetitionStoreIndex] =
+                action.oneCompetitionStore;
+              return state;
+            case GlobalStoreActions.CompetitionStore.ADD_ONE:
+              return {
+                ...state,
+                competitionStores: [
+                  ...state.competitionStores,
+                  action.oneCompetitionStore,
+                ],
+              };
+            case GlobalStoreActions.CompetitionStore.SET_MANY:
+              return {
+                ...state,
+                competitionStores: action.manyCompetitionStores,
+              };
+            case GlobalStoreActions.CompetitionStore.ADD_MANY:
+              return {
+                ...state,
+                competitionStores: [
+                  ...state.competitionStores,
+                  ...action.manyCompetitionStores,
+                ],
+              };
+            case GlobalStoreActions.CompetitionStore.REMOVE_ONE:
+              const index = state.competitionStores.findIndex(
+                (x) => x.competition === action.oneCompetitionStore.competition
+              );
+              state.competitionStores.splice(index, 1);
+              return state;
+            default:
+              return state;
           }
-          return state;
+        case GlobalStoreActions.CompetitionStore.SortedTrainees.prefix:
+          switch (action.type) {
+            case GlobalStoreActions.CompetitionStore.SortedTrainees.UPDATE_ONE:
+              const updateCompetitionStoreIndex =
+                state.competitionStores.indexOf(action.oneCompetitionStore);
+              state.competitionStores[
+                updateCompetitionStoreIndex
+              ].sortedTrainees?.updateTrainee(action.oneCompetitionTrainee);
+              return state;
+            case GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH:
+              console.log("SWITCH");
+              const switchCompetitionStore = state.competitionStores.find(
+                (x) => x === action.oneCompetitionStore
+              );
+              console.log("--------------");
+              console.log(switchCompetitionStore?.sortedTrainees);
+              switchCompetitionStore?.sortedTrainees?.switchTrainee(
+                action.oneCompetitionTrainee
+              );
+              console.log(switchCompetitionStore?.sortedTrainees);
+              console.log("--------------");
+              return state;
+            default:
+              console.log("HIT COMPET.SORTTRAIN DEFAULT!");
+              return state;
+          }
         default:
-          break;
+          return state;
       }
-    case "SET_MANY":
-      return action.many;
-    case "ADD_MANY":
-      return [...state, ...action.many];
-    case "REMOVE_ONE":
-      console.log(state);
-      const index = state.indexOf(action.one);
-      console.log(state.splice(index, 1));
-      return state.splice(index, 1);
     default:
+      console.log("ROOT DEFAULT");
       return state;
   }
 };
-export const competitionsStore = createStore(reducer);
+export const globalStore = createStore(reducer);

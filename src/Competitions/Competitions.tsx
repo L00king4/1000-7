@@ -1,24 +1,40 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import axios from "axios";
-import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../ApiEndpoints";
-import { CompetitionModel } from "./ICompetitions";
-import { OneCompetitionStore } from "./Stores/OneCompetitionStore";
 import { useDispatch, useSelector } from "react-redux";
-import { AllCompetitionsActions } from "./Stores/AllCompetitionsStore";
+import {
+  CompetitionStore,
+  GlobalStore,
+  GlobalStoreActions,
+} from "../Redux/GlobalStore";
+import { Competition } from "./Competition";
+import { CompetitionModel } from "./ICompetitions";
+import { SortedTrainees } from "../Trainees/SortedTrainees";
 
 export const Competitions = () => {
   const dispatch = useDispatch();
-  const competitions = useSelector<CompetitionModel[], CompetitionModel[]>(
-    (state) => state
+  const competitionStores = useSelector(
+    (state: GlobalStore) => state.competitionStores
   );
   useEffect(() => {
-    axios.get(api.Competitions.Events.GetAll).then((res) => {
-      dispatch({ type: AllCompetitionsActions.SET_MANY, many: res.data });
-    });
+    axios
+      .get<CompetitionModel[]>(api.Competitions.Events.GetAll)
+      .then((res) => {
+        let manyCompetitionStores: CompetitionStore[] = [];
+        res.data.forEach((competition) =>
+          manyCompetitionStores.push({
+            competition: competition,
+            sortedTrainees: new SortedTrainees(undefined),
+          })
+        );
+        dispatch({
+          type: GlobalStoreActions.CompetitionStore.SET_MANY,
+          manyCompetitionStores: manyCompetitionStores,
+        });
+      });
   }, []);
   return (
     <div
@@ -33,10 +49,14 @@ export const Competitions = () => {
           list-style-type: none;
         `}
       >
-        {competitions.map((competition) => (
-          <OneCompetitionStore
-            key={competition.id.toString() + " " + competition.name}
-            competition={competition}
+        {competitionStores.map((competitionStore) => (
+          <Competition
+            key={
+              competitionStore.competition.id.toString() +
+              " " +
+              competitionStore.competition.name
+            }
+            competitionStore={competitionStore}
           />
         ))}
       </ul>

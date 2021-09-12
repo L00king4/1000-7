@@ -3,14 +3,14 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
-import { CompetitionModel, CompetitionTraineeModel } from "../ICompetitions";
-import { OneCompetitionActions } from "../Stores/OneCompetitionStore";
+import { CompetitionStore, GlobalStoreActions } from "../../Redux/GlobalStore";
+import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const AddCompetitionAttendanceButton = ({
-  competition,
+  competitionStore,
   trainee,
 }: {
-  competition: CompetitionModel;
+  competitionStore: CompetitionStore;
   trainee: CompetitionTraineeModel;
 }) => {
   const dispatch = useDispatch();
@@ -27,12 +27,16 @@ export const AddCompetitionAttendanceButton = ({
       onClick={() => {
         axios
           .post(api.Competitions.Attendances.Add, {
-            eventID: competition.id,
+            eventID: competitionStore.competition.id,
             traineeID: trainee.id,
           })
           .then((res) => {
             if (res.data === 1) {
-              dispatch({ type: OneCompetitionActions.SWITCH, one: trainee });
+              dispatch({
+                type: GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH,
+                oneCompetitionTrainee: trainee,
+                oneCompetitionStore: competitionStore,
+              });
             }
           });
       }}

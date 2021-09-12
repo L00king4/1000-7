@@ -8,7 +8,7 @@ import Header from "./HeadFootSide/Header";
 import "./App.css";
 import { AddCompetition } from "./AddCompetitions/AddCompetitions";
 import { Provider } from "react-redux";
-import { competitionsStore } from "./Competitions/Stores/AllCompetitionsStore";
+import { globalStore } from "./Redux/GlobalStore";
 
 export const App = () => (
   <BrowserRouter>
@@ -20,7 +20,7 @@ export const App = () => (
       {/* <LeftSide /> */}
       <Header />
       <Content>
-        <Provider store={competitionsStore}>
+        <Provider store={globalStore}>
           <Routes>
             <Route path="Competitions" element={<Competitions />} />
             <Route path="Competitions/Add" element={<AddCompetition />} />

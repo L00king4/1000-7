@@ -2,23 +2,20 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { Trainee } from "../Trainees/Trainee";
-import { CompetitionModel, SortedTrainees } from "./ICompetitions";
 import AddCompetitionAttendanceButton from "./Buttons/AddCompetitionAttendanceButton";
 import RemoveCompetitionAttendanceButton from "./Buttons/RemoveCompetitionAttendanceButton";
 import AddCompetitionPaymentButton from "./Buttons/AddCompetitionPaymentButton";
 import { CompetitionTrainee } from "./CompetitionTrainee";
+import { CompetitionStore } from "../Redux/GlobalStore";
 
 export const CompetitionSortedTrainees = ({
-  sortedTrainees,
-  competition,
-  fetchSortedTrainees,
+  competitionStore,
 }: {
-  sortedTrainees: SortedTrainees;
-  competition: CompetitionModel;
-  fetchSortedTrainees: Function;
+  competitionStore: CompetitionStore;
 }) => {
   const [showNotAttending, setShowNotAttending] = useState(false);
   const [showAttending, setShowAttending] = useState(true);
+  console.log(competitionStore);
   return (
     <div
       css={css`
@@ -42,10 +39,10 @@ export const CompetitionSortedTrainees = ({
       </div>
       {showAttending && (
         <ul>
-          {sortedTrainees.attendingTrainees.map((trainee) => (
+          {competitionStore.sortedTrainees?.attendingTrainees.map((trainee) => (
             <li
               key={
-                competition.id.toString() +
+                competitionStore.competition.id.toString() +
                 " " +
                 trainee.id.toString() +
                 trainee.fullname +
@@ -53,15 +50,13 @@ export const CompetitionSortedTrainees = ({
               }
             >
               <RemoveCompetitionAttendanceButton
+                competitionStore={competitionStore}
                 trainee={trainee}
-                competition={competition}
-                fetchSortedTrainees={fetchSortedTrainees}
               />
               <CompetitionTrainee trainee={trainee} />
               <AddCompetitionPaymentButton
-                competition={competition}
+                competitionStore={competitionStore}
                 trainee={trainee}
-                fetchSortedTrainees={fetchSortedTrainees}
               />
             </li>
           ))}
@@ -78,23 +73,25 @@ export const CompetitionSortedTrainees = ({
       </div>
       {showNotAttending && (
         <ul>
-          {sortedTrainees.notAttendingTrainees.map((trainee) => (
-            <li
-              key={
-                competition.id.toString() +
-                " " +
-                trainee.id.toString() +
-                trainee.fullname +
-                trainee.beltColor.toString()
-              }
-            >
-              <AddCompetitionAttendanceButton
-                trainee={trainee}
-                competition={competition}
-              />
-              <Trainee trainee={trainee} />
-            </li>
-          ))}
+          {competitionStore.sortedTrainees?.notAttendingTrainees.map(
+            (trainee) => (
+              <li
+                key={
+                  competitionStore.competition.id.toString() +
+                  " " +
+                  trainee.id.toString() +
+                  trainee.fullname +
+                  trainee.beltColor.toString()
+                }
+              >
+                <AddCompetitionAttendanceButton
+                  competitionStore={competitionStore}
+                  trainee={trainee}
+                />
+                <Trainee trainee={trainee} />
+              </li>
+            )
+          )}
         </ul>
       )}
     </div>
