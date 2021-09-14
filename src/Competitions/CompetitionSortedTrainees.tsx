@@ -6,7 +6,8 @@ import AddCompetitionAttendanceButton from "./Buttons/AddCompetitionAttendanceBu
 import RemoveCompetitionAttendanceButton from "./Buttons/RemoveCompetitionAttendanceButton";
 import AddCompetitionPaymentButton from "./Buttons/AddCompetitionPaymentButton";
 import { CompetitionTrainee } from "./CompetitionTrainee";
-import { CompetitionStore } from "../Redux/GlobalStore";
+import {} from "../Redux/Store";
+import { CompetitionStore } from "../Redux/Slices/CompetitionsSlice";
 
 export const CompetitionSortedTrainees = ({
   competitionStore,
@@ -15,7 +16,6 @@ export const CompetitionSortedTrainees = ({
 }) => {
   const [showNotAttending, setShowNotAttending] = useState(false);
   const [showAttending, setShowAttending] = useState(true);
-  console.log(competitionStore.sortedTrainees);
   return (
     <div
       css={css`
@@ -39,7 +39,7 @@ export const CompetitionSortedTrainees = ({
       </div>
       {showAttending && (
         <ul>
-          {competitionStore.sortedTrainees?.attendingTrainees.map((trainee) => (
+          {competitionStore.sortedTrainees.attendingTrainees.map((trainee) => (
             <li
               key={
                 competitionStore.competition.id.toString() +
@@ -73,7 +73,7 @@ export const CompetitionSortedTrainees = ({
       </div>
       {showNotAttending && (
         <ul>
-          {competitionStore.sortedTrainees?.notAttendingTrainees.map(
+          {competitionStore.sortedTrainees.notAttendingTrainees.map(
             (trainee) => (
               <li
                 key={

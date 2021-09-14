@@ -2,52 +2,21 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import { useState } from "react";
-import { CompetitionModel, CompetitionTraineeModel } from "./ICompetitions";
+import { CompetitionTraineeModel } from "./ICompetitions";
 import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
-import {
-  CompetitionStore,
-  GlobalStoreActions,
-  GlobalStore,
-} from "../Redux/GlobalStore";
-import { SortedTrainees } from "../Trainees/SortedTrainees";
+import { CompetitionStore } from "../Redux/Slices/CompetitionsSlice";
+import { fetchSortedTrainees } from "../Redux/Services/CompetitionsService";
 
 export const Competition = ({
-  competitionStore2,
+  competitionStore,
 }: {
-  competitionStore2: CompetitionStore;
+  competitionStore: CompetitionStore;
 }) => {
   const dispatch = useDispatch();
-  const competitionStore = useSelector(
-    (state: GlobalStore) =>
-      state.competitionStores.find((x) => x === competitionStore2) ??
-      competitionStore2
-  );
   const [showAttending, setShowAttending] = useState(false);
-  const fetchSortedTrainees = () => {
-    axios
-      .get<CompetitionTraineeModel[]>(
-        api.Competitions.Events.GetSortedTrainees(
-          competitionStore.competition.id
-        )
-      )
-      .then((res) => {
-        console.log("BEFORE DISPATCH", competitionStore);
-        dispatch({
-          type: GlobalStoreActions.CompetitionStore.UPDATE_ONE,
-          oneCompetitionStore: {
-            competition: competitionStore.competition,
-            sortedTrainees: new SortedTrainees(res),
-          },
-        });
-        console.log("AFTER DISPATCH", competitionStore);
-      });
-  };
-  // useEffect(() => {
-  //   fetchSortedTrainees(id, setSortedTrainees);
-  // }, []);
   return (
     <li>
       <div
@@ -56,7 +25,7 @@ export const Competition = ({
             competitionStore.sortedTrainees?.attendingTrainees.length === 0 &&
             competitionStore.sortedTrainees?.notAttendingTrainees.length === 0
           ) {
-            fetchSortedTrainees();
+            fetchSortedTrainees(dispatch, competitionStore);
           }
           setShowAttending(!showAttending);
         }}

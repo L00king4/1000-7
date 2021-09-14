@@ -1,43 +1,50 @@
-import { AxiosResponse } from "axios";
-import { TraineeModel } from "./ITrainees";
-
-export class SortedTrainees<SpecificTraineeModel extends TraineeModel> {
+export interface SortedTrainees<SpecificTraineeModel> {
   attendingTrainees: SpecificTraineeModel[];
   notAttendingTrainees: SpecificTraineeModel[];
-  switchTrainee = (trainee: SpecificTraineeModel) => {
-    const attIndex = this.attendingTrainees.indexOf(trainee);
-    const notAttIndex = this.notAttendingTrainees.indexOf(trainee);
-    if (attIndex !== -1) {
-      this.attendingTrainees = [
-        ...this.attendingTrainees.slice(0, attIndex),
-        ...this.attendingTrainees.slice(attIndex + 1),
-      ];
-      this.notAttendingTrainees = [
-        this.attendingTrainees[attIndex],
-        ...this.notAttendingTrainees,
-      ];
-    } else if (notAttIndex !== -1) {
-      this.attendingTrainees = [
-        ...this.attendingTrainees,
-        this.notAttendingTrainees[notAttIndex],
-      ];
-      this.notAttendingTrainees = [
-        ...this.notAttendingTrainees.slice(0, notAttIndex),
-        ...this.notAttendingTrainees.slice(notAttIndex + 1),
-      ];
-    }
-    return this;
-  };
-
-  updateTrainee = (trainee: SpecificTraineeModel) => {};
-
-  constructor(a: AxiosResponse | undefined) {
-    if (a !== undefined) {
-      this.attendingTrainees = a.data.attendingTrainees;
-      this.notAttendingTrainees = a.data.notAttendingTrainees;
-    } else {
-      this.attendingTrainees = [];
-      this.notAttendingTrainees = [];
-    }
+}
+export function switchTrainee<SpecificTraineeModel>(
+  trainee: SpecificTraineeModel,
+  sortedTrainees: SortedTrainees<SpecificTraineeModel>
+): SortedTrainees<SpecificTraineeModel> {
+  const attIndex = sortedTrainees.attendingTrainees.indexOf(trainee);
+  const notAttIndex = sortedTrainees.notAttendingTrainees.indexOf(trainee);
+  if (attIndex !== -1) {
+    return {
+      attendingTrainees: [
+        ...sortedTrainees.attendingTrainees.slice(0, attIndex),
+        ...sortedTrainees.attendingTrainees.slice(attIndex + 1),
+      ],
+      notAttendingTrainees: [
+        sortedTrainees.attendingTrainees[attIndex],
+        ...sortedTrainees.notAttendingTrainees,
+      ],
+    };
+  } else if (notAttIndex !== -1) {
+    return {
+      attendingTrainees: [
+        ...sortedTrainees.attendingTrainees,
+        sortedTrainees.notAttendingTrainees[notAttIndex],
+      ],
+      notAttendingTrainees: [
+        ...sortedTrainees.notAttendingTrainees.slice(0, notAttIndex),
+        ...sortedTrainees.notAttendingTrainees.slice(notAttIndex + 1),
+      ],
+    };
   }
+  return sortedTrainees;
+}
+
+export function updateTrainee<SpecificTraineeModel>(
+  trainee: SpecificTraineeModel,
+  sortedTrainees: SortedTrainees<SpecificTraineeModel>
+): SortedTrainees<SpecificTraineeModel> {
+  // TODO: IMPLEMENT THIS SHIT!
+  console.log("NOT IMPLEMENTED UPDATE TRAINEES");
+  return sortedTrainees;
+}
+
+export function getEmptySortedTrainees<
+  SpecificTraineeModel
+>(): SortedTrainees<SpecificTraineeModel> {
+  return { attendingTrainees: [], notAttendingTrainees: [] };
 }

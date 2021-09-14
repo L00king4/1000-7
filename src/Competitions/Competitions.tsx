@@ -1,40 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import api from "../ApiEndpoints";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  CompetitionStore,
-  GlobalStore,
-  GlobalStoreActions,
-} from "../Redux/GlobalStore";
+import { fetchCompetitions } from "../Redux/Services/CompetitionsService";
+import { useCompetitionsSelector } from "../Redux/Slices/CompetitionsSlice";
+import globalStore from "../Redux/Store";
 import { Competition } from "./Competition";
-import { CompetitionModel } from "./ICompetitions";
-import { SortedTrainees } from "../Trainees/SortedTrainees";
 
 export const Competitions = () => {
   const dispatch = useDispatch();
-  const competitionStores = useSelector(
-    (state: GlobalStore) => state.competitionStores
+  const competitionStores = useCompetitionsSelector(
+    (state) => state.competitionsSlice
   );
   useEffect(() => {
-    axios
-      .get<CompetitionModel[]>(api.Competitions.Events.GetAll)
-      .then((res) => {
-        let manyCompetitionStores: CompetitionStore[] = [];
-        res.data.forEach((competition) =>
-          manyCompetitionStores.push({
-            competition: competition,
-            sortedTrainees: new SortedTrainees(undefined),
-          })
-        );
-        dispatch({
-          type: GlobalStoreActions.CompetitionStore.SET_MANY,
-          manyCompetitionStores: manyCompetitionStores,
-        });
-      });
+    fetchCompetitions(dispatch);
   }, []);
   return (
     <div
@@ -56,7 +36,7 @@ export const Competitions = () => {
               " " +
               competitionStore.competition.name
             }
-            competitionStore2={competitionStore}
+            competitionStore={competitionStore}
           />
         ))}
       </ul>

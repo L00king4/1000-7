@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
-import { CompetitionStore, GlobalStoreActions } from "../../Redux/GlobalStore";
+import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const AddCompetitionPaymentButton = ({
@@ -24,14 +24,14 @@ export const AddCompetitionPaymentButton = ({
       })
       .then((res) => {
         if (res.data === 1) {
-          dispatch({
-            type: GlobalStoreActions.CompetitionStore.SortedTrainees.UPDATE_ONE,
-            oneCompetitionStore: competitionStore,
-            oneSortedTrainee: {
-              ...trainee,
-              amountPayed: trainee.amountPayed + amount,
-            },
-          });
+          // dispatch({
+          //   type: GlobalStoreActions.CompetitionStore.SortedTrainees.UPDATE_ONE,
+          //   oneCompetitionStore: competitionStore,
+          //   oneSortedTrainee: {
+          //     ...trainee,
+          //     amountPayed: trainee.amountPayed + amount,
+          //   },
+          // });
         }
         //fetchSortedTrainees();
       });

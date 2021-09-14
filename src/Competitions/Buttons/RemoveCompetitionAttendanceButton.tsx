@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../ApiEndpoints";
-import { CompetitionStore, GlobalStoreActions } from "../../Redux/GlobalStore";
+import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const RemoveCompetitionAttendanceButton = ({
@@ -33,11 +33,11 @@ export const RemoveCompetitionAttendanceButton = ({
           })
           .then((res) => {
             if (res.data === 1) {
-              dispatch({
-                type: GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH,
-                oneCompetitionTrainee: trainee,
-                oneCompetitionStore: competitionStore,
-              });
+              // dispatch({
+              //   type: GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH,
+              //   oneCompetitionTrainee: trainee,
+              //   oneCompetitionStore: competitionStore,
+              // });
             }
             //fetchSortedTrainees();
           });

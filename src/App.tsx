@@ -1,14 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Competitions } from "./Competitions/Competitions";
-import { Idle } from "./Idle";
 import { Content } from "./HeadFootSide/Content";
 import Header from "./HeadFootSide/Header";
 import "./App.css";
 import { AddCompetition } from "./AddCompetitions/AddCompetitions";
-import { Provider } from "react-redux";
-import { globalStore } from "./Redux/GlobalStore";
 
 export const App = () => (
   <BrowserRouter>
@@ -20,12 +17,17 @@ export const App = () => (
       {/* <LeftSide /> */}
       <Header />
       <Content>
-        <Provider store={globalStore}>
-          <Routes>
-            <Route path="Competitions" element={<Competitions />} />
-            <Route path="Competitions/Add" element={<AddCompetition />} />
-          </Routes>
-        </Provider>
+        <Switch>
+          <Route
+            exact
+            path="/Competitions"
+            component={() => <Competitions />}
+          />
+          <Route
+            path="/Competitions/Add"
+            component={() => <AddCompetition />}
+          />
+        </Switch>
       </Content>
     </div>
   </BrowserRouter>
