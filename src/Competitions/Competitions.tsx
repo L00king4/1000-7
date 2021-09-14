@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCompetitions } from "../Redux/Services/CompetitionsService";
 import { useCompetitionsSelector } from "../Redux/Slices/CompetitionsSlice";
-import globalStore from "../Redux/Store";
 import { Competition } from "./Competition";
 
 export const Competitions = () => {

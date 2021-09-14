@@ -1,6 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { DRAFT_STATE } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
+import { produce } from "immer";
 import { useSelector as useReduxSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
+import { CompetitionTrainee } from "../../Competitions/CompetitionTrainee";
 import {
   CompetitionModel,
   CompetitionTraineeModel,
@@ -43,26 +46,66 @@ const competitionsSlice = createSlice({
         type: string;
         payload: {
           manySortedTrainees: SortedTrainees<CompetitionTraineeModel>;
-          oneCompetitionStore: CompetitionStore;
+          oneCompetitionStoreIndex: number;
         };
       }
     ) => {
-      return state;
-      // const competitionStores = getCompetitionStores();
-      // const index = competitionStores.findIndex(
-      //   (x) => x.competition === action.payload.oneCompetitionStore.competition
-      // );
-      // if (index !== -1) {
-      //   return [
-      //     ...state.slice(0, index),
-      //     {
-      //       competition: state[index].competition,
-      //       sortedTrainees: action.payload.manySortedTrainees,
-      //     },
-      //     ...state.slice(index + 1),
-      //   ];
-      // }
-      // return state;
+      return produce(state, (draftState) => {
+        draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees =
+          action.payload.manySortedTrainees;
+      });
+    },
+    addAttendingSortedTrainee: (
+      state,
+      action: {
+        type: string;
+        payload: {
+          oneSortedTraineeIndex: number;
+          oneCompetitionStoreIndex: number;
+        };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState[
+          action.payload.oneCompetitionStoreIndex
+        ].sortedTrainees.notAttendingTrainees.unshift(
+          draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees
+            .attendingTrainees[action.payload.oneSortedTraineeIndex]
+        );
+
+        draftState[
+          action.payload.oneCompetitionStoreIndex
+        ].sortedTrainees.attendingTrainees.splice(
+          action.payload.oneSortedTraineeIndex,
+          1
+        );
+      });
+    },
+    removeAttendingSortedTrainee: (
+      state,
+      action: {
+        type: string;
+        payload: {
+          oneSortedTraineeIndex: number;
+          oneCompetitionStoreIndex: number;
+        };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState[
+          action.payload.oneCompetitionStoreIndex
+        ].sortedTrainees.attendingTrainees.push(
+          draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees
+            .notAttendingTrainees[action.payload.oneSortedTraineeIndex]
+        );
+
+        draftState[
+          action.payload.oneCompetitionStoreIndex
+        ].sortedTrainees.notAttendingTrainees.splice(
+          action.payload.oneSortedTraineeIndex,
+          1
+        );
+      });
     },
   },
 });

@@ -7,7 +7,6 @@ export const CompetitionTrainee = ({
 }: {
   trainee: CompetitionTraineeModel;
 }) => {
-  console.log("TRAINEE SPAWNED");
   return (
     <div
       css={css`

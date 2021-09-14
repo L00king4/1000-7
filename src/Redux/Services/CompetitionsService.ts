@@ -16,7 +16,6 @@ import {
 import globalStore from "../Store";
 
 export const fetchCompetitions = async (dispatch: Dispatch<any>) => {
-  console.log("FETCHING");
   const { data } = await axios.get<CompetitionModel[]>(
     api.Competitions.Events.GetAll
   );
@@ -27,13 +26,11 @@ export const fetchCompetitions = async (dispatch: Dispatch<any>) => {
       sortedTrainees: getEmptySortedTrainees(),
     })
   );
-  console.log(globalStore.getState());
   dispatch(
     competitionsActions.setCompetitions({
       manyCompetitionStores: manyCompetitionStores,
     })
   );
-  console.log(globalStore.getState());
 };
 
 export const setSortedTrainees = (
@@ -41,12 +38,13 @@ export const setSortedTrainees = (
   oneCompetitionStore: CompetitionStore,
   manySortedTrainees: SortedTrainees<CompetitionTraineeModel>
 ) => {
-  dispatch(
-    competitionsActions.setSortedTrainees({
-      oneCompetitionStore: oneCompetitionStore,
-      manySortedTrainees: manySortedTrainees,
-    })
-  );
+  throw new ReferenceError("NOT IMPLEMENTED");
+  // dispatch(
+  //   competitionsActions.setSortedTrainees({
+  //     oneCompetitionStoreIndex: -1,
+  //     manySortedTrainees: manySortedTrainees,
+  //   })
+  // );
 };
 
 export const fetchSortedTrainees = async (
@@ -58,12 +56,72 @@ export const fetchSortedTrainees = async (
       oneCompetitionStore.competition.id
     )
   );
-  //   console.log(globalStore.getState());
-  dispatch(
-    competitionsActions.setSortedTrainees({
-      manySortedTrainees: data,
-      oneCompetitionStore: oneCompetitionStore,
-    })
+  const competitionStores = getCompetitionStores();
+  const oneCompetitionStoreIndex = competitionStores.findIndex(
+    (x) => x.competition === oneCompetitionStore.competition
   );
-  //   console.log(globalStore.getState());
+  if (oneCompetitionStoreIndex !== -1) {
+    dispatch(
+      competitionsActions.setSortedTrainees({
+        manySortedTrainees: data,
+        oneCompetitionStoreIndex: oneCompetitionStoreIndex,
+      })
+    );
+  }
+};
+
+export const removeAttendingSortedTrainee = (
+  dispatch: Dispatch<any>,
+  oneSortedTrainee: CompetitionTraineeModel,
+  oneCompetitionStore: CompetitionStore
+) => {
+  const comeptitionStores = getCompetitionStores();
+  const competitionStoreIndex = comeptitionStores.findIndex(
+    (x) => x === oneCompetitionStore
+  );
+  const competitionStore = comeptitionStores[competitionStoreIndex];
+  if (competitionStore) {
+    const attIndex =
+      competitionStore.sortedTrainees.attendingTrainees.findIndex(
+        (x) => x === oneSortedTrainee
+      );
+    if (attIndex !== -1) {
+      dispatch(
+        competitionsActions.addAttendingSortedTrainee({
+          oneCompetitionStoreIndex: competitionStoreIndex,
+          oneSortedTraineeIndex: attIndex,
+        })
+      );
+    }
+  }
+};
+
+export const addAttendingSortedTrainee = (
+  dispatch: Dispatch<any>,
+  oneSortedTrainee: CompetitionTraineeModel,
+  oneCompetitionStore: CompetitionStore
+) => {
+  const comeptitionStores = getCompetitionStores();
+  const competitionStoreIndex = comeptitionStores.findIndex(
+    (x) => x === oneCompetitionStore
+  );
+  const competitionStore = comeptitionStores[competitionStoreIndex];
+  if (competitionStore) {
+    const notAttIndex =
+      competitionStore.sortedTrainees.notAttendingTrainees.findIndex(
+        (x) => x === oneSortedTrainee
+      );
+    if (notAttIndex !== -1) {
+      dispatch(
+        competitionsActions.removeAttendingSortedTrainee({
+          oneCompetitionStoreIndex: competitionStoreIndex,
+          oneSortedTraineeIndex: notAttIndex,
+        })
+      );
+    }
+  }
+};
+
+const getCompetitionStores = () => {
+  return globalStore.getState().competitionsSlice;
 };

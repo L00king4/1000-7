@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
+import { addAttendingSortedTrainee } from "../../Redux/Services/CompetitionsService";
 import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
@@ -32,11 +33,7 @@ export const AddCompetitionAttendanceButton = ({
           })
           .then((res) => {
             if (res.data === 1) {
-              // dispatch({
-              //   type: GlobalStoreActions.CompetitionStore.SortedTrainees.SWITCH,
-              //   oneCompetitionTrainee: trainee,
-              //   oneCompetitionStore: competitionStore,
-              // });
+              addAttendingSortedTrainee(dispatch, trainee, competitionStore);
             }
           });
       }}
