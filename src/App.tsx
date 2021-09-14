@@ -5,7 +5,7 @@ import { Competitions } from "./Competitions/Competitions";
 import { Content } from "./HeadFootSide/Content";
 import Header from "./HeadFootSide/Header";
 import "./App.css";
-import { AddCompetition } from "./AddCompetitions/AddCompetitions";
+import { AddCompetition } from "./Competitions/AddCompetitions";
 
 export const App = () => (
   <BrowserRouter>

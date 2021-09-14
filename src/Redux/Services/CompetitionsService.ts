@@ -70,7 +70,7 @@ export const fetchSortedTrainees = async (
   }
 };
 
-export const removeAttendingSortedTrainee = (
+export const removeCompetitionAttendance = (
   dispatch: Dispatch<any>,
   oneSortedTrainee: CompetitionTraineeModel,
   oneCompetitionStore: CompetitionStore
@@ -87,7 +87,7 @@ export const removeAttendingSortedTrainee = (
       );
     if (attIndex !== -1) {
       dispatch(
-        competitionsActions.addAttendingSortedTrainee({
+        competitionsActions.addCompetitionAttendance({
           oneCompetitionStoreIndex: competitionStoreIndex,
           oneSortedTraineeIndex: attIndex,
         })
@@ -96,7 +96,7 @@ export const removeAttendingSortedTrainee = (
   }
 };
 
-export const addAttendingSortedTrainee = (
+export const addCompetitionAttendance = (
   dispatch: Dispatch<any>,
   oneSortedTrainee: CompetitionTraineeModel,
   oneCompetitionStore: CompetitionStore
@@ -113,12 +113,28 @@ export const addAttendingSortedTrainee = (
       );
     if (notAttIndex !== -1) {
       dispatch(
-        competitionsActions.removeAttendingSortedTrainee({
+        competitionsActions.removeCompetitionAttendance({
           oneCompetitionStoreIndex: competitionStoreIndex,
           oneSortedTraineeIndex: notAttIndex,
         })
       );
     }
+  }
+};
+
+export const removeCompetition = (
+  dispatch: Dispatch<any>,
+  oneCompetitionStore: CompetitionStore
+) => {
+  const removeCompetitionStoreIndex = getCompetitionStores().findIndex(
+    (x) => x === oneCompetitionStore
+  );
+  if (removeCompetitionStoreIndex !== -1) {
+    dispatch(
+      competitionsActions.removeCompetition({
+        oneCompetitionStoreIndex: removeCompetitionStoreIndex,
+      })
+    );
   }
 };
 

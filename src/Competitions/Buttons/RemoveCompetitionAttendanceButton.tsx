@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../ApiEndpoints";
-import { removeAttendingSortedTrainee } from "../../Redux/Services/CompetitionsService";
+import { removeCompetitionAttendance } from "../../Redux/Services/CompetitionsService";
 import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
@@ -15,6 +15,18 @@ export const RemoveCompetitionAttendanceButton = ({
   trainee: CompetitionTraineeModel;
 }) => {
   const dispatch = useDispatch();
+  const removeCompetitionAttendanceHandler = () => {
+    axios
+      .post(api.Competitions.Attendances.Remove, {
+        eventID: competitionStore.competition.id,
+        traineeID: trainee.id,
+      })
+      .then((res) => {
+        if (res.data === 1) {
+          removeCompetitionAttendance(dispatch, trainee, competitionStore);
+        }
+      });
+  };
   return (
     <button
       css={css`
@@ -26,18 +38,7 @@ export const RemoveCompetitionAttendanceButton = ({
         margin-right: 30px;
       `}
       className="trainee"
-      onClick={() => {
-        axios
-          .post(api.Competitions.Attendances.Remove, {
-            eventID: competitionStore.competition.id,
-            traineeID: trainee.id,
-          })
-          .then((res) => {
-            if (res.data === 1) {
-              removeAttendingSortedTrainee(dispatch, trainee, competitionStore);
-            }
-          });
-      }}
+      onClick={removeCompetitionAttendanceHandler}
     >
       -
     </button>

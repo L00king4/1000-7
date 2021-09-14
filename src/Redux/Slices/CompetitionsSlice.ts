@@ -55,7 +55,7 @@ const competitionsSlice = createSlice({
           action.payload.manySortedTrainees;
       });
     },
-    addAttendingSortedTrainee: (
+    addCompetitionAttendance: (
       state,
       action: {
         type: string;
@@ -81,7 +81,7 @@ const competitionsSlice = createSlice({
         );
       });
     },
-    removeAttendingSortedTrainee: (
+    removeCompetitionAttendance: (
       state,
       action: {
         type: string;
@@ -105,6 +105,14 @@ const competitionsSlice = createSlice({
           action.payload.oneSortedTraineeIndex,
           1
         );
+      });
+    },
+    removeCompetition: (
+      state,
+      action: { type: string; payload: { oneCompetitionStoreIndex: number } }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.splice(action.payload.oneCompetitionStoreIndex, 1);
       });
     },
   },

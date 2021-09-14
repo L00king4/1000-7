@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
+import { removeCompetition } from "../../Redux/Services/CompetitionsService";
 import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
 
 export const RemoveCompetitionButton = ({
@@ -11,16 +12,13 @@ export const RemoveCompetitionButton = ({
   competitionStore: CompetitionStore;
 }) => {
   const dispatch = useDispatch();
-  const removeCompetition = () => {
+  const removeCompetitionHandler = () => {
     axios
       .get(api.Competitions.Events.Remove(competitionStore.competition.id))
       .then((res) => {
         if (res.data > 0) {
           console.log("Changed " + res.data);
-          // dispatch({
-          //   type: GlobalStoreActions.CompetitionStore.REMOVE_ONE,
-          //   oneCompetitionStore: competitionStore,
-          // });
+          removeCompetition(dispatch, competitionStore);
         }
       });
   };
@@ -36,7 +34,7 @@ export const RemoveCompetitionButton = ({
         font-size: 10px;
         text-align: center;
       `}
-      onClick={removeCompetition}
+      onClick={removeCompetitionHandler}
     >
       -
     </button>

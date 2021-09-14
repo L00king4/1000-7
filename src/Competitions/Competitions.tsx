@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { AddCompetition } from "./AddCompetitions";
 import { fetchCompetitions } from "../Redux/Services/CompetitionsService";
 import { useCompetitionsSelector } from "../Redux/Slices/CompetitionsSlice";
 import { Competition } from "./Competition";
@@ -22,7 +23,7 @@ export const Competitions = () => {
         justify-content: center;
       `}
     >
-      <Link to="Add">ADD COMPETITION</Link>
+      <AddCompetition />
       <ul
         css={css`
           list-style-type: none;
