@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { AddCompetition } from "./AddCompetitions";
@@ -10,6 +10,7 @@ import { Competition } from "./Competition";
 
 export const Competitions = () => {
   const dispatch = useDispatch();
+  const [showAddCompetition, setShowAddCompetition] = useState(false);
   const competitionStores = useCompetitionsSelector(
     (state) => state.competitionsSlice
   );
@@ -23,7 +24,10 @@ export const Competitions = () => {
         justify-content: center;
       `}
     >
-      <AddCompetition />
+      <div onClick={() => setShowAddCompetition(!showAddCompetition)}>
+        Add competition
+      </div>
+      {showAddCompetition && <AddCompetition />}
       <ul
         css={css`
           list-style-type: none;

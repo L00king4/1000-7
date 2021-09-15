@@ -1,3 +1,4 @@
+import produce from "@reduxjs/toolkit/node_modules/immer";
 import axios from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
@@ -57,14 +58,14 @@ export const fetchSortedTrainees = async (
     )
   );
   const competitionStores = getCompetitionStores();
-  const oneCompetitionStoreIndex = competitionStores.findIndex(
+  const competitionStoreIndex = competitionStores.findIndex(
     (x) => x.competition === oneCompetitionStore.competition
   );
-  if (oneCompetitionStoreIndex !== -1) {
+  if (competitionStoreIndex !== -1) {
     dispatch(
       competitionsActions.setSortedTrainees({
         manySortedTrainees: data,
-        oneCompetitionStoreIndex: oneCompetitionStoreIndex,
+        oneCompetitionStoreIndex: competitionStoreIndex,
       })
     );
   }
@@ -72,7 +73,7 @@ export const fetchSortedTrainees = async (
 
 export const removeCompetitionAttendance = (
   dispatch: Dispatch<any>,
-  oneSortedTrainee: CompetitionTraineeModel,
+  oneAttendingTrainee: CompetitionTraineeModel,
   oneCompetitionStore: CompetitionStore
 ) => {
   const comeptitionStores = getCompetitionStores();
@@ -83,13 +84,13 @@ export const removeCompetitionAttendance = (
   if (competitionStore) {
     const attIndex =
       competitionStore.sortedTrainees.attendingTrainees.findIndex(
-        (x) => x === oneSortedTrainee
+        (x) => x === oneAttendingTrainee
       );
     if (attIndex !== -1) {
       dispatch(
-        competitionsActions.addCompetitionAttendance({
+        competitionsActions.removeCompetitionAttendance({
           oneCompetitionStoreIndex: competitionStoreIndex,
-          oneSortedTraineeIndex: attIndex,
+          oneAttendingTraineeIndex: attIndex,
         })
       );
     }
@@ -98,24 +99,24 @@ export const removeCompetitionAttendance = (
 
 export const addCompetitionAttendance = (
   dispatch: Dispatch<any>,
-  oneSortedTrainee: CompetitionTraineeModel,
+  oneNotAttendingTrainee: CompetitionTraineeModel,
   oneCompetitionStore: CompetitionStore
 ) => {
   const comeptitionStores = getCompetitionStores();
   const competitionStoreIndex = comeptitionStores.findIndex(
     (x) => x === oneCompetitionStore
   );
-  const competitionStore = comeptitionStores[competitionStoreIndex];
-  if (competitionStore) {
-    const notAttIndex =
-      competitionStore.sortedTrainees.notAttendingTrainees.findIndex(
-        (x) => x === oneSortedTrainee
-      );
+  if (competitionStoreIndex !== -1) {
+    const notAttIndex = comeptitionStores[
+      competitionStoreIndex
+    ].sortedTrainees.notAttendingTrainees.findIndex(
+      (x) => x === oneNotAttendingTrainee
+    );
     if (notAttIndex !== -1) {
       dispatch(
-        competitionsActions.removeCompetitionAttendance({
+        competitionsActions.addCompetitionAttendance({
           oneCompetitionStoreIndex: competitionStoreIndex,
-          oneSortedTraineeIndex: notAttIndex,
+          oneNotAttendingTraineeIndex: notAttIndex,
         })
       );
     }
@@ -126,18 +127,97 @@ export const removeCompetition = (
   dispatch: Dispatch<any>,
   oneCompetitionStore: CompetitionStore
 ) => {
-  const removeCompetitionStoreIndex = getCompetitionStores().findIndex(
-    (x) => x === oneCompetitionStore
-  );
-  if (removeCompetitionStoreIndex !== -1) {
+  const oneCompetitionStoreIndex =
+    getOneCompetitionStoreIndex(oneCompetitionStore);
+  if (oneCompetitionStoreIndex !== -1) {
     dispatch(
       competitionsActions.removeCompetition({
-        oneCompetitionStoreIndex: removeCompetitionStoreIndex,
+        oneCompetitionStoreIndex: oneCompetitionStoreIndex,
       })
     );
   }
 };
 
+export const addCompetition = (
+  dispatch: Dispatch<any>,
+  oneCompetitionStore: CompetitionStore
+) => {
+  dispatch(
+    competitionsActions.addCompetition({
+      oneCompetitionStore: oneCompetitionStore,
+    })
+  );
+};
+
+export const updateCompetition = (
+  dispatch: Dispatch<any>,
+  oneCompetitionStore: CompetitionStore
+) => {
+  const oneCompetitionStoreIndex =
+    getOneCompetitionStoreIndex(oneCompetitionStore);
+  if (oneCompetitionStoreIndex !== -1) {
+    dispatch(
+      competitionsActions.updateCompetition({
+        oneCompetitionStore: oneCompetitionStore,
+        oneCompetitionStoreIndex: oneCompetitionStoreIndex,
+      })
+    );
+  }
+};
+
+export const addCompetitionPayment = (
+  dispatch: Dispatch<any>,
+  oneCompetitionStore: CompetitionStore,
+  trainee: CompetitionTraineeModel,
+  amount: number
+) => {
+  const oneCompetitionStoreIndex =
+    getOneCompetitionStoreIndex(oneCompetitionStore);
+  if (oneCompetitionStoreIndex !== -1) {
+    const attIndex = getCompetitionStores()[
+      oneCompetitionStoreIndex
+    ].sortedTrainees.attendingTrainees.findIndex((x) => x === trainee);
+    if (attIndex !== -1) {
+      const foundTrainee =
+        oneCompetitionStore.sortedTrainees.attendingTrainees[attIndex];
+      const updatedTrainee: CompetitionTraineeModel = {
+        ...foundTrainee,
+        amountPayed: foundTrainee.amountPayed + amount,
+      };
+      const updatedSortedTrainees: SortedTrainees<CompetitionTraineeModel> = {
+        ...oneCompetitionStore.sortedTrainees,
+        attendingTrainees: produce(
+          oneCompetitionStore.sortedTrainees.attendingTrainees,
+          (draftState) => {
+            draftState.splice(attIndex, 1, updatedTrainee);
+          }
+        ),
+      };
+      dispatch(
+        competitionsActions.updateCompetition({
+          oneCompetitionStore: {
+            ...oneCompetitionStore,
+            sortedTrainees: updatedSortedTrainees,
+          },
+          oneCompetitionStoreIndex,
+        })
+      );
+    }
+  }
+};
+
 const getCompetitionStores = () => {
   return globalStore.getState().competitionsSlice;
+};
+
+const getOneCompetitionStoreIndex = (competitionStore: CompetitionStore) => {
+  return globalStore
+    .getState()
+    .competitionsSlice.findIndex((x) => x === competitionStore);
+};
+
+const getOneCompetitionStore = (competitionStore: CompetitionStore) => {
+  return globalStore
+    .getState()
+    .competitionsSlice.find((x) => x === competitionStore);
 };

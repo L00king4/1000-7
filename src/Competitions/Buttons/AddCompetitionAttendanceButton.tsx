@@ -22,7 +22,7 @@ export const AddCompetitionAttendanceButton = ({
         traineeID: trainee.id,
       })
       .then((res) => {
-        if (res.data === 1) {
+        if (res.data !== -1) {
           addCompetitionAttendance(dispatch, trainee, competitionStore);
         }
       });

@@ -22,7 +22,7 @@ export const RemoveCompetitionAttendanceButton = ({
         traineeID: trainee.id,
       })
       .then((res) => {
-        if (res.data === 1) {
+        if (res.data !== -1) {
           removeCompetitionAttendance(dispatch, trainee, competitionStore);
         }
       });

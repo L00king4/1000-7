@@ -2,26 +2,35 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import api from "../ApiEndpoints";
+import { addCompetition } from "../Redux/Services/CompetitionsService";
+import { getEmptySortedTrainees } from "../Trainees/SortedTrainees";
 
 export const AddCompetition = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [topay, setTopay] = useState<number>(0);
   const [date, setDate] = useState<string>("");
+  const dispatch = useDispatch();
 
-  const onClickHandler = () => {
-    axios
-      .post(api.Competitions.Events.Add, {
-        name: name,
-        description: description,
-        topay: topay,
-        date: date,
-      })
-      .then((res) => {
-        if (res.data === 1) {
-        }
-      });
+  const addCompetitionHandler = () => {
+    const competition = {
+      name: name,
+      description: description,
+      toPay: topay,
+      date: date,
+    };
+
+    axios.post(api.Competitions.Events.Add, competition).then((res) => {
+      if (res.data !== -1) {
+        console.log("ID", res.data);
+        addCompetition(dispatch, {
+          competition: { ...competition, id: res.data },
+          sortedTrainees: getEmptySortedTrainees(),
+        });
+      }
+    });
   };
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,9 +67,9 @@ export const AddCompetition = () => {
         Costs*: <input type="number" onChange={topayHandler} />
       </div>
       <div>
-        Date: <input type="datetime-local" onChange={dateHandler} />
+        Date*: <input type="datetime-local" onChange={dateHandler} />
       </div>
-      <button onClick={onClickHandler}>Add Competition</button>
+      <button onClick={addCompetitionHandler}>Add Competition</button>
     </div>
   );
 };

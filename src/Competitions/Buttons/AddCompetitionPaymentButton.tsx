@@ -4,6 +4,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
+import {
+  addCompetitionPayment,
+  updateCompetition,
+} from "../../Redux/Services/CompetitionsService";
 import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
@@ -15,7 +19,7 @@ export const AddCompetitionPaymentButton = ({
   trainee: CompetitionTraineeModel;
 }) => {
   const dispatch = useDispatch();
-  const AddCompetitionPayment = (amount: number) => {
+  const AddCompetitionPaymentHandler = (amount: number) => {
     axios
       .post(api.Competitions.Payments.Add, {
         eventID: competitionStore.competition.id,
@@ -23,17 +27,9 @@ export const AddCompetitionPaymentButton = ({
         traineeID: trainee.id,
       })
       .then((res) => {
-        if (res.data === 1) {
-          // dispatch({
-          //   type: GlobalStoreActions.CompetitionStore.SortedTrainees.UPDATE_ONE,
-          //   oneCompetitionStore: competitionStore,
-          //   oneSortedTrainee: {
-          //     ...trainee,
-          //     amountPayed: trainee.amountPayed + amount,
-          //   },
-          // });
+        if (res.data !== -1) {
+          addCompetitionPayment(dispatch, competitionStore, trainee, amount);
         }
-        //fetchSortedTrainees();
       });
   };
   const [amount, setAmount] = useState(0);
@@ -44,13 +40,13 @@ export const AddCompetitionPaymentButton = ({
     <div>
       <button
         onClick={() => {
-          AddCompetitionPayment(competitionStore.competition.toPay);
+          AddCompetitionPaymentHandler(competitionStore.competition.toPay);
         }}
       >
         Pay {competitionStore.competition.toPay}
       </button>
       <input type="number" onChange={onAmountChangeHandler} />
-      <button onClick={() => AddCompetitionPayment(amount)}>
+      <button onClick={() => AddCompetitionPaymentHandler(amount)}>
         Pay {amount}
       </button>
     </div>

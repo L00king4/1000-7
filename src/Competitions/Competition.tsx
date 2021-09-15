@@ -26,6 +26,7 @@ export const Competition = ({
             competitionStore.sortedTrainees?.notAttendingTrainees.length === 0
           ) {
             fetchSortedTrainees(dispatch, competitionStore);
+            console.log("FETCHED");
           }
           setShowAttending(!showAttending);
         }}

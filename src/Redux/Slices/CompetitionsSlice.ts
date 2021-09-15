@@ -55,12 +55,12 @@ const competitionsSlice = createSlice({
           action.payload.manySortedTrainees;
       });
     },
-    addCompetitionAttendance: (
+    removeCompetitionAttendance: (
       state,
       action: {
         type: string;
         payload: {
-          oneSortedTraineeIndex: number;
+          oneAttendingTraineeIndex: number;
           oneCompetitionStoreIndex: number;
         };
       }
@@ -70,23 +70,23 @@ const competitionsSlice = createSlice({
           action.payload.oneCompetitionStoreIndex
         ].sortedTrainees.notAttendingTrainees.unshift(
           draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees
-            .attendingTrainees[action.payload.oneSortedTraineeIndex]
+            .attendingTrainees[action.payload.oneAttendingTraineeIndex]
         );
 
         draftState[
           action.payload.oneCompetitionStoreIndex
         ].sortedTrainees.attendingTrainees.splice(
-          action.payload.oneSortedTraineeIndex,
+          action.payload.oneAttendingTraineeIndex,
           1
         );
       });
     },
-    removeCompetitionAttendance: (
+    addCompetitionAttendance: (
       state,
       action: {
         type: string;
         payload: {
-          oneSortedTraineeIndex: number;
+          oneNotAttendingTraineeIndex: number;
           oneCompetitionStoreIndex: number;
         };
       }
@@ -96,13 +96,13 @@ const competitionsSlice = createSlice({
           action.payload.oneCompetitionStoreIndex
         ].sortedTrainees.attendingTrainees.push(
           draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees
-            .notAttendingTrainees[action.payload.oneSortedTraineeIndex]
+            .notAttendingTrainees[action.payload.oneNotAttendingTraineeIndex]
         );
 
         draftState[
           action.payload.oneCompetitionStoreIndex
         ].sortedTrainees.notAttendingTrainees.splice(
-          action.payload.oneSortedTraineeIndex,
+          action.payload.oneNotAttendingTraineeIndex,
           1
         );
       });
@@ -113,6 +113,35 @@ const competitionsSlice = createSlice({
     ) => {
       return produce(state, (draftState) => {
         draftState.splice(action.payload.oneCompetitionStoreIndex, 1);
+      });
+    },
+    addCompetition: (
+      state,
+      action: {
+        type: string;
+        payload: { oneCompetitionStore: CompetitionStore };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.unshift(action.payload.oneCompetitionStore);
+      });
+    },
+    updateCompetition: (
+      state,
+      action: {
+        type: string;
+        payload: {
+          oneCompetitionStore: CompetitionStore;
+          oneCompetitionStoreIndex: number;
+        };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.splice(
+          action.payload.oneCompetitionStoreIndex,
+          1,
+          action.payload.oneCompetitionStore
+        );
       });
     },
   },
