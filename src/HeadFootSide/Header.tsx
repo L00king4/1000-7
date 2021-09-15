@@ -11,8 +11,7 @@ export const Header = () => (
     `}
   >
     <Link to="/Competitions">Competitions</Link>
-    <Link to="/Trainings">Trainings</Link>
-    <Link to="/PayEvents">Other Events</Link>
+    <Link to="/Trainees">Trainees</Link>
   </div>
 );
 

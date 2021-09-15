@@ -37,7 +37,7 @@ export const AddCompetition = () => {
     setName(e.target.value);
   };
 
-  const descriptionHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const descriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
 
@@ -61,13 +61,13 @@ export const AddCompetition = () => {
         Name*: <input type="text" onChange={nameHandler} />
       </div>
       <div>
-        Description: <input type="text" onChange={descriptionHandler} />
-      </div>
-      <div>
         Costs*: <input type="number" onChange={topayHandler} />
       </div>
       <div>
         Date*: <input type="datetime-local" onChange={dateHandler} />
+      </div>
+      <div>
+        Description: <textarea onChange={descriptionHandler} />
       </div>
       <button onClick={addCompetitionHandler}>Add Competition</button>
     </div>

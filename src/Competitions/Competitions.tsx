@@ -18,12 +18,7 @@ export const Competitions = () => {
     fetchCompetitions(dispatch);
   }, []);
   return (
-    <div
-      css={css`
-        align-items: center;
-        justify-content: center;
-      `}
-    >
+    <div>
       <div onClick={() => setShowAddCompetition(!showAddCompetition)}>
         Add competition
       </div>

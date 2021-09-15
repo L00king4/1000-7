@@ -6,6 +6,7 @@ import { Content } from "./HeadFootSide/Content";
 import Header from "./HeadFootSide/Header";
 import "./App.css";
 import { AddCompetition } from "./Competitions/AddCompetitions";
+import { Trainees } from "./Trainees/Trainees";
 
 export const App = () => (
   <BrowserRouter>
@@ -24,9 +25,11 @@ export const App = () => (
             component={() => <Competitions />}
           />
           <Route
+            exact
             path="/Competitions/Add"
             component={() => <AddCompetition />}
           />
+          <Route exact path="/Trainees" component={() => <Trainees />} />
         </Switch>
       </Content>
     </div>
