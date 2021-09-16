@@ -1,7 +1,7 @@
 export interface TraineeModel {
   id: number;
   fullname: string;
-  birthday: string;
+  birthday: string | null;
   ageGroup: AgeGroup;
   beltColor: BeltColor;
 }
@@ -14,6 +14,7 @@ export enum AgeGroup {
 }
 
 export enum BeltColor {
+  Unknown,
   White,
   GrayWhite,
   Gray,
@@ -35,3 +36,29 @@ export enum BeltColor {
   RedWhite,
   Red,
 }
+
+export const getAgeGroupKVPs = () => {
+  const arrayObjects = [];
+
+  for (const [propertyKey, propertyValue] of Object.entries(AgeGroup)) {
+    if (!Number.isNaN(Number(propertyKey))) {
+      continue;
+    }
+    arrayObjects.push({ value: propertyValue, name: propertyKey });
+  }
+
+  return arrayObjects;
+};
+
+export const getBeltColorKVPs = () => {
+  const arrayObjects = [];
+
+  for (const [propertyKey, propertyValue] of Object.entries(BeltColor)) {
+    if (!Number.isNaN(Number(propertyKey))) {
+      continue;
+    }
+    arrayObjects.push({ value: propertyValue, name: propertyKey });
+  }
+
+  return arrayObjects;
+};

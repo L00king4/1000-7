@@ -7,9 +7,10 @@ import { GlobalState } from "../Store";
 
 export interface TraineesStore {
   trainees: TraineeModel[];
+  editingTrainees: TraineeModel[];
 }
 
-const initialState: TraineesStore = { trainees: [] };
+const initialState: TraineesStore = { trainees: [], editingTrainees: [] };
 
 const traineesSlice = createSlice({
   name: "TraineesSlice",
@@ -17,9 +18,9 @@ const traineesSlice = createSlice({
   reducers: {
     setTraineesStore: (
       state,
-      action: { type: string; payload: { trainees: TraineeModel[] } }
+      action: { type: string; payload: TraineesStore }
     ) => {
-      return { trainees: action.payload.trainees };
+      return { ...action.payload };
     },
     addTrainee: (
       state,
@@ -27,14 +28,38 @@ const traineesSlice = createSlice({
     ) => {
       return produce(state, (draftState) => {
         draftState.trainees.unshift(action.payload.trainee);
+        draftState.editingTrainees.unshift(action.payload.trainee);
+      });
+    },
+    editEditingTrainee: (
+      state,
+      action: {
+        type: string;
+        payload: { trainee: TraineeModel; traineeIndex: number };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.editingTrainees.splice(
+          action.payload.traineeIndex,
+          1,
+          action.payload.trainee
+        );
+      });
+    },
+    saveEditingTrainee: (
+      state,
+      action: { type: string; payload: { traineeIndex: number } }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.trainees.splice(
+          action.payload.traineeIndex,
+          1,
+          draftState.editingTrainees[action.payload.traineeIndex]
+        );
       });
     },
   },
 });
-
-export const getTraineeSelector = (state: GlobalState) => {
-  return state.traineesSlice;
-};
 
 export const useTraineesSelector: TypedUseSelectorHook<GlobalState> =
   useReduxSelector;

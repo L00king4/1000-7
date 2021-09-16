@@ -1,15 +1,31 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { css, Interpolation } from "@emotion/react";
 import axios from "axios";
+import moment from "moment";
+import { Theme } from "pretty-format";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../ApiEndpoints";
 import { addTrainee } from "../Redux/Services/TraineesService";
-import { AgeGroup, BeltColor } from "./ITrainees";
+import { InputBirthday } from "./Input/InputBirthday";
+import { InputFullname } from "./Input/InputFullname";
+import {
+  AgeGroup,
+  BeltColor,
+  getAgeGroupKVPs,
+  getBeltColorKVPs,
+} from "./ITrainees";
+import { SelectAgeGroup } from "./Select/SelectAgeGroup";
+import { SelectBeltColor } from "./Select/SelectBeltColor";
 
 export const AddTrainee = () => {
+  const [showAddTrainee, setShowAddTrainee] = useState(false);
+  const onClickHandler = () => {
+    setShowAddTrainee(!showAddTrainee);
+  };
+
   const [fullname, setFullname] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [birthday, setBirthday] = useState<string | null>(null);
   const [ageGroup, setAgeGroup] = useState<AgeGroup>(0);
   const [beltColor, setBeltColor] = useState<BeltColor>(0);
   const dispatch = useDispatch();
@@ -21,8 +37,9 @@ export const AddTrainee = () => {
       ageGroup: ageGroup,
       beltColor: beltColor,
     };
-
+    console.log(trainee);
     axios.post(api.Trainees.Add, trainee).then((res) => {
+      console.log(res.data);
       if (res.data !== -1) {
         console.log("ID", res.data);
         addTrainee(dispatch, { ...trainee, id: res.data });
@@ -30,43 +47,56 @@ export const AddTrainee = () => {
     });
   };
 
-  const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFullnameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFullname(e.target.value);
   };
 
-  const birthdayHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onBirthdayChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBirthday(e.target.value);
   };
 
-  const ageGroupHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAgeGroup(e.target.valueAsNumber);
+  const onAgeGroupChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAgeGroup(Number(e.target.value));
   };
 
-  const beltColorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBeltColor(e.target.valueAsNumber);
+  const onBeltColorChangeHandler = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setBeltColor(Number(e.target.value));
   };
 
   return (
     <div
       css={css`
-        display: block;
         margin: 20px;
+        display: inline-block;
       `}
     >
-      <p>Fields with * MUST be filled!</p>
-      <div>
-        Fullname*: <input type="text" onChange={nameHandler} />
-      </div>
-      <div>
-        Age Group*: <input type="number" onChange={ageGroupHandler} />
-      </div>
-      <div>
-        Birthday: <input type="datetime-local" onChange={birthdayHandler} />
-      </div>
-      <div>
-        Belt Color: <input type="datetime-local" onChange={beltColorHandler} />
-      </div>
-      <button onClick={addTraineeHandler}>Add Competition</button>
+      <button onClick={onClickHandler}>Add Menu</button>
+      {showAddTrainee && (
+        <div>
+          <p>Fields with * MUST be filled!</p>
+          <div>
+            Fullname*:{" "}
+            <InputFullname onFullnameChangeHandler={onFullnameChangeHandler} />
+          </div>
+          <div>
+            Age Group:
+            <SelectAgeGroup onAgeGroupChangeHandler={onAgeGroupChangeHandler} />
+          </div>
+          <div>
+            Birthday:{" "}
+            <InputBirthday onBirthdayChangeHandler={onBirthdayChangeHandler} />
+          </div>
+          <div>
+            Belt Color:
+            <SelectBeltColor
+              onBeltColorChangeHandler={onBeltColorChangeHandler}
+            />
+          </div>
+          <button onClick={addTraineeHandler}>Add</button>
+        </div>
+      )}
     </div>
   );
 };

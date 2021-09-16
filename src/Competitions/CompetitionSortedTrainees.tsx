@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useState } from "react";
-import { Trainee } from "../Trainees/Trainee";
 import AddCompetitionAttendanceButton from "./Buttons/AddCompetitionAttendanceButton";
 import RemoveCompetitionAttendanceButton from "./Buttons/RemoveCompetitionAttendanceButton";
 import AddCompetitionPaymentButton from "./Buttons/AddCompetitionPaymentButton";
@@ -53,7 +52,7 @@ export const CompetitionSortedTrainees = ({
                 competitionStore={competitionStore}
                 trainee={trainee}
               />
-              <CompetitionTrainee trainee={trainee} />
+              <CompetitionTrainee trainee={trainee} showPayedAmount={true} />
               <AddCompetitionPaymentButton
                 competitionStore={competitionStore}
                 trainee={trainee}
@@ -88,7 +87,7 @@ export const CompetitionSortedTrainees = ({
                   competitionStore={competitionStore}
                   trainee={trainee}
                 />
-                <Trainee trainee={trainee} />
+                <CompetitionTrainee trainee={trainee} showPayedAmount={false} />
               </li>
             )
           )}

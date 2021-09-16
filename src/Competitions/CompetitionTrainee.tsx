@@ -4,8 +4,10 @@ import { CompetitionTraineeModel } from "./ICompetitions";
 
 export const CompetitionTrainee = ({
   trainee,
+  showPayedAmount,
 }: {
   trainee: CompetitionTraineeModel;
+  showPayedAmount: boolean;
 }) => {
   return (
     <div
@@ -14,7 +16,7 @@ export const CompetitionTrainee = ({
         margin-right: 30px;
       `}
     >
-      {trainee.fullname} : {trainee.amountPayed}
+      {trainee.fullname} {showPayedAmount && `: ${trainee.amountPayed}`}
     </div>
   );
 };
