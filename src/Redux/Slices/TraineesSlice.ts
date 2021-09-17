@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
 import { useSelector as useReduxSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
-import { TraineeModel } from "../../Trainees/ITrainees";
+import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
 import { GlobalState } from "../Store";
 
 export interface TraineesStore {
@@ -35,15 +35,14 @@ const traineesSlice = createSlice({
       state,
       action: {
         type: string;
-        payload: { trainee: TraineeModel; traineeIndex: number };
+        payload: { trainee: NullableTraineeModel; traineeIndex: number };
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState.editingTrainees.splice(
-          action.payload.traineeIndex,
-          1,
-          action.payload.trainee
-        );
+        draftState.editingTrainees.splice(action.payload.traineeIndex, 1, {
+          ...state.editingTrainees[action.payload.traineeIndex],
+          ...action.payload.trainee,
+        });
       });
     },
     saveEditingTrainee: (
@@ -57,6 +56,12 @@ const traineesSlice = createSlice({
           draftState.editingTrainees[action.payload.traineeIndex]
         );
       });
+    },
+    saveEditingTrainees: (state) => {
+      return produce(state, (draftState) => {
+        draftState.trainees = draftState.editingTrainees;
+      });
+      // return {...state, editingTrainees: state.editingTrainees, trainees: state.editingTrainees}
     },
   },
 });

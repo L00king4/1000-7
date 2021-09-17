@@ -1,5 +1,4 @@
 import { getTraineesStore } from "../../../Redux/Services/TraineesService";
-import { useTraineesSelector } from "../../../Redux/Slices/TraineesSlice";
 import { EditTraineesTBodyTR } from "./EditTraineesTBodyTR";
 
 export const EditTraineesTBody = () => {

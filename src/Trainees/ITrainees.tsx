@@ -6,6 +6,14 @@ export interface TraineeModel {
   beltColor: BeltColor;
 }
 
+export interface NullableTraineeModel {
+  id?: number;
+  fullname?: string;
+  birthday?: string | null;
+  ageGroup?: AgeGroup;
+  beltColor?: BeltColor;
+}
+
 export enum AgeGroup {
   None,
   Young,

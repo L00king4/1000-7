@@ -25,6 +25,8 @@ export class api {
   static Trainees = class {
     static GetAll = urlPrefix + "trainees/all";
     static Add = urlPrefix + "trainees/add";
+    static Update = urlPrefix + "trainees/update";
+    static UpdateRange = urlPrefix + "trainees/updaterange";
   };
 }
 

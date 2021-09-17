@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Date2Datetime, Datetime2Date } from "../../../Addons/DateConverted";
 import {
   editEditingTrainee,
+  getEditingTraineeByIndex,
   getTraineesStore,
   saveEditingTrainee,
 } from "../../../Redux/Services/TraineesService";
@@ -17,6 +18,8 @@ import { SelectBeltColor } from "../../Select/SelectBeltColor";
 import "../../../css/trainees/EditTraineesTBodyTR.css";
 import axios from "axios";
 import api from "../../../ApiEndpoints";
+import { useTraineesSelector } from "../../../Redux/Slices/TraineesSlice";
+import { DoubleTapButton } from "../../../Addons/DoubleTapButton";
 
 export const EditTraineesTBodyTR = ({
   trainee,
@@ -26,40 +29,47 @@ export const EditTraineesTBodyTR = ({
   traineeIndex: number;
 }) => {
   const dispatch = useDispatch();
-  const correspondingTrainee = getTraineesStore().trainees[traineeIndex];
+  // const correspondingTrainee = getTraineesStore().trainees[traineeIndex];
+  const correspondingTrainee = useTraineesSelector(
+    (state) => state.traineesSlice.trainees[traineeIndex]
+  );
   const [age, setAge] = useState<number | null>(birthday2Age(trainee.birthday));
   const onFullnameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    editEditingTrainee(
-      dispatch,
-      { ...trainee, fullname: e.target.value },
-      traineeIndex
-    );
+    editEditingTrainee(dispatch, { fullname: e.target.value }, traineeIndex);
   };
   const onAgeGroupChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     editEditingTrainee(
       dispatch,
-      { ...trainee, ageGroup: Number(e.target.value) },
+      { ageGroup: Number(e.target.value) },
       traineeIndex
     );
   };
   const onBeltColorChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     editEditingTrainee(
       dispatch,
-      { ...trainee, beltColor: Number(e.target.value) },
+      { beltColor: Number(e.target.value) },
       traineeIndex
     );
   };
   const onBirthdayChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     editEditingTrainee(
       dispatch,
-      { ...trainee, birthday: Date2Datetime(e.target.value) },
+      { birthday: Date2Datetime(e.target.value) },
       traineeIndex
     );
     setAge(birthday2Age(e.target.value));
   };
   const onSaveOneClickHandler = () => {
-    // axios.post(api.Trainees.Update, )
-    saveEditingTrainee(dispatch, traineeIndex);
+    axios
+      .post(
+        api.Trainees.Update,
+        getTraineesStore().editingTrainees[traineeIndex]
+      )
+      .then((res) => {
+        if (res.data !== -1) {
+          saveEditingTrainee(dispatch, traineeIndex);
+        }
+      });
   };
   return (
     <tr>
@@ -116,8 +126,24 @@ export const EditTraineesTBodyTR = ({
           />
         </div>
       </td>
-      <button onClick={onSaveOneClickHandler}>SAVE</button>
-      <button>DELETE</button>
+      <td>
+        <DoubleTapButton
+          buttonText={"Save"}
+          onApproveClickHandler={onSaveOneClickHandler}
+        />
+      </td>
+      <td>
+        <DoubleTapButton
+          buttonText={"Reset"}
+          onApproveClickHandler={() => {}}
+        />
+      </td>
+      <td css={css``}>
+        <DoubleTapButton
+          buttonText={"Delete"}
+          onApproveClickHandler={() => {}}
+        />
+      </td>
     </tr>
   );
 };

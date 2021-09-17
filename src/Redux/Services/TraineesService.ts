@@ -4,11 +4,10 @@ import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import globalStore from "../Store";
 import { traineesActions } from "../Slices/TraineesSlice";
-import { TraineeModel } from "../../Trainees/ITrainees";
+import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
-  console.log(data);
   dispatch(
     traineesActions.setTraineesStore({ trainees: data, editingTrainees: data })
   );
@@ -20,9 +19,12 @@ export const addTrainee = (dispatch: Dispatch<any>, trainee: TraineeModel) => {
 
 export const editEditingTrainee = (
   dispatch: Dispatch<any>,
-  trainee: TraineeModel,
+  trainee: NullableTraineeModel,
   traineeIndex: number
 ) => {
+  // Object.entries(trainee).forEach(([key, value]) => {
+  //   console.log(key, value);
+  // });
   dispatch(
     traineesActions.editEditingTrainee({
       trainee: { ...trainee },
@@ -36,7 +38,10 @@ export const saveEditingTrainee = (
   traineeIndex: number
 ) => {
   dispatch(traineesActions.saveEditingTrainee({ traineeIndex: traineeIndex }));
-  console.log(getTraineesStore());
+};
+
+export const saveEditingTrainees = (dispatch: Dispatch<any>) => {
+  dispatch(traineesActions.saveEditingTrainees());
 };
 
 export const getTraineesStore = () => {
@@ -47,4 +52,8 @@ const getTraineeIndex = (trainee: TraineeModel) => {
   return globalStore
     .getState()
     .traineesSlice.trainees.findIndex((x) => x === trainee);
+};
+
+export const getEditingTraineeByIndex = (traineeIndex: number) => {
+  return getTraineesStore().editingTrainees[traineeIndex];
 };
