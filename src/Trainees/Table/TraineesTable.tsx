@@ -33,6 +33,7 @@ export const TraineesTable = () => {
   useEffect(() => {
     fetchTrainees(dispatch);
   }, []);
+  //test
   return (
     <div>
       <div css={css``}>
