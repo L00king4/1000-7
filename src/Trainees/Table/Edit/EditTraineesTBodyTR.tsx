@@ -6,6 +6,7 @@ import { Date2Datetime, Datetime2Date } from "../../../Addons/DateConverted";
 import {
   editEditingTrainee,
   getTraineesStore,
+  removeTrainee,
   resetUpdatingTrainee,
   saveEditingTrainee,
 } from "../../../Redux/Services/TraineesService";
@@ -33,9 +34,6 @@ export const EditTraineesTBodyTR = ({
   const correspondingTrainee = useTraineesSelector(
     (state) => state.traineesSlice.trainees[traineeIndex]
   );
-  const [age, setAge] = useState<number | undefined>(
-    birthday2Age(trainee.birthday)
-  );
   const onFullnameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     editEditingTrainee(dispatch, { fullname: e.target.value }, traineeIndex);
   };
@@ -59,7 +57,6 @@ export const EditTraineesTBodyTR = ({
       { birthday: Date2Datetime(e.target.value) },
       traineeIndex
     );
-    setAge(birthday2Age(e.target.value));
   };
   const onSaveClickHandler = () => {
     axios
@@ -75,6 +72,9 @@ export const EditTraineesTBodyTR = ({
   };
   const onResetClickHandler = () => {
     resetUpdatingTrainee(dispatch, traineeIndex);
+  };
+  const onDeleteClickHandler = () => {
+    removeTrainee(dispatch, trainee.id, traineeIndex);
   };
   console.log(Object(trainee));
   return (
@@ -97,7 +97,7 @@ export const EditTraineesTBodyTR = ({
         <div className="NewValue">
           <SelectAgeGroup
             onAgeGroupChangeHandler={onAgeGroupChangeHandler}
-            defaultValue={trainee.ageGroup}
+            value={trainee.ageGroup}
           />
         </div>
       </td>
@@ -109,15 +109,16 @@ export const EditTraineesTBodyTR = ({
         <div className="NewValue">
           <InputBirthday
             onBirthdayChangeHandler={onBirthdayChangeHandler}
-            defaultValue={Datetime2Date(trainee.birthday) ?? undefined}
+            value={Datetime2Date(trainee.birthday)}
           />
         </div>
       </td>
       {/* Age */}
       <td>
-        <div className="OldValue"></div>(
-        {birthday2Age(correspondingTrainee.birthday)})
-        <div className="NewValue">{age}</div>
+        <div className="OldValue">
+          ({birthday2Age(correspondingTrainee.birthday)})
+        </div>
+        <div className="NewValue">{birthday2Age(trainee.birthday)}</div>
       </td>
       {/* Belt */}
       <td>
@@ -128,7 +129,7 @@ export const EditTraineesTBodyTR = ({
         <div className="NewValue">
           <SelectBeltColor
             onBeltColorChangeHandler={onBeltColorChangeHandler}
-            defaultValue={trainee.beltColor}
+            value={trainee.beltColor}
           />
         </div>
       </td>
@@ -147,7 +148,7 @@ export const EditTraineesTBodyTR = ({
       <td css={css``}>
         <DoubleTapButton
           buttonText={"Delete"}
-          onApproveClickHandler={() => {}}
+          onApproveClickHandler={onDeleteClickHandler}
         />
       </td>
     </tr>

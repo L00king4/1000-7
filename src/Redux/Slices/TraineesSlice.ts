@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
-import { useSelector as useReduxSelector } from "react-redux";
+import { useDispatch, useSelector as useReduxSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
 import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
 import { GlobalState } from "../Store";
@@ -29,6 +29,15 @@ const traineesSlice = createSlice({
       return produce(state, (draftState) => {
         draftState.trainees.unshift(action.payload.trainee);
         draftState.editingTrainees.unshift(action.payload.trainee);
+      });
+    },
+    removeTrainee: (
+      state,
+      action: { type: string; payload: { traineeIndex: number } }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.trainees.splice(action.payload.traineeIndex, 1);
+        draftState.editingTrainees.splice(action.payload.traineeIndex, 1);
       });
     },
     editEditingTrainee: (
@@ -89,5 +98,4 @@ const traineesSlice = createSlice({
 export const useTraineesSelector: TypedUseSelectorHook<GlobalState> =
   useReduxSelector;
 export const traineesActions = traineesSlice.actions;
-
 export default traineesSlice.reducer;

@@ -3,12 +3,12 @@ import { getAgeGroupKVPs } from "../ITrainees";
 
 export const SelectAgeGroup = ({
   onAgeGroupChangeHandler,
-  defaultValue,
+  value,
 }: {
   onAgeGroupChangeHandler: ChangeEventHandler<HTMLSelectElement>;
-  defaultValue?: number;
+  value?: number;
 }) => (
-  <select onChange={onAgeGroupChangeHandler} defaultValue={defaultValue}>
+  <select onChange={onAgeGroupChangeHandler} value={value}>
     {getAgeGroupKVPs().map(({ name, value }) => (
       <option
         value={value}

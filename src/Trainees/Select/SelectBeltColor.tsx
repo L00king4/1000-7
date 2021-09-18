@@ -3,12 +3,12 @@ import { getBeltColorKVPs } from "../ITrainees";
 
 export const SelectBeltColor = ({
   onBeltColorChangeHandler,
-  defaultValue,
+  value,
 }: {
   onBeltColorChangeHandler: ChangeEventHandler<HTMLSelectElement>;
-  defaultValue?: number;
+  value?: number;
 }) => (
-  <select onChange={onBeltColorChangeHandler} defaultValue={defaultValue}>
+  <select onChange={onBeltColorChangeHandler} value={value}>
     {getBeltColorKVPs().map(({ name, value }) => (
       <option
         value={value}

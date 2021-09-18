@@ -2,10 +2,8 @@ import { ChangeEventHandler } from "react";
 
 export const InputBirthday = ({
   onBirthdayChangeHandler,
-  defaultValue,
+  value,
 }: {
   onBirthdayChangeHandler: ChangeEventHandler<HTMLInputElement>;
-  defaultValue?: string;
-}) => (
-  <input type="date" value={defaultValue} onChange={onBirthdayChangeHandler} />
-);
+  value?: string;
+}) => <input type="date" value={value} onChange={onBirthdayChangeHandler} />;

@@ -1,10 +1,11 @@
 import produce from "@reduxjs/toolkit/node_modules/immer";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import globalStore from "../Store";
 import { traineesActions } from "../Slices/TraineesSlice";
 import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
+import { DoOnStatus } from "./AxiosService";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
@@ -15,6 +16,23 @@ export const fetchTrainees = async (dispatch: Dispatch<any>) => {
 
 export const addTrainee = (dispatch: Dispatch<any>, trainee: TraineeModel) => {
   dispatch(traineesActions.addTrainee({ trainee: trainee }));
+};
+
+const aoa = (asd: number) => {
+  console.log(asd);
+  return (res: AxiosResponse<any>) => {
+    console.log(res);
+  };
+};
+
+export const removeTrainee = (
+  dispatch: Dispatch<any>,
+  traineeID: number,
+  traineeIndex: number
+) => {
+  axios.get(api.Trainees.Remove(traineeID)).then(() => {
+    dispatch(traineesActions.removeTrainee({ traineeIndex: traineeIndex }));
+  });
 };
 
 export const editEditingTrainee = (

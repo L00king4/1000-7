@@ -27,6 +27,7 @@ export class api {
     static Add = urlPrefix + "trainees/add";
     static Update = urlPrefix + "trainees/update";
     static UpdateRange = urlPrefix + "trainees/updaterange";
+    static Remove = (id: number) => urlPrefix + `trainees/remove/${id}`;
   };
 }
 
