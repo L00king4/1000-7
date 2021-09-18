@@ -33,7 +33,9 @@ export const EditTraineesTBodyTR = ({
   const correspondingTrainee = useTraineesSelector(
     (state) => state.traineesSlice.trainees[traineeIndex]
   );
-  const [age, setAge] = useState<number | null>(birthday2Age(trainee.birthday));
+  const [age, setAge] = useState<number | undefined>(
+    birthday2Age(trainee.birthday)
+  );
   const onFullnameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     editEditingTrainee(dispatch, { fullname: e.target.value }, traineeIndex);
   };

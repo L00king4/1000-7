@@ -1,7 +1,7 @@
 export interface TraineeModel {
   id: number;
   fullname: string;
-  birthday: string | null;
+  birthday: string | undefined;
   ageGroup: AgeGroup;
   beltColor: BeltColor;
 }
@@ -9,7 +9,7 @@ export interface TraineeModel {
 export interface NullableTraineeModel {
   id?: number;
   fullname?: string;
-  birthday?: string | null;
+  birthday?: string | undefined;
   ageGroup?: AgeGroup;
   beltColor?: BeltColor;
 }

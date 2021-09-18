@@ -25,7 +25,7 @@ export const AddTrainee = () => {
   };
 
   const [fullname, setFullname] = useState("");
-  const [birthday, setBirthday] = useState<string | null>(null);
+  const [birthday, setBirthday] = useState<string | undefined>();
   const [ageGroup, setAgeGroup] = useState<AgeGroup>(0);
   const [beltColor, setBeltColor] = useState<BeltColor>(0);
   const dispatch = useDispatch();
