@@ -7,9 +7,5 @@ export const InputBirthday = ({
   onBirthdayChangeHandler: ChangeEventHandler<HTMLInputElement>;
   defaultValue?: string;
 }) => (
-  <input
-    type="date"
-    defaultValue={defaultValue}
-    onChange={onBirthdayChangeHandler}
-  />
+  <input type="date" value={defaultValue} onChange={onBirthdayChangeHandler} />
 );

@@ -40,10 +40,20 @@ export const saveEditingTrainee = (
   dispatch(traineesActions.saveEditingTrainee({ traineeIndex: traineeIndex }));
 };
 
-export const saveEditingTrainees = (dispatch: Dispatch<any>) => {
-  dispatch(traineesActions.saveEditingTrainees());
+export const saveAllEditingTrainees = (dispatch: Dispatch<any>) => {
+  dispatch(traineesActions.saveAllEditingTrainees());
 };
 
+export const resetUpdatingTrainee = (
+  dispatch: Dispatch<any>,
+  traineeIndex: number
+) => {
+  dispatch(traineesActions.resetUpdatingTrainee({ traineeIndex }));
+};
+
+export const resetAllUpdatingTrainees = (dispatch: Dispatch<any>) => {
+  dispatch(traineesActions.resetAllUpdatingTrainees());
+};
 export const getTraineesStore = () => {
   return globalStore.getState().traineesSlice;
 };

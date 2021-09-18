@@ -78,7 +78,10 @@ export const AddTrainee = () => {
           <p>Fields with * MUST be filled!</p>
           <div>
             Fullname*:{" "}
-            <InputFullname onFullnameChangeHandler={onFullnameChangeHandler} />
+            <InputFullname
+              value={fullname}
+              onFullnameChangeHandler={onFullnameChangeHandler}
+            />
           </div>
           <div>
             Age Group:

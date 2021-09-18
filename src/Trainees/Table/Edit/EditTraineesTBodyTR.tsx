@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Date2Datetime, Datetime2Date } from "../../../Addons/DateConverted";
 import {
   editEditingTrainee,
-  getEditingTraineeByIndex,
   getTraineesStore,
+  resetUpdatingTrainee,
   saveEditingTrainee,
 } from "../../../Redux/Services/TraineesService";
-import { birthday2Age, birthday2AgeString } from "../../../Addons/Birthday2Age";
+import { birthday2Age } from "../../../Addons/Birthday2Age";
 import { InputBirthday } from "../../Input/InputBirthday";
 import { InputFullname } from "../../Input/InputFullname";
 import { AgeGroup, BeltColor, TraineeModel } from "../../ITrainees";
@@ -17,9 +17,9 @@ import { SelectAgeGroup } from "../../Select/SelectAgeGroup";
 import { SelectBeltColor } from "../../Select/SelectBeltColor";
 import "../../../css/trainees/EditTraineesTBodyTR.css";
 import axios from "axios";
-import api from "../../../ApiEndpoints";
 import { useTraineesSelector } from "../../../Redux/Slices/TraineesSlice";
 import { DoubleTapButton } from "../../../Addons/DoubleTapButton";
+import api from "../../../ApiEndpoints";
 
 export const EditTraineesTBodyTR = ({
   trainee,
@@ -59,7 +59,7 @@ export const EditTraineesTBodyTR = ({
     );
     setAge(birthday2Age(e.target.value));
   };
-  const onSaveOneClickHandler = () => {
+  const onSaveClickHandler = () => {
     axios
       .post(
         api.Trainees.Update,
@@ -71,6 +71,10 @@ export const EditTraineesTBodyTR = ({
         }
       });
   };
+  const onResetClickHandler = () => {
+    resetUpdatingTrainee(dispatch, traineeIndex);
+  };
+  console.log(Object(trainee));
   return (
     <tr>
       {/* Fullname */}
@@ -79,7 +83,7 @@ export const EditTraineesTBodyTR = ({
         <div className="NewValue">
           <InputFullname
             onFullnameChangeHandler={onFullnameChangeHandler}
-            defaultValue={trainee.fullname}
+            value={trainee.fullname}
           />
         </div>
       </td>
@@ -129,13 +133,13 @@ export const EditTraineesTBodyTR = ({
       <td>
         <DoubleTapButton
           buttonText={"Save"}
-          onApproveClickHandler={onSaveOneClickHandler}
+          onApproveClickHandler={onSaveClickHandler}
         />
       </td>
       <td>
         <DoubleTapButton
           buttonText={"Reset"}
-          onApproveClickHandler={() => {}}
+          onApproveClickHandler={onResetClickHandler}
         />
       </td>
       <td css={css``}>

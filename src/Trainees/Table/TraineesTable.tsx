@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   fetchTrainees,
   getTraineesStore,
-  saveEditingTrainees,
+  resetAllUpdatingTrainees,
+  saveAllEditingTrainees,
 } from "../../Redux/Services/TraineesService";
 import "../../css/trainees/Trainees.css";
 import { AddTrainee } from "../AddTrainee";
@@ -26,9 +27,12 @@ export const TraineesTable = () => {
       .post(api.Trainees.UpdateRange, getTraineesStore().editingTrainees)
       .then((res) => {
         if (res.data !== -1) {
-          saveEditingTrainees(dispatch);
+          saveAllEditingTrainees(dispatch);
         }
       });
+  };
+  const onResetAllClickHandler = () => {
+    resetAllUpdatingTrainees(dispatch);
   };
   useEffect(() => {
     fetchTrainees(dispatch);
@@ -46,7 +50,10 @@ export const TraineesTable = () => {
           {editMode ? "Exit Editing Mode" : "Enter Editing Mode"}
         </button>
         {editMode && (
-          <button onClick={onSaveAllClickHandler}>Save changes</button>
+          <Fragment>
+            <button onClick={onSaveAllClickHandler}>Save changes</button>
+            <button onClick={onResetAllClickHandler}>Reset all</button>
+          </Fragment>
         )}
         <AddTrainee />
       </div>

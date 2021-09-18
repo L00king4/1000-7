@@ -2,14 +2,8 @@ import { ChangeEventHandler } from "react";
 
 export const InputFullname = ({
   onFullnameChangeHandler,
-  defaultValue,
+  value,
 }: {
   onFullnameChangeHandler: ChangeEventHandler<HTMLInputElement>;
-  defaultValue?: string;
-}) => (
-  <input
-    type="text"
-    defaultValue={defaultValue}
-    onChange={onFullnameChangeHandler}
-  />
-);
+  value: string;
+}) => <input type="text" value={value} onChange={onFullnameChangeHandler} />;

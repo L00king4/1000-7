@@ -57,11 +57,31 @@ const traineesSlice = createSlice({
         );
       });
     },
-    saveEditingTrainees: (state) => {
+    saveAllEditingTrainees: (state) => {
       return produce(state, (draftState) => {
         draftState.trainees = draftState.editingTrainees;
       });
       // return {...state, editingTrainees: state.editingTrainees, trainees: state.editingTrainees}
+    },
+    resetUpdatingTrainee: (
+      state,
+      action: { type: string; payload: { traineeIndex: number } }
+    ) => {
+      // return produce(state, (draftState) => {
+      //   draftState.editingTrainees.splice(
+      //     action.payload.traineeIndex,
+      //     1,
+      //     draftState.trainees[action.payload.traineeIndex]
+      //   );
+      // });
+      state.editingTrainees[action.payload.traineeIndex] =
+        state.trainees[action.payload.traineeIndex];
+      return state;
+    },
+    resetAllUpdatingTrainees: (state) => {
+      return produce(state, (draftState) => {
+        draftState.editingTrainees = draftState.trainees;
+      });
     },
   },
 });

@@ -7,11 +7,7 @@ export const ViewTraineesTBody = () => {
   return (
     <tbody>
       {trainees.map((trainee) => (
-        <tr
-          key={[trainee.id.toString(), trainee.fullname, trainee.birthday].join(
-            " "
-          )}
-        >
+        <tr key={["VIEWTRAINEE ", trainee.id.toString()].join(" ")}>
           <td>{trainee.fullname}</td>
           <td>{AgeGroup[trainee.ageGroup]}</td>
           <td>{birthday2AgeString(trainee.birthday)}</td>
