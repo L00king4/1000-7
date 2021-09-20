@@ -1,3 +1,4 @@
+import { SortingMethodEnum } from "../../../Addons/Sorting";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
 import { EditTraineesTBodyTR } from "./EditTraineesTBodyTR";
 
@@ -11,7 +12,10 @@ export const EditTraineesTBody = () => {
         .sort(([xIndex, xTrainee], [yIndex, yTrainee]) => {
           const xvalue = xTrainee[sorting.sortableProp]?.toString() ?? "99";
           const yvalue = yTrainee[sorting.sortableProp]?.toString() ?? "99";
-          return xvalue.localeCompare(yvalue);
+          return (
+            SortingMethodEnum[sorting.sortingMethod] *
+            xvalue.localeCompare(yvalue)
+          );
         })
         // .filter((x) => x[1].id === 3)
         .map(([s, trainee]) => (

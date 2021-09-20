@@ -6,8 +6,10 @@ import { traineesActions } from "../Slices/Trainees/TraineesSlice";
 import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
 import {
   FilteringSettings,
+  SortableProp,
   SortingSettings,
 } from "../Slices/Trainees/ITraineesSlice";
+import { getNextSortingMethod } from "../../Addons/Sorting";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
@@ -79,12 +81,18 @@ export const sortTrainees = (
   dispatch: Dispatch<any>,
   sortingSettings: SortingSettings
 ) => {
+  const isSameSortableProp =
+    getTraineesStore().settings.sorting.sortableProp ===
+    sortingSettings.sortableProp;
+
   dispatch(
     traineesActions.setTraineesStore({
       settings: {
         sorting: {
           sortableProp: sortingSettings.sortableProp,
-          sortingMethod: sortingSettings.sortingMethod,
+          sortingMethod: isSameSortableProp
+            ? getNextSortingMethod(sortingSettings.sortingMethod)
+            : "asc",
           sortingTarget: sortingSettings.sortingTarget,
         },
       },

@@ -1,4 +1,4 @@
-import { SortingMethod } from "../../../Configs/Sorting";
+import { SortingMethod } from "../../../Addons/Sorting";
 import { TraineeModel } from "../../../Trainees/ITrainees";
 
 export interface Trainees {

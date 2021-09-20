@@ -1,11 +1,15 @@
 import { ReactComponentElement, ReactNode, useState } from "react";
 import { useDispatch } from "react-redux";
-import { SortingMethod } from "../../../../Configs/Sorting";
+import {
+  getNextSortingMethod,
+  SortingMethod,
+} from "../../../../Addons/Sorting";
 import { sortTrainees } from "../../../../Redux/Services/TraineesService";
 import {
   SortableProp,
   SortingTarget,
 } from "../../../../Redux/Slices/Trainees/ITraineesSlice";
+import { useTraineesSelector } from "../../../../Redux/Slices/Trainees/TraineesSlice";
 
 export const SortableTH = ({
   sortableProp,
@@ -17,14 +21,22 @@ export const SortableTH = ({
   children: React.ReactNode;
 }) => {
   const dispatch = useDispatch();
-  const [sortingMethod, setSortingMethod] = useState<SortingMethod>("default");
+  const sortingSettings = useTraineesSelector(
+    (state) => state.traineesSlice.settings.sorting
+  );
   const onSortClickHandler = () => {
-    console.log(Object.entries(SortingMethod));
     sortTrainees(dispatch, {
       sortableProp: sortableProp,
-      sortingMethod: sortingMethod,
+      sortingMethod: sortingSettings.sortingMethod,
       sortingTarget: sortingTarget,
     });
   };
-  return <th onClick={() => onSortClickHandler()}>{children}</th>;
+  return (
+    <th onClick={() => onSortClickHandler()}>
+      {children}
+      {sortingSettings.sortingMethod !== "default" &&
+        sortingSettings.sortableProp === sortableProp &&
+        " " + sortingSettings.sortingMethod}
+    </th>
+  );
 };
