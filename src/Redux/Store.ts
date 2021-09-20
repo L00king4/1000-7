@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import competitionsSlice from "./Slices/CompetitionsSlice";
-import TraineesSlice from "./Slices/TraineesSlice";
+import TraineesSlice from "./Slices/Trainees/TraineesSlice";
 
 console.log(competitionsSlice);
 const globalStore = configureStore({

@@ -2,7 +2,10 @@
 import { css } from "@emotion/react";
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Date2Datetime, Datetime2Date } from "../../../Addons/DateConverted";
+import {
+  Date2Datetime,
+  Datetime2Date,
+} from "../../../Addons/Functions/DateConverter";
 import {
   editEditingTrainee,
   getTraineesStore,
@@ -10,17 +13,16 @@ import {
   resetUpdatingTrainee,
   saveEditingTrainee,
 } from "../../../Redux/Services/TraineesService";
-import { birthday2Age } from "../../../Addons/Birthday2Age";
+import { birthday2Age } from "../../../Addons/Functions/Birthday2Age";
 import { InputBirthday } from "../../Input/InputBirthday";
 import { InputFullname } from "../../Input/InputFullname";
 import { AgeGroup, BeltColor, TraineeModel } from "../../ITrainees";
 import { SelectAgeGroup } from "../../Select/SelectAgeGroup";
 import { SelectBeltColor } from "../../Select/SelectBeltColor";
 import "../../../css/trainees/EditTraineesTBodyTR.css";
-import axios from "axios";
-import { useTraineesSelector } from "../../../Redux/Slices/TraineesSlice";
-import { DoubleTapButton } from "../../../Addons/DoubleTapButton";
-import api from "../../../ApiEndpoints";
+import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
+import { DoubleTapButton } from "../../../Addons/Components/DoubleTapButton";
+import { EditTraineesTBodyTD } from "./EditTraineesTBodyTD";
 
 export const EditTraineesTBodyTR = ({
   trainee,
@@ -59,16 +61,7 @@ export const EditTraineesTBodyTR = ({
     );
   };
   const onSaveClickHandler = () => {
-    axios
-      .post(
-        api.Trainees.Update,
-        getTraineesStore().editingTrainees[traineeIndex]
-      )
-      .then((res) => {
-        if (res.data !== -1) {
-          saveEditingTrainee(dispatch, traineeIndex);
-        }
-      });
+    saveEditingTrainee(dispatch, trainee, traineeIndex);
   };
   const onResetClickHandler = () => {
     resetUpdatingTrainee(dispatch, traineeIndex);
@@ -76,11 +69,11 @@ export const EditTraineesTBodyTR = ({
   const onDeleteClickHandler = () => {
     removeTrainee(dispatch, trainee.id, traineeIndex);
   };
-  console.log(Object(trainee));
+  if (trainee.id === 10) console.log(getTraineesStore());
   return (
     <tr>
       {/* Fullname */}
-      <td>
+      <EditTraineesTBodyTD>
         <div className="OldValue">({correspondingTrainee.fullname})</div>
         <div className="NewValue">
           <InputFullname
@@ -88,9 +81,9 @@ export const EditTraineesTBodyTR = ({
             value={trainee.fullname}
           />
         </div>
-      </td>
+      </EditTraineesTBodyTD>
       {/* AgeGroup */}
-      <td>
+      <EditTraineesTBodyTD>
         <div className="OldValue">
           ({AgeGroup[correspondingTrainee.ageGroup]})
         </div>
@@ -100,9 +93,9 @@ export const EditTraineesTBodyTR = ({
             value={trainee.ageGroup}
           />
         </div>
-      </td>
+      </EditTraineesTBodyTD>
       {/* Birthday */}
-      <td>
+      <EditTraineesTBodyTD>
         <div className="OldValue">
           ({Datetime2Date(correspondingTrainee.birthday)})
         </div>
@@ -112,16 +105,16 @@ export const EditTraineesTBodyTR = ({
             value={Datetime2Date(trainee.birthday)}
           />
         </div>
-      </td>
+      </EditTraineesTBodyTD>
       {/* Age */}
-      <td>
+      <EditTraineesTBodyTD>
         <div className="OldValue">
           ({birthday2Age(correspondingTrainee.birthday)})
         </div>
         <div className="NewValue">{birthday2Age(trainee.birthday)}</div>
-      </td>
+      </EditTraineesTBodyTD>
       {/* Belt */}
-      <td>
+      <EditTraineesTBodyTD>
         <div className="OldValue">
           {" "}
           ({BeltColor[correspondingTrainee.beltColor]})
@@ -132,25 +125,25 @@ export const EditTraineesTBodyTR = ({
             value={trainee.beltColor}
           />
         </div>
-      </td>
-      <td>
+      </EditTraineesTBodyTD>
+      <EditTraineesTBodyTD>
         <DoubleTapButton
           buttonText={"Save"}
           onApproveClickHandler={onSaveClickHandler}
         />
-      </td>
-      <td>
+      </EditTraineesTBodyTD>
+      <EditTraineesTBodyTD>
         <DoubleTapButton
           buttonText={"Reset"}
           onApproveClickHandler={onResetClickHandler}
         />
-      </td>
-      <td css={css``}>
+      </EditTraineesTBodyTD>
+      <EditTraineesTBodyTD>
         <DoubleTapButton
           buttonText={"Delete"}
           onApproveClickHandler={onDeleteClickHandler}
         />
-      </td>
+      </EditTraineesTBodyTD>
     </tr>
   );
 };

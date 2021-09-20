@@ -18,7 +18,7 @@ export const DoubleTapButton = ({
   return toApprove ? (
     <button
       css={css`
-        display: flex;
+        display: inline-block;
         align-items: center;
         justify-content: center;
       `}
@@ -32,7 +32,7 @@ export const DoubleTapButton = ({
   ) : (
     <button
       css={css`
-        display: flex;
+        display: inline-block;
         align-items: center;
         justify-content: center;
       `}

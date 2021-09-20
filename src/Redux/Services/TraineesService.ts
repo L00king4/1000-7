@@ -1,11 +1,13 @@
-import produce from "@reduxjs/toolkit/node_modules/immer";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import globalStore from "../Store";
-import { traineesActions } from "../Slices/TraineesSlice";
+import { traineesActions } from "../Slices/Trainees/TraineesSlice";
 import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
-import { DoOnStatus } from "./AxiosService";
+import {
+  FilteringSettings,
+  SortingSettings,
+} from "../Slices/Trainees/ITraineesSlice";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
@@ -16,13 +18,6 @@ export const fetchTrainees = async (dispatch: Dispatch<any>) => {
 
 export const addTrainee = (dispatch: Dispatch<any>, trainee: TraineeModel) => {
   dispatch(traineesActions.addTrainee({ trainee: trainee }));
-};
-
-const aoa = (asd: number) => {
-  console.log(asd);
-  return (res: AxiosResponse<any>) => {
-    console.log(res);
-  };
 };
 
 export const removeTrainee = (
@@ -53,9 +48,16 @@ export const editEditingTrainee = (
 
 export const saveEditingTrainee = (
   dispatch: Dispatch<any>,
+  trainee: TraineeModel,
   traineeIndex: number
 ) => {
-  dispatch(traineesActions.saveEditingTrainee({ traineeIndex: traineeIndex }));
+  axios.post(api.Trainees.Update, trainee).then((res) => {
+    if (res.data !== -1) {
+      dispatch(
+        traineesActions.saveEditingTrainee({ traineeIndex: traineeIndex })
+      );
+    }
+  });
 };
 
 export const saveAllEditingTrainees = (dispatch: Dispatch<any>) => {
@@ -72,6 +74,34 @@ export const resetUpdatingTrainee = (
 export const resetAllUpdatingTrainees = (dispatch: Dispatch<any>) => {
   dispatch(traineesActions.resetAllUpdatingTrainees());
 };
+
+export const sortTrainees = (
+  dispatch: Dispatch<any>,
+  sortingSettings: SortingSettings
+) => {
+  dispatch(
+    traineesActions.setTraineesStore({
+      settings: {
+        sorting: {
+          sortableProp: sortingSettings.sortableProp,
+          sortingMethod: sortingSettings.sortingMethod,
+          sortingTarget: sortingSettings.sortingTarget,
+        },
+      },
+    })
+  );
+};
+
+export const filterTrainees = (
+  dispatch: Dispatch<any>,
+  filtering: FilteringSettings
+) => {
+  dispatch(
+    traineesActions.setTraineesStore({ settings: { filtering: filtering } })
+  );
+};
+
+// HELPING METHODS
 export const getTraineesStore = () => {
   return globalStore.getState().traineesSlice;
 };

@@ -14,6 +14,7 @@ import { EditTraineesTable } from "./Edit/EditTraineesTable";
 import { ViewTraineesTable } from "./View/VIewTraineesTable";
 import axios from "axios";
 import api from "../../ApiEndpoints";
+import { DoubleTapButton } from "../../Addons/Components/DoubleTapButton";
 
 export const TraineesTable = () => {
   const dispatch = useDispatch();
@@ -40,19 +41,25 @@ export const TraineesTable = () => {
   //test
   return (
     <div>
-      <div css={css``}>
+      <div>
         <button
           onClick={onEditModeChangeHandler}
           css={css`
-            float: inline-end;
+            display: inline-block;
           `}
         >
           {editMode ? "Exit Editing Mode" : "Enter Editing Mode"}
         </button>
         {editMode && (
           <Fragment>
-            <button onClick={onSaveAllClickHandler}>Save changes</button>
-            <button onClick={onResetAllClickHandler}>Reset all</button>
+            <DoubleTapButton
+              buttonText={"Save changes"}
+              onApproveClickHandler={onSaveAllClickHandler}
+            />
+            <DoubleTapButton
+              buttonText={"Reset all"}
+              onApproveClickHandler={onResetAllClickHandler}
+            />
           </Fragment>
         )}
         <AddTrainee />

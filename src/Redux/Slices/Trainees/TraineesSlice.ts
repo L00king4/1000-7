@@ -1,16 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
-import { useDispatch, useSelector as useReduxSelector } from "react-redux";
+import { useSelector as useReduxSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
-import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
-import { GlobalState } from "../Store";
+import { NullableTraineeModel, TraineeModel } from "../../../Trainees/ITrainees";
+import { GlobalState } from "../../Store";
+import { NullableTraineesStore, TraineesStore } from "./ITraineesSlice";
 
-export interface TraineesStore {
-  trainees: TraineeModel[];
-  editingTrainees: TraineeModel[];
-}
 
-const initialState: TraineesStore = { trainees: [], editingTrainees: [] };
+const initialState: TraineesStore = {
+  trainees: [],
+  editingTrainees: [],
+  settings: {
+    sorting: {
+      sortableProp: "id",
+      sortingMethod: "default",
+      sortingTarget: "both",
+    },
+    filtering: {},
+  },
+};
 
 const traineesSlice = createSlice({
   name: "TraineesSlice",
@@ -18,9 +26,13 @@ const traineesSlice = createSlice({
   reducers: {
     setTraineesStore: (
       state,
-      action: { type: string; payload: TraineesStore }
+      action: { type: string; payload: NullableTraineesStore }
     ) => {
-      return { ...action.payload };
+      return {
+        ...state,
+        ...action.payload,
+        settings: { ...state.settings, ...action.payload.settings },
+      };
     },
     addTrainee: (
       state,
@@ -90,6 +102,12 @@ const traineesSlice = createSlice({
     resetAllUpdatingTrainees: (state) => {
       return produce(state, (draftState) => {
         draftState.editingTrainees = draftState.trainees;
+      });
+    },
+    resetSorting: (state) => {
+      return produce(state, (draftState) => {
+        draftState.trainees.sort((x) => x.id);
+        draftState.editingTrainees.sort((x) => x.id);
       });
     },
   },
