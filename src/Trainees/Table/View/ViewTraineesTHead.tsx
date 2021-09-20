@@ -1,14 +1,8 @@
-import { useDispatch } from "react-redux";
-import { sortTrainees } from "../../../Redux/Services/TraineesService";
-import {
-  SortableProp,
-  SortingTarget,
-} from "../../../Redux/Slices/Trainees/ITraineesSlice";
+import { SortingTarget } from "../../../Redux/Slices/Trainees/ITraineesSlice";
 import { SortableTH } from "../Shared/Components/SortableTH";
 
 export const ViewTraineesTHead = () => {
   const sortingTarget: SortingTarget = "both";
-  const dispatch = useDispatch();
   return (
     <thead>
       <tr>

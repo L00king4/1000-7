@@ -19,7 +19,7 @@ export const SortableTH = ({
   const dispatch = useDispatch();
   const [sortingMethod, setSortingMethod] = useState<SortingMethod>("default");
   const onSortClickHandler = () => {
-    console.log(sortingMethod[0]);
+    console.log(Object.entries(SortingMethod));
     sortTrainees(dispatch, {
       sortableProp: sortableProp,
       sortingMethod: sortingMethod,
