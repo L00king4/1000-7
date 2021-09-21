@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
 import { addCompetitionAttendance } from "../../Redux/Services/CompetitionsService";
-import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
+import { CompetitionStore } from "../../Redux/Slices/Competitions/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const AddCompetitionAttendanceButton = ({

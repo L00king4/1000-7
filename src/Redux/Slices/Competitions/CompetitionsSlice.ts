@@ -5,9 +5,9 @@ import { TypedUseSelectorHook } from "react-redux";
 import {
   CompetitionModel,
   CompetitionTraineeModel,
-} from "../../Competitions/ICompetitions";
-import { SortedTrainees } from "../../Trainees/SortedTrainees";
-import { GlobalState } from "../Store";
+} from "../../../Competitions/ICompetitions";
+import { SortedTrainees } from "../../../Trainees/SortedTrainees";
+import { GlobalState } from "../../Store";
 
 export interface CompetitionStore {
   competition: CompetitionModel;

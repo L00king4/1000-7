@@ -1,4 +1,4 @@
-import { SortingMethodEnum } from "../../../Addons/Sorting";
+import { SortingMethodEnum } from "../../../Addons/Functional/Sorting";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
 import { EditTraineesTBodyTR } from "./EditTraineesTBodyTR";
 

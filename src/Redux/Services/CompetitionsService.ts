@@ -13,7 +13,7 @@ import {
 import {
   competitionsActions,
   CompetitionStore,
-} from "../Slices/CompetitionsSlice";
+} from "../Slices/Competitions/CompetitionsSlice";
 import globalStore from "../Store";
 
 export const fetchCompetitions = async (dispatch: Dispatch<any>) => {

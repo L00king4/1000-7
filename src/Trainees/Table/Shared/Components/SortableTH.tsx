@@ -1,9 +1,4 @@
-import { ReactComponentElement, ReactNode, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  getNextSortingMethod,
-  SortingMethod,
-} from "../../../../Addons/Sorting";
 import { sortTrainees } from "../../../../Redux/Services/TraineesService";
 import {
   SortableProp,

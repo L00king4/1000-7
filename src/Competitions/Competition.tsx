@@ -7,8 +7,9 @@ import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
 import { useDispatch } from "react-redux";
 import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
-import { CompetitionStore } from "../Redux/Slices/CompetitionsSlice";
+import { CompetitionStore } from "../Redux/Slices/Competitions/CompetitionsSlice";
 import { fetchSortedTrainees } from "../Redux/Services/CompetitionsService";
+import "../css/Shared/Arrows.css";
 
 export const Competition = ({
   competitionStore,
@@ -47,7 +48,8 @@ export const Competition = ({
           }
         `}
       >
-        [{competitionStore.competition.toPay}] |{" "}
+        <i className={showAttending ? "arrow down" : "arrow left"}></i> [
+        {competitionStore.competition.toPay}] |{" "}
         {competitionStore.competition.name}
       </div>
       <RemoveCompetitionButton competitionStore={competitionStore} />

@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { AddCompetition } from "./AddCompetitions";
 import { fetchCompetitions } from "../Redux/Services/CompetitionsService";
-import { useCompetitionsSelector } from "../Redux/Slices/CompetitionsSlice";
+import { useCompetitionsSelector } from "../Redux/Slices/Competitions/CompetitionsSlice";
 import { Competition } from "./Competition";
 
 export const Competitions = () => {

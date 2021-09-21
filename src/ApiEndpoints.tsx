@@ -29,6 +29,11 @@ export class api {
     static UpdateRange = urlPrefix + "trainees/updaterange";
     static Remove = (id: number) => urlPrefix + `trainees/remove/${id}`;
   };
+  static Trainings = class {
+    static Events = class {
+      static GetMonth = (month: number) => urlPrefix + "trainings/all";
+    };
+  };
 }
 
 export default api;

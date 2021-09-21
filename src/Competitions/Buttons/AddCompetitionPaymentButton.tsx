@@ -8,7 +8,7 @@ import {
   addCompetitionPayment,
   updateCompetition,
 } from "../../Redux/Services/CompetitionsService";
-import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
+import { CompetitionStore } from "../../Redux/Slices/Competitions/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const AddCompetitionPaymentButton = ({

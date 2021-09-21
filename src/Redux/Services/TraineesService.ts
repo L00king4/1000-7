@@ -9,7 +9,7 @@ import {
   SortableProp,
   SortingSettings,
 } from "../Slices/Trainees/ITraineesSlice";
-import { getNextSortingMethod } from "../../Addons/Sorting";
+import { getNextSortingMethod } from "../../Addons/Functional/Sorting";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);

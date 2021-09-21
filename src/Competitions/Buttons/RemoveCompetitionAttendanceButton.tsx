@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../ApiEndpoints";
 import { removeCompetitionAttendance } from "../../Redux/Services/CompetitionsService";
-import { CompetitionStore } from "../../Redux/Slices/CompetitionsSlice";
+import { CompetitionStore } from "../../Redux/Slices/Competitions/CompetitionsSlice";
 import { CompetitionTraineeModel } from "../ICompetitions";
 
 export const RemoveCompetitionAttendanceButton = ({

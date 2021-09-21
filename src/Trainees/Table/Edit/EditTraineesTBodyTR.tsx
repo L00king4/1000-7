@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import {
   Date2Datetime,
   Datetime2Date,
-} from "../../../Addons/Functions/DateConverter";
+} from "../../../Addons/Functional/DateConverter";
 import {
   editEditingTrainee,
   getTraineesStore,
@@ -13,7 +13,7 @@ import {
   resetUpdatingTrainee,
   saveEditingTrainee,
 } from "../../../Redux/Services/TraineesService";
-import { birthday2Age } from "../../../Addons/Functions/Birthday2Age";
+import { birthday2Age } from "../../../Addons/Functional/Birthday2Age";
 import { InputBirthday } from "../../Input/InputBirthday";
 import { InputFullname } from "../../Input/InputFullname";
 import { AgeGroup, BeltColor, TraineeModel } from "../../ITrainees";
