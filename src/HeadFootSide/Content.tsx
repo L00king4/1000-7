@@ -1,11 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const Content = ({ children }: Props) => (
+export const Content = ({ children }: { children: React.ReactNode }) => (
   <div
     css={css`
       border: 1px black solid;

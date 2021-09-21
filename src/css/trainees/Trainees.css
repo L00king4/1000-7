@@ -10,7 +10,7 @@ th {
   padding: 2px 32px;
 }
 
-tbody:before {
+tbody.spaced:before {
   content: "@";
   display: block;
   line-height: 10px;

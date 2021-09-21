@@ -7,7 +7,7 @@ export const EditTraineesTBody = () => {
   const editingTrainees = traineesStore.editingTrainees;
   const { sorting, filtering } = traineesStore.settings;
   return (
-    <tbody>
+    <tbody className="spaced">
       {Object.entries(editingTrainees)
         .sort(([xIndex, xTrainee], [yIndex, yTrainee]) => {
           const xvalue = xTrainee[sorting.sortableProp]?.toString() ?? "99";

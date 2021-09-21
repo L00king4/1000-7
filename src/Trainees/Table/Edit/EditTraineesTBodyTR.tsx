@@ -19,7 +19,7 @@ import { InputFullname } from "../../Input/InputFullname";
 import { AgeGroup, BeltColor, TraineeModel } from "../../ITrainees";
 import { SelectAgeGroup } from "../../Select/SelectAgeGroup";
 import { SelectBeltColor } from "../../Select/SelectBeltColor";
-import "../../../css/trainees/EditTraineesTBodyTR.css";
+import "../../../css/Trainees/EditTraineesTBodyTR.css";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
 import { DoubleTapButton } from "../../../Addons/Components/DoubleTapButton";
 import { EditTraineesTBodyTD } from "./EditTraineesTBodyTD";

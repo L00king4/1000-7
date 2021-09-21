@@ -1,9 +1,9 @@
-import { TrainingsMonth } from "./Table/TrainingsMonth";
+import { TrainingMonth } from "./Table/TrainingMonth";
 
 export const Trainings = () => {
   return (
     <div>
-      <TrainingsMonth />
+      <TrainingMonth />
       <button>NEXT</button>
       <button>PREVIOS</button>
       <button>

@@ -8,7 +8,7 @@ import {
   resetAllUpdatingTrainees,
   saveAllEditingTrainees,
 } from "../../Redux/Services/TraineesService";
-import "../../css/trainees/Trainees.css";
+import "../../css/Trainees/Trainees.css";
 import { AddTrainee } from "../AddTrainee";
 import { EditTraineesTable } from "./Edit/EditTraineesTable";
 import { ViewTraineesTable } from "./View/VIewTraineesTable";
@@ -16,7 +16,7 @@ import axios from "axios";
 import api from "../../ApiEndpoints";
 import { DoubleTapButton } from "../../Addons/Components/DoubleTapButton";
 
-export const TraineesTable = () => {
+export const Trainees = () => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
 
