@@ -1,12 +1,7 @@
+import { EventModel } from "../Interfaces/IEvent";
 import { TraineeModel } from "../Trainees/ITrainees";
 
-export interface CompetitionModel {
-  id: number;
-  toPay: number;
-  name: string;
-  description: string;
-  date: string;
-}
+export interface CompetitionModel extends EventModel {}
 
 export interface CompetitionTraineeModel extends TraineeModel {
   amountPayed: number;

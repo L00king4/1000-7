@@ -31,7 +31,8 @@ export class api {
   };
   static Trainings = class {
     static Events = class {
-      static GetMonth = (month: number) => urlPrefix + "trainings/all";
+      static GetMonth = (date: Date) =>
+        urlPrefix + `trainings/getmonth/${date.getFullYear()}-3`;
     };
   };
 }

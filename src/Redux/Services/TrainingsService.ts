@@ -2,13 +2,13 @@ import axios from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import { traineesActions } from "../Slices/Trainees/TraineesSlice";
+import { trainingsActions } from "../Slices/Trainings/TrainingsSlice";
 
 export const fetchTrainingMonth = async (
   dispatch: Dispatch<any>,
-  month: number
+  date: Date
 ) => {
-  const { data } = await axios.get(api.Trainings.Events.GetMonth(month));
-  dispatch(
-    traineesActions.setTraineesStore({ trainees: data, editingTrainees: data })
-  );
+  const { data } = await axios.get(api.Trainings.Events.GetMonth(date));
+  console.log("DATA", data);
+  dispatch(trainingsActions.setTrainingsStore({ ...data }));
 };

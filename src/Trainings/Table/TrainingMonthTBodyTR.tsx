@@ -4,7 +4,8 @@ import { TrainingMonthTBodyTD } from "./TrainingMonthTBodyTD";
 export const TrainingMonthTBodyTR = () => {
   return (
     <tr>
-      <TrainingMonthTBodyTD>asd</TrainingMonthTBodyTD>
+      <th>TRAINEE 1</th>
+      <TrainingMonthTBodyTD>&#9876;</TrainingMonthTBodyTD>
     </tr>
   );
 };

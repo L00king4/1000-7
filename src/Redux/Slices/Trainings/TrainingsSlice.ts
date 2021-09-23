@@ -2,17 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
 import { NullableTrainingsStore, TrainingsStore } from "./ITrainingsSlice";
 
-const initialState: TrainingsStore = {};
+const initialState: TrainingsStore = {
+  trainingInfos: [],
+  trainingTrainees: [],
+};
 
 const trainingsSlice = createSlice({
   name: "TrainingsSlice",
   initialState: initialState,
   reducers: {
-    setTrainingsStore: async (
+    setTrainingsStore: (
       state,
       action: { type: string; payload: NullableTrainingsStore }
     ) => {
-      return { ...action.payload };
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
   },
 });
