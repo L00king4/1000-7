@@ -10,12 +10,14 @@ export const TrainingMonth = () => {
   useEffect(() => {
     fetchTrainingMonth(dispatch, new Date("2021-03-13"));
   }, []);
-  const trainingMonth = useTrainingsSelector((state) => state.trainingsSlice);
-  console.log("State", trainingMonth);
+  const trainingStore = useTrainingsSelector((state) => state.trainingsSlice);
+  console.log("State", trainingStore);
   return (
     <table>
-      <TrainingMonthTHead trainingInfos={trainingMonth.trainingInfos} />
-      <TrainingMonthTBody />
+      <TrainingMonthTHead
+        trainingInfos={trainingStore.trainingMonth.trainingInfos}
+      />
+      <TrainingMonthTBody trainingMonth={trainingStore.trainingMonth} />
     </table>
   );
 };

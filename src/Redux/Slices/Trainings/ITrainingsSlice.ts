@@ -1,13 +1,13 @@
 import { EventModel } from "../../../Interfaces/IEvent";
-import { TraineeModel } from "../../../Trainees/ITrainees";
+import { TrainingMonth } from "../../../Trainings/Table/TrainingMonth";
 
 export interface Training extends EventModel {}
 export interface TrainingInfo extends Training {}
-export interface TrainingTrainee {
+export interface TrainingTraineeModel {
   id: number;
   fullname: number;
 }
-export interface TrainingEntries {
+export interface TrainingEntry {
   eventID: number;
   payedAmount: number;
   hasAttended: boolean;
@@ -19,19 +19,27 @@ export interface TrainingPayedSpans {
   amount: number;
 }
 
-export interface TrainingTrainees {
-  trainee: TrainingTrainee;
-  trainingEntries: TrainingEntries;
+export interface TrainingTrainee {
+  trainee: TrainingTraineeModel;
+  trainingEntries: TrainingEntry[];
   trainingPayedSpans: TrainingPayedSpans;
 }
 
 export interface TrainingInfo extends Training {}
 
-export interface TrainingsStore {
+export interface TrainingMonth {
   trainingInfos: Training[];
-  trainingTrainees: TrainingTrainees[];
+  trainingTrainees: TrainingTrainee[];
+}
+
+export interface NullableTrainingMonth {
+  trainingInfos?: Training[];
+  trainingTrainees?: TrainingTrainee[];
+}
+
+export interface TrainingsStore {
+  trainingMonth: TrainingMonth;
 }
 export interface NullableTrainingsStore {
-  trainingInfos?: Training[];
-  trainingTrainees?: TrainingTrainees[];
+  trainingMonth?: TrainingMonth;
 }

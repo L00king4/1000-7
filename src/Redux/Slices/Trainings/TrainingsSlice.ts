@@ -3,8 +3,10 @@ import { produce } from "immer";
 import { NullableTrainingsStore, TrainingsStore } from "./ITrainingsSlice";
 
 const initialState: TrainingsStore = {
-  trainingInfos: [],
-  trainingTrainees: [],
+  trainingMonth: {
+    trainingInfos: [],
+    trainingTrainees: [],
+  },
 };
 
 const trainingsSlice = createSlice({
