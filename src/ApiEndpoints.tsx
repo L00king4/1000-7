@@ -1,4 +1,4 @@
-const urlPrefix = "https://localhost:44360/api/";
+const urlPrefix = "https://127.0.0.1:44360/api/";
 
 export class api {
   static Competitions = class {

@@ -1,10 +1,10 @@
-import React from "react";
 import {
   TrainingInfo,
   TrainingMonth,
   TrainingTrainee,
 } from "../../Redux/Slices/Trainings/ITrainingsSlice";
 import { TrainingMonthTBodyTD } from "./TrainingMonthTBodyTD";
+import { TrainingMonthTBodyTDTrainee } from "./TrainingMonthTBodyTDTrainee";
 
 export const TrainingMonthTBodyTR = ({
   trainingTrainee,
@@ -16,17 +16,25 @@ export const TrainingMonthTBodyTR = ({
   const { trainee, trainingEntries, trainingPayedSpans } = trainingTrainee;
   return (
     <tr>
-      <TrainingMonthTBodyTD>{trainee.fullname}</TrainingMonthTBodyTD>
+      <TrainingMonthTBodyTDTrainee>
+        {trainee.fullname}
+      </TrainingMonthTBodyTDTrainee>
       {trainingInfos.map((trainingEntry) => {
         const trainingEntriesIndex = trainingEntries.findIndex(
           (x) => x.eventID === trainingEntry.id
         );
         return (
           <TrainingMonthTBodyTD
-            key={"TRAININGMONTH TRAININGENTRY " + trainingEntry.id}
+            key={
+              "TRAININGMONTH TRAININGTRAINEE " +
+              trainingTrainee.trainee.id +
+              " TRAININGENTRY " +
+              trainingEntry.id
+            }
           >
             {trainingEntries[trainingEntriesIndex]?.hasAttended ? "+ " : "- "}
             {trainingEntries[trainingEntriesIndex]?.payedAmount}
+            {}
           </TrainingMonthTBodyTD>
         );
       })}

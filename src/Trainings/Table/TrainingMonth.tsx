@@ -4,6 +4,7 @@ import { fetchTrainingMonth } from "../../Redux/Services/TrainingsService";
 import { useTrainingsSelector } from "../../Redux/Store";
 import { TrainingMonthTBody } from "./TrainingMonthTBody";
 import { TrainingMonthTHead } from "./TrainingMonthTHead";
+import "../../css/Trainings/TrainingMonth.css";
 
 export const TrainingMonth = () => {
   const dispatch = useDispatch();
@@ -11,9 +12,8 @@ export const TrainingMonth = () => {
     fetchTrainingMonth(dispatch, new Date("2021-03-13"));
   }, []);
   const trainingStore = useTrainingsSelector((state) => state.trainingsSlice);
-  console.log("State", trainingStore);
   return (
-    <table>
+    <table className="trainingMonth">
       <TrainingMonthTHead
         trainingInfos={trainingStore.trainingMonth.trainingInfos}
       />

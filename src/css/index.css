@@ -1,11 +1,9 @@
 body {
+  font-size: 25px;
   margin: 0;
   font-family: "Comic Sans MS", cursive, sans-serif;
+  color: rgb(226, 225, 225);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  background: rgb(51, 51, 51);
 }

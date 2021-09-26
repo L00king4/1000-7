@@ -6,6 +6,10 @@ export const TrainingMonthTHead = ({
 }: {
   trainingInfos: TrainingInfo[];
 }) => {
+  const naming = (date: string) => {
+    const [day, time] = date.split("T");
+    return [day.split("-")[2] + ". Fri", " 18:30"];
+  };
   return (
     <thead>
       <tr>
@@ -14,7 +18,10 @@ export const TrainingMonthTHead = ({
           <TrainingMonthTHeadTH
             key={"TRAININGINFO " + trainingInfo.id.toString()}
           >
-            {trainingInfo.id}|{trainingInfo.name}
+            {/* {trainingInfo.id}|{trainingInfo.name} */}
+            {naming(trainingInfo.date)[0]}
+            <hr />
+            {naming(trainingInfo.date)[1]}
           </TrainingMonthTHeadTH>
         ))}
       </tr>

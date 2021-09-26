@@ -1,10 +1,10 @@
-table {
+table.traineesTable {
   font-size: 30px;
   margin: 2%;
 }
 
-td,
-th {
+td.traineesEntry,
+th.traineesEntry {
   border: 2px solid #dddddd;
   text-align: left;
   padding: 2px 32px;
