@@ -1,9 +1,10 @@
 table.trainingMonth {
-  border-spacing: 30px;
+  border-spacing: 18px;
   text-align: center;
   table-layout: auto;
   height: 100%;
-  width: 100%;
+  margin: 0;
+  padding: 0;
   /* margin-left: auto;
   margin-right: auto; */
 }
@@ -14,15 +15,22 @@ th.trainingMonthEntry {
   border-radius: 0px 0px 40px 40px;
 }
 
+th.trainingMonthTopLeftEntry {
+  border: 5px solid rgb(255, 255, 255);
+  padding: 5px 1px;
+  border-radius: 0px 0px 40px 0px;
+}
+
 td.trainingMonthEntry {
-  border-radius: 50px;
+  border-radius: 25%;
+  width: 125px;
+  height: 125px;
   border: 5px solid black;
   background: linear-gradient(to bottom, rgb(58, 191, 58) 25%, black 0);
 }
 
 td.trainingTrainee {
-  height: auto;
-  width: initial;
+  width: fit-content;
   border-radius: 0px 40px 40px 0px;
   border: 5px solid rgb(255, 255, 255);
 }

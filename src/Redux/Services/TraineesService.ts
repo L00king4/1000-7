@@ -10,11 +10,19 @@ import {
   SortingSettings,
 } from "../Slices/Trainees/ITraineesSlice";
 import { getNextSortingMethod } from "../../Addons/Functional/Sorting";
+import { myMoment } from "../../Addons/Functional/DateConverter";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
+  const convertedTrainees = data.map((trainee) => {
+    return { ...trainee, birthday: myMoment(trainee.birthday) };
+  });
+  console.log(convertedTrainees);
   dispatch(
-    traineesActions.setTraineesStore({ trainees: data, editingTrainees: data })
+    traineesActions.setTraineesStore({
+      trainees: convertedTrainees,
+      editingTrainees: convertedTrainees,
+    })
   );
 };
 

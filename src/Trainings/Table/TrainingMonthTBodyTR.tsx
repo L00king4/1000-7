@@ -19,22 +19,21 @@ export const TrainingMonthTBodyTR = ({
       <TrainingMonthTBodyTDTrainee>
         {trainee.fullname}
       </TrainingMonthTBodyTDTrainee>
-      {trainingInfos.map((trainingEntry) => {
+      {trainingInfos.map((trainingInfo) => {
         const trainingEntriesIndex = trainingEntries.findIndex(
-          (x) => x.eventID === trainingEntry.id
+          (x) => x.eventID === trainingInfo.id
         );
         return (
           <TrainingMonthTBodyTD
             key={
               "TRAININGMONTH TRAININGTRAINEE " +
               trainingTrainee.trainee.id +
-              " TRAININGENTRY " +
-              trainingEntry.id
+              " TRAININGINFO " +
+              trainingInfo.id
             }
           >
             {trainingEntries[trainingEntriesIndex]?.hasAttended ? "+ " : "- "}
             {trainingEntries[trainingEntriesIndex]?.payedAmount}
-            {}
           </TrainingMonthTBodyTD>
         );
       })}

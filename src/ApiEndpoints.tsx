@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 const urlPrefix = "https://127.0.0.1:44360/api/";
 
 export class api {
@@ -31,8 +33,8 @@ export class api {
   };
   static Trainings = class {
     static Events = class {
-      static GetMonth = (date: Date) =>
-        urlPrefix + `trainings/getmonth/${date.getFullYear()}-3`;
+      static GetMonth = (date: Moment) =>
+        urlPrefix + `trainings/getmonth/${date.format("YYYY-MM")}`;
     };
   };
 }

@@ -3,10 +3,6 @@ import { css } from "@emotion/react";
 import { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import {
-  Date2Datetime,
-  Datetime2Date,
-} from "../../../Addons/Functional/DateConverter";
-import {
   editEditingTrainee,
   getTraineesStore,
   removeTrainee,
@@ -23,6 +19,7 @@ import "../../../css/Trainees/EditTraineesTBodyTR.css";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
 import { DoubleTapButton } from "../../../Addons/Components/DoubleTapButton";
 import { EditTraineesTBodyTD } from "./EditTraineesTBodyTD";
+import { dateFormat, myMoment } from "../../../Addons/Functional/DateConverter";
 
 export const EditTraineesTBodyTR = ({
   trainee,
@@ -56,7 +53,7 @@ export const EditTraineesTBodyTR = ({
   const onBirthdayChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     editEditingTrainee(
       dispatch,
-      { birthday: Date2Datetime(e.target.value) },
+      { birthday: myMoment(e.target.value) },
       traineeIndex
     );
   };
@@ -97,12 +94,12 @@ export const EditTraineesTBodyTR = ({
       {/* Birthday */}
       <EditTraineesTBodyTD>
         <div className="OldValue">
-          ({Datetime2Date(correspondingTrainee.birthday)})
+          ({correspondingTrainee.birthday.format(dateFormat)})
         </div>
         <div className="NewValue">
           <InputBirthday
             onBirthdayChangeHandler={onBirthdayChangeHandler}
-            value={Datetime2Date(trainee.birthday)}
+            value={trainee.birthday.format(dateFormat)}
           />
         </div>
       </EditTraineesTBodyTD>

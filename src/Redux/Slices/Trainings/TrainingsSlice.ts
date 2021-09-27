@@ -6,6 +6,7 @@ const initialState: TrainingsStore = {
   trainingMonth: {
     trainingInfos: [],
     trainingTrainees: [],
+    settings: undefined,
   },
 };
 

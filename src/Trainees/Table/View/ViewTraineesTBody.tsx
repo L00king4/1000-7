@@ -1,8 +1,8 @@
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
-import { birthday2AgeString } from "../../../Addons/Functional/Birthday2Age";
 import { AgeGroup, BeltColor } from "../../ITrainees";
 import { ViewTraineesTBodyTD } from "./ViewTraineesTBodyTD";
 import { SortingMethodEnum } from "../../../Addons/Functional/Sorting";
+import { birthday2Age } from "../../../Addons/Functional/Birthday2Age";
 
 export const ViewTraineesTBody = () => {
   const traineesStore = useTraineesSelector((state) => state.traineesSlice);
@@ -27,7 +27,7 @@ export const ViewTraineesTBody = () => {
               {AgeGroup[trainee.ageGroup]}
             </ViewTraineesTBodyTD>
             <ViewTraineesTBodyTD>
-              {birthday2AgeString(trainee.birthday)}
+              {birthday2Age(trainee.birthday)}
             </ViewTraineesTBodyTD>
             <ViewTraineesTBodyTD>
               {BeltColor[trainee.beltColor]}

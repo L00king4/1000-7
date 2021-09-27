@@ -5,16 +5,12 @@ import moment from "moment";
 import { Theme } from "pretty-format";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { myMoment } from "../Addons/Functional/DateConverter";
 import api from "../ApiEndpoints";
 import { addTrainee } from "../Redux/Services/TraineesService";
 import { InputBirthday } from "./Input/InputBirthday";
 import { InputFullname } from "./Input/InputFullname";
-import {
-  AgeGroup,
-  BeltColor,
-  getAgeGroupKVPs,
-  getBeltColorKVPs,
-} from "./ITrainees";
+import { AgeGroup, BeltColor } from "./ITrainees";
 import { SelectAgeGroup } from "./Select/SelectAgeGroup";
 import { SelectBeltColor } from "./Select/SelectBeltColor";
 
@@ -25,7 +21,7 @@ export const AddTrainee = () => {
   };
 
   const [fullname, setFullname] = useState("");
-  const [birthday, setBirthday] = useState<string | undefined>();
+  const [birthday, setBirthday] = useState<string>("");
   const [ageGroup, setAgeGroup] = useState<AgeGroup>(0);
   const [beltColor, setBeltColor] = useState<BeltColor>(0);
   const dispatch = useDispatch();
@@ -41,8 +37,11 @@ export const AddTrainee = () => {
     axios.post(api.Trainees.Add, trainee).then((res) => {
       console.log(res.data);
       if (res.data !== -1) {
-        console.log("ID", res.data);
-        addTrainee(dispatch, { ...trainee, id: res.data });
+        addTrainee(dispatch, {
+          ...trainee,
+          id: res.data,
+          birthday: myMoment(birthday),
+        });
       }
     });
   };

@@ -1,7 +1,9 @@
+import { Moment } from "moment";
+
 export interface TraineeModel {
   id: number;
   fullname: string;
-  birthday: string | undefined;
+  birthday: Moment;
   ageGroup: AgeGroup;
   beltColor: BeltColor;
 }
@@ -9,7 +11,7 @@ export interface TraineeModel {
 export interface NullableTraineeModel {
   id?: number;
   fullname?: string;
-  birthday?: string | undefined;
+  birthday?: Moment;
   ageGroup?: AgeGroup;
   beltColor?: BeltColor;
 }
@@ -44,29 +46,3 @@ export enum BeltColor {
   RedWhite,
   Red,
 }
-
-export const getAgeGroupKVPs = () => {
-  const arrayObjects = [];
-
-  for (const [propertyKey, propertyValue] of Object.entries(AgeGroup)) {
-    if (!Number.isNaN(Number(propertyKey))) {
-      continue;
-    }
-    arrayObjects.push({ value: propertyValue, name: propertyKey });
-  }
-
-  return arrayObjects;
-};
-
-export const getBeltColorKVPs = () => {
-  const arrayObjects = [];
-
-  for (const [propertyKey, propertyValue] of Object.entries(BeltColor)) {
-    if (!Number.isNaN(Number(propertyKey))) {
-      continue;
-    }
-    arrayObjects.push({ value: propertyValue, name: propertyKey });
-  }
-
-  return arrayObjects;
-};

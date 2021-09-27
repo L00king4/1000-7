@@ -1,5 +1,6 @@
 import { ChangeEventHandler } from "react";
-import { getAgeGroupKVPs } from "../ITrainees";
+import { getEnumKVPs } from "../../Addons/Functional/EnumFunctions";
+import { AgeGroup } from "../ITrainees";
 
 export const SelectAgeGroup = ({
   onAgeGroupChangeHandler,
@@ -9,12 +10,9 @@ export const SelectAgeGroup = ({
   value?: number;
 }) => (
   <select onChange={onAgeGroupChangeHandler} value={value}>
-    {getAgeGroupKVPs().map(({ name, value }) => (
-      <option
-        value={value}
-        key={"ageGroupKVP " + name + " " + value.toString()}
-      >
-        {name}
+    {getEnumKVPs(AgeGroup).map(({ key, value }) => (
+      <option value={value} key={"ageGroupKVP " + key + " " + value}>
+        {key}
       </option>
     ))}
   </select>

@@ -1,7 +1,10 @@
+import { Moment } from "moment";
 import { EventModel } from "../../../Interfaces/IEvent";
 import { TrainingMonth } from "../../../Trainings/Table/TrainingMonth";
 
-export interface Training extends EventModel {}
+export interface Training extends EventModel {
+  date: Date;
+}
 export interface TrainingInfo extends Training {}
 export interface TrainingTraineeModel {
   id: number;
@@ -25,11 +28,16 @@ export interface TrainingTrainee {
   trainingPayedSpans: TrainingPayedSpans;
 }
 
+export interface TrainingMonthSettings {
+  showedDate: Moment;
+}
+
 export interface TrainingInfo extends Training {}
 
 export interface TrainingMonth {
   trainingInfos: Training[];
   trainingTrainees: TrainingTrainee[];
+  settings?: TrainingMonthSettings;
 }
 
 export interface NullableTrainingMonth {

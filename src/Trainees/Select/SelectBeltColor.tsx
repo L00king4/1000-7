@@ -1,5 +1,6 @@
 import { ChangeEventHandler } from "react";
-import { getBeltColorKVPs } from "../ITrainees";
+import { getEnumKVPs } from "../../Addons/Functional/EnumFunctions";
+import { BeltColor } from "../ITrainees";
 
 export const SelectBeltColor = ({
   onBeltColorChangeHandler,
@@ -9,12 +10,12 @@ export const SelectBeltColor = ({
   value?: number;
 }) => (
   <select onChange={onBeltColorChangeHandler} value={value}>
-    {getBeltColorKVPs().map(({ name, value }) => (
+    {getEnumKVPs(BeltColor).map(({ key, value }) => (
       <option
         value={value}
-        key={"beltColorKVP " + name + " " + value.toString()}
+        key={"beltColorKVP " + key + " " + value.toString()}
       >
-        {name}
+        {key}
       </option>
     ))}
   </select>

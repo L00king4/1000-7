@@ -1,7 +1,10 @@
+import { Moment } from "moment";
 import { EventModel } from "../Interfaces/IEvent";
 import { TraineeModel } from "../Trainees/ITrainees";
 
-export interface CompetitionModel extends EventModel {}
+export interface CompetitionModel extends EventModel {
+  date: Moment;
+}
 
 export interface CompetitionTraineeModel extends TraineeModel {
   amountPayed: number;

@@ -1,7 +1,9 @@
-export const Date2Datetime = (date: string | undefined) => {
-  return date ? date + "T00:00:00" : undefined;
-};
+import moment from "moment";
 
-export const Datetime2Date = (datetime: string | undefined) => {
-  return datetime?.split("T")[0];
+export const datetimeFormat = "YYYY-MM-DDTHH:mm:ss";
+export const yearMonthFormat = "YYYY-MM";
+export const dateFormat = "YYYY-MM-DD";
+
+export const myMoment = (date: moment.MomentInput) => {
+  return moment(date);
 };

@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import axios from "axios";
+import moment from "moment";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { dateFormat, myMoment } from "../Addons/Functional/DateConverter";
 import api from "../ApiEndpoints";
 import { addCompetition } from "../Redux/Services/CompetitionsService";
 import { getEmptySortedTrainees } from "../Trainees/SortedTrainees";
@@ -14,23 +16,35 @@ export const AddCompetition = () => {
   const [date, setDate] = useState<string>("");
   const dispatch = useDispatch();
 
+  const runchecks = () => {
+    if (date === undefined) {
+      return -1;
+    }
+    return 0;
+  };
   const addCompetitionHandler = () => {
-    const competition = {
-      name: name,
-      description: description,
-      toPay: topay,
-      date: date,
-    };
+    if (runchecks() === 0) {
+      const competition = {
+        name: name,
+        description: description,
+        toPay: topay,
+        date: date,
+      };
 
-    axios.post(api.Competitions.Events.Add, competition).then((res) => {
-      if (res.data !== -1) {
-        console.log("ID", res.data);
-        addCompetition(dispatch, {
-          competition: { ...competition, id: res.data },
-          sortedTrainees: getEmptySortedTrainees(),
-        });
-      }
-    });
+      axios.post(api.Competitions.Events.Add, competition).then((res) => {
+        if (res.data !== -1) {
+          console.log("ID", res.data);
+          addCompetition(dispatch, {
+            competition: {
+              ...competition,
+              id: res.data,
+              date: myMoment(date), // WILL NEVER GO OVER ??
+            },
+            sortedTrainees: getEmptySortedTrainees(),
+          });
+        }
+      });
+    }
   };
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

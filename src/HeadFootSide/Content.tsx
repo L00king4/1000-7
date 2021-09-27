@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 export const Content = ({ children }: { children: React.ReactNode }) => (
-  <div>{children}</div>
+  <div className="content">{children}</div>
 );
 
 export default Content;

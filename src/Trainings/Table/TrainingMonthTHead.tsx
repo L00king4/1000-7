@@ -1,29 +1,44 @@
+import moment from "moment";
+import { useState } from "react";
+import {
+  dateFormat,
+  myMoment as myMymonetFunc,
+} from "../../Addons/Functional/DateConverter";
 import { TrainingInfo } from "../../Redux/Slices/Trainings/ITrainingsSlice";
+import { useTrainingsSelector } from "../../Redux/Store";
 import { TrainingMonthTHeadTH } from "./TrainingMonthTHeadTH";
+import { TrainingMonthTopLeftTH } from "./TrainingMonthTopLeftTH";
 
 export const TrainingMonthTHead = ({
   trainingInfos,
 }: {
   trainingInfos: TrainingInfo[];
 }) => {
-  const naming = (date: string) => {
-    const [day, time] = date.split("T");
-    return [day.split("-")[2] + ". Fri", " 18:30"];
+  const settings = useTrainingsSelector(
+    (state) => state.trainingsSlice.trainingMonth.settings
+  );
+  const headEntryFormating = (date: Date) => {
+    const myMoment = myMymonetFunc(date);
+    return myMoment
+      ? myMoment.format("DD. ddd ") + myMoment.format("HH:mm")
+      : undefined;
   };
   return (
     <thead>
       <tr>
-        <TrainingMonthTHeadTH>Trainee\Day</TrainingMonthTHeadTH>
-        {trainingInfos.map((trainingInfo) => (
-          <TrainingMonthTHeadTH
-            key={"TRAININGINFO " + trainingInfo.id.toString()}
-          >
-            {/* {trainingInfo.id}|{trainingInfo.name} */}
-            {naming(trainingInfo.date)[0]}
-            <hr />
-            {naming(trainingInfo.date)[1]}
-          </TrainingMonthTHeadTH>
-        ))}
+        <TrainingMonthTopLeftTH>
+          {settings?.showedDate.format("MMMM YYYY")}
+        </TrainingMonthTopLeftTH>
+        {trainingInfos.map((trainingInfo) => {
+          return (
+            <TrainingMonthTHeadTH
+              key={"TRAININGINFO " + trainingInfo.id.toString()}
+            >
+              {/* {trainingInfo.id}|{trainingInfo.name} */}
+              {headEntryFormating(trainingInfo.date)}
+            </TrainingMonthTHeadTH>
+          );
+        })}
       </tr>
     </thead>
   );
