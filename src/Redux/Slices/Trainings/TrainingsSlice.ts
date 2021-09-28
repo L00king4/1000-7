@@ -1,6 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { produce } from "immer";
-import { NullableTrainingsStore, TrainingsStore } from "./ITrainingsSlice";
+import {
+  NullableTrainingEntry,
+  NullableTrainingsStore,
+  TrainingEntry,
+  TrainingsStore,
+} from "./ITrainingsSlice";
 
 const initialState: TrainingsStore = {
   trainingMonth: {
@@ -8,6 +13,7 @@ const initialState: TrainingsStore = {
     trainingTrainees: [],
     settings: undefined,
   },
+  selectedTrainees: [],
 };
 
 const trainingsSlice = createSlice({
@@ -22,6 +28,72 @@ const trainingsSlice = createSlice({
         ...state,
         ...action.payload,
       };
+    },
+    updateTrainingEntry: (
+      state,
+      action: {
+        type: string;
+        payload: { traineeID: number; training: NullableTrainingEntry };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        const oldTrainingEntry =
+          draftState.trainingMonth.trainingTrainees[action.payload.traineeID]
+            .trainingEntries[action.payload.training.eventID];
+        draftState.trainingMonth.trainingTrainees[
+          action.payload.traineeID
+        ].trainingEntries[action.payload.training.eventID] = {
+          ...oldTrainingEntry,
+          ...action.payload.training,
+        };
+      });
+    },
+    unselectAllEntries: (state) => {
+      return { ...state, selectedTrainees: [] };
+    },
+    selectEntry: (
+      state,
+      action: {
+        type: string;
+        payload: { trainingTraineeIndex: number; trainingEntryID: number };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.selectedTrainees[
+          action.payload.trainingTraineeIndex
+        ].selectedTrainingEntries.push({
+          trainingEntryID: action.payload.trainingEntryID,
+        });
+      });
+    },
+    unselectEntry: (
+      state,
+      action: {
+        type: string;
+        payload: { trainingTraineeIndex: number; trainingEntryIndex: number };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.selectedTrainees[
+          action.payload.trainingTraineeIndex
+        ].selectedTrainingEntries.splice(action.payload.trainingEntryIndex, 1);
+      });
+    },
+    selectEntryOnEmptyTrainee: (
+      state,
+      action: {
+        type: string;
+        payload: { trainingTraineeID: number; trainingEntryID: number };
+      }
+    ) => {
+      return produce(state, (draftState) => {
+        draftState.selectedTrainees.push({
+          trainingTraineeID: action.payload.trainingTraineeID,
+          selectedTrainingEntries: [
+            { trainingEntryID: action.payload.trainingEntryID },
+          ],
+        });
+      });
     },
   },
 });

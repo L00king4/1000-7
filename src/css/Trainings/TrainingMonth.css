@@ -26,7 +26,13 @@ td.trainingMonthEntry {
   width: 125px;
   height: 125px;
   border: 5px solid black;
-  background: linear-gradient(to bottom, rgb(58, 191, 58) 25%, black 0);
+}
+
+td.trainingMonthEntrySelected {
+  border-radius: 25%;
+  width: 125px;
+  height: 125px;
+  border: 5px solid white;
 }
 
 td.trainingTrainee {

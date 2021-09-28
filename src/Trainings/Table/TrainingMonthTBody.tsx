@@ -1,4 +1,5 @@
 import {
+  SelectedTrainingEntry,
   TrainingMonth,
   TrainingsStore,
 } from "../../Redux/Slices/Trainings/ITrainingsSlice";
@@ -6,19 +7,25 @@ import { TrainingMonthTBodyTD } from "./TrainingMonthTBodyTD";
 import { TrainingMonthTBodyTR } from "./TrainingMonthTBodyTR";
 
 export const TrainingMonthTBody = ({
-  trainingMonth,
+  trainingsStore,
 }: {
-  trainingMonth: TrainingMonth;
+  trainingsStore: TrainingsStore;
 }) => {
   return (
     <tbody>
-      {trainingMonth.trainingTrainees.map((trainingTrainee) => (
-        <TrainingMonthTBodyTR
-          key={"TRAININGMONTH TRAININGTRAINEE " + trainingTrainee.trainee.id}
-          trainingTrainee={trainingTrainee}
-          trainingInfos={trainingMonth.trainingInfos}
-        />
-      ))}
+      {trainingsStore.trainingMonth.trainingTrainees.map(
+        (trainingTrainee, trainingTraineeIndex) => (
+          <TrainingMonthTBodyTR
+            key={"TRAININGMONTH TRAININGTRAINEE " + trainingTrainee.trainee.id}
+            trainingInfos={trainingsStore.trainingMonth.trainingInfos}
+            trainingTraineeKVP={{
+              index: trainingTraineeIndex,
+              trainingTrainee: trainingTrainee,
+            }}
+            selectedTraineeEntries={}
+          />
+        )
+      )}
     </tbody>
   );
 };

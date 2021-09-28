@@ -1,9 +1,40 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  addDefaultTrainingEntry,
+  toggleSelectTrainingEntry,
+} from "../../Redux/Services/TrainingsService";
+import {
+  TrainingEntryKVP,
+  TrainingInfo,
+  TrainingTraineeKVP,
+} from "../../Redux/Slices/Trainings/ITrainingsSlice";
 
 export const TrainingMonthTBodyTD = ({
-  children,
+  trainingTraineeKVP,
+  trainingInfo,
+  trainingEntryKVP,
 }: {
-  children?: React.ReactNode;
+  trainingTraineeKVP: TrainingTraineeKVP;
+  trainingInfo: TrainingInfo;
+  trainingEntryKVP: TrainingEntryKVP;
 }) => {
-  return <td className="trainingMonthEntry">{children}</td>;
+  const dispatch = useDispatch();
+  const onClickHandler = () => {
+    toggleSelectTrainingEntry(
+      dispatch,
+      trainingInfo.id,
+      trainingTraineeKVP.index
+    );
+  };
+  return (
+    <td
+      className={
+        trainingEntryKVP.trainingEntry?.selected
+          ? "trainingMonthEntrySelected"
+          : "trainingMonthEntry"
+      }
+      onClick={onClickHandler}
+    ></td>
+  );
 };

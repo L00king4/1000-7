@@ -40,7 +40,7 @@ Trainings:
 
 1. On click on payed trainingday => small popup with date of payment + delete payment button.
 2. Hold-slide for several Training-days-selection and eventual payment.
-3.
+3. Small layout on bottom of the screen with buttons to add attendances/payments/reset selected
 
 Ripped out page/Restricted days -> Not Attended.
 White days -> Attended and not payed.
