@@ -1,5 +1,8 @@
 import { useDispatch } from "react-redux";
-import { unselectAllEntries } from "../Redux/Services/TrainingsService";
+import {
+  addAttendances,
+  unselectAllEntries,
+} from "../Redux/Services/TrainingsService";
 import { TrainingMonth } from "./Table/TrainingMonth";
 
 export const Trainings = () => {
@@ -8,7 +11,7 @@ export const Trainings = () => {
     unselectAllEntries(dispatch);
   };
   const addAttendancesHandler = () => {
-    // addAttendances(dispatch);
+    addAttendances(dispatch);
   };
   return (
     <div>

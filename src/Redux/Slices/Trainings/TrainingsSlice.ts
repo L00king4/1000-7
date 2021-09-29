@@ -1,5 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { produce } from "immer";
+import { AttendanceModel } from "../../../Interfaces/IAttendance";
 import {
   NullableTrainingEntry,
   NullableTrainingsStore,
@@ -92,6 +93,31 @@ const trainingsSlice = createSlice({
           selectedTrainingEntries: [
             { trainingEntryID: action.payload.trainingEntryID },
           ],
+        });
+      });
+    },
+    addAttendances: (
+      state,
+      action: { type: string; payload: { attendances: AttendanceModel[] } }
+    ) => {
+      return produce(state, (draftState) => {
+        action.payload.attendances.forEach((attendance) => {
+          const traineeIndex =
+            draftState.trainingMonth.trainingTrainees.findIndex(
+              (trainee) => trainee.trainee.id === attendance.TraineeID
+            );
+          // TODO: below returns -1, because unless there's payment/attend on db, it'll not exist
+          // in store.
+          const entryIndex = draftState.trainingMonth.trainingTrainees[
+            traineeIndex
+          ].trainingEntries.findIndex(
+            (entry) => entry.eventID === attendance.EventID
+          );
+          if (entryIndex !== -1 && traineeIndex !== -1) {
+            draftState.trainingMonth.trainingTrainees[
+              traineeIndex
+            ].trainingEntries[entryIndex].hasAttended = true;
+          }
         });
       });
     },

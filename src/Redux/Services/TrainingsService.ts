@@ -2,6 +2,7 @@ import axios from "axios";
 import { Moment } from "moment";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
+import { AttendanceModel } from "../../Interfaces/IAttendance";
 import {
   TrainingEntry,
   TrainingMonth,
@@ -55,7 +56,7 @@ export const toggleSelectTrainingEntry = (
       dispatch(
         trainingsActions.selectEntry({
           trainingEntryID: trainingInfoID,
-          trainingTraineeIndex: selectedTrainingEntryIndex,
+          trainingTraineeIndex: selectedTraineeIndex,
         })
       );
     }
@@ -104,7 +105,24 @@ export const addOnEmptyDefaultTrainingEntry = (
 export const unselectAllEntries = (dispatch: Dispatch<any>) => {
   dispatch(trainingsActions.unselectAllEntries());
 };
-export const addAttendances = (dispatch: Dispatch<any>) => {};
+export const addAttendances = (dispatch: Dispatch<any>) => {
+  const attendances: AttendanceModel[] = [];
+  getTrainingStore().selectedTrainees.forEach((trainee) => {
+    trainee.selectedTrainingEntries.forEach((entry) => {
+      attendances.push({
+        TraineeID: trainee.trainingTraineeID,
+        EventID: entry.trainingEntryID,
+      });
+    });
+  });
+  console.log(attendances);
+  dispatch(trainingsActions.addAttendances({ attendances: attendances }));
+  // axios.post(api.Trainings.Attendances.AddRange, attendances).then((res) => {
+  //   if (res.data > 0) {
+  //     dispatch(trainingsActions.addAttendances({ attendances: attendances }));
+  //   }
+  // });
+};
 const getTrainingStore = () => {
   return globalStore.getState().trainingsSlice;
 };

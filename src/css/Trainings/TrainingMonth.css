@@ -28,11 +28,12 @@ td.trainingMonthEntry {
   border: 5px solid black;
 }
 
-td.trainingMonthEntrySelected {
-  border-radius: 25%;
-  width: 125px;
-  height: 125px;
+td.Selected {
   border: 5px solid white;
+}
+
+td.Attended {
+  background-color: green;
 }
 
 td.trainingTrainee {

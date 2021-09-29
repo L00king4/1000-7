@@ -18,7 +18,7 @@ export const TrainingMonth = () => {
       <TrainingMonthTHead
         trainingInfos={trainingStore.trainingMonth.trainingInfos}
       />
-      <TrainingMonthTBody trainingStore={trainingStore} />
+      <TrainingMonthTBody trainingsStore={trainingStore} />
     </table>
   );
 };

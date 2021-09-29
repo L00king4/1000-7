@@ -1,9 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  addDefaultTrainingEntry,
-  toggleSelectTrainingEntry,
-} from "../../Redux/Services/TrainingsService";
+import { toggleSelectTrainingEntry } from "../../Redux/Services/TrainingsService";
 import {
   TrainingEntryKVP,
   TrainingInfo,
@@ -14,25 +11,27 @@ export const TrainingMonthTBodyTD = ({
   trainingTraineeKVP,
   trainingInfo,
   trainingEntryKVP,
+  selected,
 }: {
   trainingTraineeKVP: TrainingTraineeKVP;
   trainingInfo: TrainingInfo;
   trainingEntryKVP: TrainingEntryKVP;
+  selected: boolean;
 }) => {
   const dispatch = useDispatch();
   const onClickHandler = () => {
     toggleSelectTrainingEntry(
       dispatch,
       trainingInfo.id,
-      trainingTraineeKVP.index
+      trainingTraineeKVP.trainingTrainee.trainee.id
     );
   };
   return (
     <td
       className={
-        trainingEntryKVP.trainingEntry?.selected
-          ? "trainingMonthEntrySelected"
-          : "trainingMonthEntry"
+        "trainingMonthEntry " +
+        (selected ? "Selected " : "") +
+        (trainingEntryKVP.trainingEntry?.hasAttended ? "Attended " : "")
       }
       onClick={onClickHandler}
     ></td>
