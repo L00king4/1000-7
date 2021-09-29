@@ -1,24 +1,25 @@
 table.trainingMonth {
   border-spacing: 18px;
   text-align: center;
-  table-layout: auto;
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: scroll;
   /* margin-left: auto;
   margin-right: auto; */
 }
 
-th.trainingMonthEntry {
-  border: 5px solid rgb(255, 255, 255);
+th.trainingInfo {
+  border: 5px solid white;
   padding: 5px 1px;
   border-radius: 0px 0px 40px 40px;
 }
 
-th.trainingMonthTopLeftEntry {
-  border: 5px solid rgb(255, 255, 255);
+th.trainingMonthTopLeft {
+  border: 10px solid rgb(255, 255, 255);
   padding: 5px 1px;
   border-radius: 0px 0px 40px 0px;
+  font-size: 30px;
 }
 
 td.trainingMonthEntry {
@@ -33,11 +34,17 @@ td.Selected {
 }
 
 td.Attended {
-  background-color: green;
+  background: rgb(255, 132, 0);
+}
+
+td.Payed {
+  background: rgb(14, 209, 69);
+  background-repeat: no-repeat, no-repeat;
+  background-position: -500% 65%;
+  background-size: 125px;
 }
 
 td.trainingTrainee {
-  width: fit-content;
   border-radius: 0px 40px 40px 0px;
   border: 5px solid rgb(255, 255, 255);
 }

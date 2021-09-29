@@ -26,14 +26,25 @@ export const TrainingMonthTBodyTD = ({
       trainingTraineeKVP.trainingTrainee.trainee.id
     );
   };
+  const isPayed =
+    trainingInfo.toPay <= trainingEntryKVP.trainingEntry?.payedAmount;
+  const payedAmount = trainingEntryKVP.trainingEntry?.payedAmount ?? 0;
   return (
     <td
       className={
         "trainingMonthEntry " +
         (selected ? "Selected " : "") +
-        (trainingEntryKVP.trainingEntry?.hasAttended ? "Attended " : "")
+        (trainingEntryKVP.trainingEntry?.hasAttended ? "Attended " : "") +
+        (isPayed ? "Payed " : "")
       }
       onClick={onClickHandler}
-    ></td>
+    >
+      {!isPayed &&
+        trainingEntryKVP.trainingEntry?.hasAttended &&
+        "To pay:" + (trainingInfo.toPay - payedAmount)}
+      {isPayed && trainingEntryKVP.trainingEntry?.hasAttended && (
+        <div>&#x2714;</div>
+      )}
+    </td>
   );
 };

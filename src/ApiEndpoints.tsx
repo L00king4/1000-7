@@ -37,7 +37,7 @@ export class api {
         urlPrefix + `trainings/getmonth/${date.format("YYYY-MM")}`;
     };
     static Attendances = class {
-      static AddRange = urlPrefix + "trainingattendances/addrange";
+      static AddUniqueRange = urlPrefix + "trainingattendances/addrange/unique";
     };
     static Payments = class {
       static AddRange = urlPrefix + "trainingpayments/addrange";

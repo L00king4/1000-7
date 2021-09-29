@@ -1,6 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { produce } from "immer";
 import { AttendanceModel } from "../../../Interfaces/IAttendance";
+import { PaymentModel } from "../../../Interfaces/IPayment";
 import {
   NullableTrainingEntry,
   NullableTrainingsStore,
@@ -104,19 +105,58 @@ const trainingsSlice = createSlice({
         action.payload.attendances.forEach((attendance) => {
           const traineeIndex =
             draftState.trainingMonth.trainingTrainees.findIndex(
-              (trainee) => trainee.trainee.id === attendance.TraineeID
+              (trainee) => trainee.trainee.id === attendance.traineeID
             );
-          // TODO: below returns -1, because unless there's payment/attend on db, it'll not exist
-          // in store.
           const entryIndex = draftState.trainingMonth.trainingTrainees[
             traineeIndex
           ].trainingEntries.findIndex(
-            (entry) => entry.eventID === attendance.EventID
+            (entry) => entry.eventID === attendance.eventID
           );
-          if (entryIndex !== -1 && traineeIndex !== -1) {
+          if (entryIndex === -1) {
+            draftState.trainingMonth.trainingTrainees[
+              traineeIndex
+            ].trainingEntries.push({
+              eventID: attendance.eventID,
+              payedAmount: 0,
+              hasAttended: true,
+              selected: false,
+            });
+          } else {
             draftState.trainingMonth.trainingTrainees[
               traineeIndex
             ].trainingEntries[entryIndex].hasAttended = true;
+          }
+        });
+      });
+    },
+    addPayments: (
+      state,
+      action: { type: string; payload: { payments: PaymentModel[] } }
+    ) => {
+      return produce(state, (draftState) => {
+        action.payload.payments.forEach((payment) => {
+          const traineeIndex =
+            draftState.trainingMonth.trainingTrainees.findIndex(
+              (trainee) => trainee.trainee.id === payment.traineeID
+            );
+          const entryIndex = draftState.trainingMonth.trainingTrainees[
+            traineeIndex
+          ].trainingEntries.findIndex(
+            (entry) => entry.eventID === payment.eventID
+          );
+          if (entryIndex === -1) {
+            draftState.trainingMonth.trainingTrainees[
+              traineeIndex
+            ].trainingEntries.push({
+              eventID: payment.eventID,
+              payedAmount: payment.amount,
+              hasAttended: false,
+              selected: false,
+            });
+          } else {
+            draftState.trainingMonth.trainingTrainees[
+              traineeIndex
+            ].trainingEntries[entryIndex].payedAmount += payment.amount;
           }
         });
       });

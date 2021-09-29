@@ -3,6 +3,7 @@ import { Moment } from "moment";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import { AttendanceModel } from "../../Interfaces/IAttendance";
+import { PaymentModel } from "../../Interfaces/IPayment";
 import {
   TrainingEntry,
   TrainingMonth,
@@ -107,21 +108,43 @@ export const unselectAllEntries = (dispatch: Dispatch<any>) => {
 };
 export const addAttendances = (dispatch: Dispatch<any>) => {
   const attendances: AttendanceModel[] = [];
-  getTrainingStore().selectedTrainees.forEach((trainee) => {
+  const trainingStore = getTrainingStore();
+  trainingStore.selectedTrainees.forEach((trainee) => {
     trainee.selectedTrainingEntries.forEach((entry) => {
       attendances.push({
-        TraineeID: trainee.trainingTraineeID,
-        EventID: entry.trainingEntryID,
+        traineeID: trainee.trainingTraineeID,
+        eventID: entry.trainingEntryID,
       });
     });
   });
-  console.log(attendances);
-  dispatch(trainingsActions.addAttendances({ attendances: attendances }));
-  // axios.post(api.Trainings.Attendances.AddRange, attendances).then((res) => {
-  //   if (res.data > 0) {
-  //     dispatch(trainingsActions.addAttendances({ attendances: attendances }));
-  //   }
-  // });
+
+  axios
+    .post(api.Trainings.Attendances.AddUniqueRange, attendances)
+    .then((res) => {
+      if (res.data > 0) {
+        dispatch(trainingsActions.addAttendances({ attendances: attendances }));
+      }
+    });
+  dispatch(trainingsActions.unselectAllEntries());
+};
+export const addPayments = (dispatch: Dispatch<any>, amount: number) => {
+  const payments: PaymentModel[] = [];
+  const trainingStore = getTrainingStore();
+  trainingStore.selectedTrainees.forEach((trainee) => {
+    trainee.selectedTrainingEntries.forEach((entry) => {
+      payments.push({
+        amount: amount,
+        traineeID: trainee.trainingTraineeID,
+        eventID: entry.trainingEntryID,
+      });
+    });
+  });
+  axios.post(api.Trainings.Payments.AddRange, payments).then((res) => {
+    if (res.data > 0) {
+      dispatch(trainingsActions.addPayments({ payments: payments }));
+    }
+  });
+  dispatch(trainingsActions.unselectAllEntries());
 };
 const getTrainingStore = () => {
   return globalStore.getState().trainingsSlice;
