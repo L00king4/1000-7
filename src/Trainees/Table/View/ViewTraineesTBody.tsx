@@ -3,9 +3,10 @@ import { AgeGroup, BeltColor } from "../../ITrainees";
 import { ViewTraineesTBodyTD } from "./ViewTraineesTBodyTD";
 import { SortingMethodEnum } from "../../../Addons/Functional/Sorting";
 import { birthday2Age } from "../../../Addons/Functional/Birthday2Age";
+import { useGlobalSelector } from "../../../Redux/Store";
 
 export const ViewTraineesTBody = () => {
-  const traineesStore = useTraineesSelector((state) => state.traineesSlice);
+  const traineesStore = useGlobalSelector(useTraineesSelector);
   const trainees = traineesStore.trainees;
   const { sorting, filtering } = traineesStore.settings;
 

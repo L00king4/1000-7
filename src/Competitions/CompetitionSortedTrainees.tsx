@@ -6,27 +6,18 @@ import RemoveCompetitionAttendanceButton from "./Buttons/RemoveCompetitionAttend
 import AddCompetitionPaymentButton from "./Buttons/AddCompetitionPaymentButton";
 import { CompetitionTrainee } from "./CompetitionTrainee";
 import {} from "../Redux/Store";
-import { CompetitionStore } from "../Redux/Slices/Competitions/CompetitionsSlice";
+import { CompetitionEntry } from "../Redux/Slices/Competitions/ICompetitionsSlice";
+import { CompetitionEntryKVP } from "./ICompetitions";
 
 export const CompetitionSortedTrainees = ({
-  competitionStore,
+  competitionEntryKVP,
 }: {
-  competitionStore: CompetitionStore;
+  competitionEntryKVP: CompetitionEntryKVP;
 }) => {
   const [showNotAttending, setShowNotAttending] = useState(false);
   const [showAttending, setShowAttending] = useState(true);
   return (
-    <div
-      css={css`
-        border: 1px solid black;
-        border-radius: 10px;
-        background-color: #24bce2;
-        padding: 10px;
-        width: 665px;
-        margin-left: 30px;
-        display: block;
-      `}
-    >
+    <div className="CompetitionSortedTrainees">
       <div
         onClick={() => setShowAttending(!showAttending)}
         css={css`
@@ -38,27 +29,43 @@ export const CompetitionSortedTrainees = ({
       </div>
       {showAttending && (
         <ul>
-          {competitionStore.sortedTrainees.attendingTrainees.map((trainee) => (
-            <li
-              key={
-                competitionStore.competition.id.toString() +
-                " " +
-                trainee.id.toString() +
-                trainee.fullname +
-                trainee.beltColor.toString()
-              }
-            >
-              <RemoveCompetitionAttendanceButton
-                competitionStore={competitionStore}
-                trainee={trainee}
-              />
-              <CompetitionTrainee trainee={trainee} showPayedAmount={true} />
-              <AddCompetitionPaymentButton
-                competitionStore={competitionStore}
-                trainee={trainee}
-              />
-            </li>
-          ))}
+          {competitionEntryKVP.competitionEntry.sortedTrainees.attendingTrainees.map(
+            (attendingTrainee, traineeIndex) => (
+              <li
+                key={
+                  competitionEntryKVP.competitionEntry.competition.id.toString() +
+                  " " +
+                  attendingTrainee.id.toString() +
+                  " " +
+                  attendingTrainee.fullname
+                }
+              >
+                <RemoveCompetitionAttendanceButton
+                  competitionModelKVP={{
+                    index: competitionEntryKVP.index,
+                    competition:
+                      competitionEntryKVP.competitionEntry.competition,
+                  }}
+                  traineeKVP={{
+                    trainee: attendingTrainee,
+                    index: traineeIndex,
+                  }}
+                />
+                <CompetitionTrainee
+                  trainee={attendingTrainee}
+                  showPayedAmount={true}
+                />
+                <AddCompetitionPaymentButton
+                  competitionEntryKVP={competitionEntryKVP}
+                  traineeKVP={{
+                    trainee: attendingTrainee,
+                    index: traineeIndex,
+                    type: "attendingTrainees",
+                  }}
+                />
+              </li>
+            )
+          )}
         </ul>
       )}
       <div
@@ -72,11 +79,11 @@ export const CompetitionSortedTrainees = ({
       </div>
       {showNotAttending && (
         <ul>
-          {competitionStore.sortedTrainees.notAttendingTrainees.map(
-            (trainee) => (
+          {competitionEntryKVP.competitionEntry.sortedTrainees.notAttendingTrainees.map(
+            (trainee, index) => (
               <li
                 key={
-                  competitionStore.competition.id.toString() +
+                  competitionEntryKVP.competitionEntry.competition.id.toString() +
                   " " +
                   trainee.id.toString() +
                   trainee.fullname +
@@ -84,8 +91,12 @@ export const CompetitionSortedTrainees = ({
                 }
               >
                 <AddCompetitionAttendanceButton
-                  competitionStore={competitionStore}
-                  trainee={trainee}
+                  competitionModelKVP={{
+                    competition:
+                      competitionEntryKVP.competitionEntry.competition,
+                    index: competitionEntryKVP.index,
+                  }}
+                  traineeKVP={{ index: index, trainee: trainee }}
                 />
                 <CompetitionTrainee trainee={trainee} showPayedAmount={false} />
               </li>

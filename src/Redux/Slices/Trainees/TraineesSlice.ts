@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
 import { useSelector as useReduxSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
-import { NullableTraineeModel, TraineeModel } from "../../../Trainees/ITrainees";
+import {
+  NullableTraineeModel,
+  TraineeModel,
+} from "../../../Trainees/ITrainees";
 import { GlobalState } from "../../Store";
 import { NullableTraineesStore, TraineesStore } from "./ITraineesSlice";
-
 
 const initialState: TraineesStore = {
   trainees: [],
@@ -113,7 +115,8 @@ const traineesSlice = createSlice({
   },
 });
 
-export const useTraineesSelector: TypedUseSelectorHook<GlobalState> =
-  useReduxSelector;
+export const useTraineesSelector = (state: GlobalState): TraineesStore => {
+  return state.traineesSlice;
+};
 export const traineesActions = traineesSlice.actions;
 export default traineesSlice.reducer;

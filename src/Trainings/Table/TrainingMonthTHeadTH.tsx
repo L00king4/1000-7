@@ -5,5 +5,5 @@ export const TrainingMonthTHeadTH = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <th className="trainingInfo">{children}</th>;
+  return <th className="TMonthTrainingInfo">{children}</th>;
 };

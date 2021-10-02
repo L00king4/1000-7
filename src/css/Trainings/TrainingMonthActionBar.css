@@ -1,0 +1,21 @@
+.TMonthActionBar {
+  bottom: 0;
+  z-index: 1;
+  position: fixed;
+  width: 100%;
+  background-color: black;
+  transition: 1s;
+  margin: 0px;
+  padding: 0px;
+  font-size: 6px;
+}
+
+.TMonthAction {
+  display: inline-block;
+  font-size: 30px;
+  margin: 30px;
+}
+
+.TMonthActionSelectedCount {
+  color: red;
+}

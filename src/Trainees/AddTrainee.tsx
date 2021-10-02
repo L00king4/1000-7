@@ -5,7 +5,6 @@ import moment from "moment";
 import { Theme } from "pretty-format";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { myMoment } from "../Addons/Functional/DateConverter";
 import api from "../ApiEndpoints";
 import { addTrainee } from "../Redux/Services/TraineesService";
 import { InputBirthday } from "./Input/InputBirthday";
@@ -40,7 +39,7 @@ export const AddTrainee = () => {
         addTrainee(dispatch, {
           ...trainee,
           id: res.data,
-          birthday: myMoment(birthday),
+          birthday: moment(birthday),
         });
       }
     });

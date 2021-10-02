@@ -5,6 +5,7 @@ import {
 } from "react-redux";
 import competitionsSlice from "./Slices/Competitions/CompetitionsSlice";
 import traineesSlice from "./Slices/Trainees/TraineesSlice";
+import { TrainingsStore } from "./Slices/Trainings/ITrainingsSlice";
 import trainingsSlice from "./Slices/Trainings/TrainingsSlice";
 
 const globalStore = configureStore({
@@ -20,6 +21,8 @@ const globalStore = configureStore({
 });
 
 export type GlobalState = ReturnType<typeof globalStore.getState>;
-export const useTrainingsSelector: TypedUseSelectorHook<GlobalState> =
+export const useGlobalSelector: TypedUseSelectorHook<GlobalState> =
   useReduxSelector;
+export type CustomDispatch = typeof globalStore.dispatch;
+
 export default globalStore;

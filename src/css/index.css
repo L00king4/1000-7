@@ -9,7 +9,7 @@ body {
 }
 
 .content {
-  margin: 150px 30px;
+  margin: 150px 0px;
 }
 
 .leftnav {
@@ -17,7 +17,7 @@ body {
 }
 
 .topnav {
-  display: block;
+  z-index: 1;
   font-size: 65px;
   position: fixed;
   top: 0;

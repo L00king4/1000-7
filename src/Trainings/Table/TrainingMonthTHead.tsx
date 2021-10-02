@@ -1,11 +1,12 @@
 import moment from "moment";
 import { useState } from "react";
-import {
-  dateFormat,
-  myMoment as myMymonetFunc,
-} from "../../Addons/Functional/DateConverter";
 import { TrainingInfo } from "../../Redux/Slices/Trainings/ITrainingsSlice";
-import { useTrainingsSelector } from "../../Redux/Store";
+import {
+  getTrainingsMonthSettings,
+  getTrainingsSlice,
+} from "../../Redux/Slices/Trainings/TrainingsSlice";
+import { useGlobalSelector } from "../../Redux/Store";
+import { TrainingMonthTHeadAddTrainingTH } from "./TrainingMonthTHeadAddTraining";
 import { TrainingMonthTHeadTH } from "./TrainingMonthTHeadTH";
 import { TrainingMonthTopLeftTH } from "./TrainingMonthTopLeftTH";
 
@@ -14,11 +15,9 @@ export const TrainingMonthTHead = ({
 }: {
   trainingInfos: TrainingInfo[];
 }) => {
-  const settings = useTrainingsSelector(
-    (state) => state.trainingsSlice.trainingMonth.settings
-  );
+  const settings = useGlobalSelector(getTrainingsMonthSettings);
   const headEntryFormating = (date: Date) => {
-    const myMoment = myMymonetFunc(date);
+    const myMoment = moment(date);
     return myMoment
       ? myMoment.format("DD. ddd ") + myMoment.format("HH:mm")
       : undefined;
@@ -39,6 +38,7 @@ export const TrainingMonthTHead = ({
             </TrainingMonthTHeadTH>
           );
         })}
+        <TrainingMonthTHeadAddTrainingTH>Add</TrainingMonthTHeadAddTrainingTH>
       </tr>
     </thead>
   );

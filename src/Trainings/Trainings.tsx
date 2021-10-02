@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import {
   addAttendances,
@@ -5,32 +6,15 @@ import {
   unselectAllEntries,
 } from "../Redux/Services/TrainingsService";
 import { TrainingMonth } from "./Table/TrainingMonth";
+import { TrainingMonthActionBar } from "./TrainingMonthActionBar";
+import { TrainingMonthNavigation } from "./TrainingMonthNavigation";
 
 export const Trainings = () => {
-  const dispatch = useDispatch();
-  const testingAmount = 20;
-  const unselectHandler = () => {
-    unselectAllEntries(dispatch);
-  };
-  const addAttendancesHandler = () => {
-    addAttendances(dispatch);
-  };
-  const addPaymentsHandler = () => {
-    addPayments(dispatch, testingAmount);
-  };
   return (
     <div>
-      <button onClick={unselectHandler}>Unselect All</button>
-      <button onClick={addAttendancesHandler}>Add Attendances</button>
-      <button onClick={addPaymentsHandler}>
-        Pay Selected ({testingAmount})
-      </button>
+      <TrainingMonthNavigation />
       <TrainingMonth />
-      <button>NEXT</button>
-      <button>PREVIOS</button>
-      <button>
-        GOTO <input type="month" name="" id="" />
-      </button>
+      <TrainingMonthActionBar />
     </div>
   );
 };

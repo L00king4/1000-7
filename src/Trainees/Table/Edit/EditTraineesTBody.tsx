@@ -1,9 +1,10 @@
 import { SortingMethodEnum } from "../../../Addons/Functional/Sorting";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
+import { useGlobalSelector } from "../../../Redux/Store";
 import { EditTraineesTBodyTR } from "./EditTraineesTBodyTR";
 
 export const EditTraineesTBody = () => {
-  const traineesStore = useTraineesSelector((state) => state.traineesSlice);
+  const traineesStore = useGlobalSelector(useTraineesSelector);
   const editingTrainees = traineesStore.editingTrainees;
   const { sorting, filtering } = traineesStore.settings;
   return (

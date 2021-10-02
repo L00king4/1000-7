@@ -1,13 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import axios from "axios";
 import moment from "moment";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { dateFormat, myMoment } from "../Addons/Functional/DateConverter";
-import api from "../ApiEndpoints";
-import { addCompetition } from "../Redux/Services/CompetitionsService";
-import { getEmptySortedTrainees } from "../Trainees/SortedTrainees";
+import { addCompetitionEntry } from "../Redux/Services/CompetitionsService";
+import { NoIDCompetitionModel } from "./ICompetitions";
 
 export const AddCompetition = () => {
   const [name, setName] = useState<string>("");
@@ -15,37 +12,6 @@ export const AddCompetition = () => {
   const [topay, setTopay] = useState<number>(0);
   const [date, setDate] = useState<string>("");
   const dispatch = useDispatch();
-
-  const runchecks = () => {
-    if (date === undefined) {
-      return -1;
-    }
-    return 0;
-  };
-  const addCompetitionHandler = () => {
-    if (runchecks() === 0) {
-      const competition = {
-        name: name,
-        description: description,
-        toPay: topay,
-        date: date,
-      };
-
-      axios.post(api.Competitions.Events.Add, competition).then((res) => {
-        if (res.data !== -1) {
-          console.log("ID", res.data);
-          addCompetition(dispatch, {
-            competition: {
-              ...competition,
-              id: res.data,
-              date: myMoment(date), // WILL NEVER GO OVER ??
-            },
-            sortedTrainees: getEmptySortedTrainees(),
-          });
-        }
-      });
-    }
-  };
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -62,14 +28,26 @@ export const AddCompetition = () => {
   const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
   };
+  const runchecks = () => {
+    if (date === undefined) {
+      return -1;
+    }
+    return 0;
+  };
+  const addCompetitionHandler = () => {
+    if (runchecks() === 0) {
+      const noidCompetition: NoIDCompetitionModel = {
+        name: name,
+        description: description,
+        toPay: topay,
+        date: moment(date),
+      };
+      addCompetitionEntry(dispatch, noidCompetition);
+    }
+  };
 
   return (
-    <div
-      css={css`
-        display: block;
-        margin: 20px;
-      `}
-    >
+    <div className="AddCompAttMenu">
       <p>Fields with * MUST be filled!</p>
       <div>
         Name*: <input type="text" onChange={nameHandler} />

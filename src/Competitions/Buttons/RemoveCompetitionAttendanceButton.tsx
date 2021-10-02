@@ -4,28 +4,23 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../ApiEndpoints";
 import { removeCompetitionAttendance } from "../../Redux/Services/CompetitionsService";
-import { CompetitionStore } from "../../Redux/Slices/Competitions/CompetitionsSlice";
-import { CompetitionTraineeModel } from "../ICompetitions";
+import { CompetitionEntry } from "../../Redux/Slices/Competitions/ICompetitionsSlice";
+import {
+  CompetitionModelKVP,
+  CompetitionTraineeModel,
+  CompetitionTraineeModelKVP,
+} from "../ICompetitions";
 
 export const RemoveCompetitionAttendanceButton = ({
-  competitionStore,
-  trainee,
+  competitionModelKVP,
+  traineeKVP,
 }: {
-  competitionStore: CompetitionStore;
-  trainee: CompetitionTraineeModel;
+  competitionModelKVP: CompetitionModelKVP;
+  traineeKVP: CompetitionTraineeModelKVP;
 }) => {
   const dispatch = useDispatch();
   const removeCompetitionAttendanceHandler = () => {
-    axios
-      .post(api.Competitions.Attendances.Remove, {
-        eventID: competitionStore.competition.id,
-        traineeID: trainee.id,
-      })
-      .then((res) => {
-        if (res.data !== -1) {
-          removeCompetitionAttendance(dispatch, trainee, competitionStore);
-        }
-      });
+    removeCompetitionAttendance(dispatch, traineeKVP, competitionModelKVP);
   };
   return (
     <button

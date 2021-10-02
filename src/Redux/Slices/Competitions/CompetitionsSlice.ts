@@ -8,40 +8,41 @@ import {
 } from "../../../Competitions/ICompetitions";
 import { SortedTrainees } from "../../../Trainees/SortedTrainees";
 import { GlobalState } from "../../Store";
+import {
+  CompetitionEntry,
+  CompetitionStore,
+  NullableCompetitionEntry,
+} from "./ICompetitionsSlice";
 
-export interface CompetitionStore {
-  competition: CompetitionModel;
-  sortedTrainees: SortedTrainees<CompetitionTraineeModel>;
-}
-
-const initialState: CompetitionStore[] = [];
+const initialState: CompetitionStore = { competitionEntries: [] };
 
 const competitionsSlice = createSlice({
   name: "CompetitionsSlice",
   initialState: initialState,
   reducers: {
-    setCompetitions: (
+    setCompetitionStore: (
       state,
       action: {
         type: string;
-        payload: { manyCompetitionStores: CompetitionStore[] };
+        payload: { competitionStore: CompetitionStore };
       }
     ) => {
-      return [...action.payload.manyCompetitionStores];
+      return { ...state, ...action.payload.competitionStore };
     },
     setSortedTrainees: (
       state,
       action: {
         type: string;
         payload: {
-          manySortedTrainees: SortedTrainees<CompetitionTraineeModel>;
-          oneCompetitionStoreIndex: number;
+          sortedTrainees: SortedTrainees;
+          competitionEntryIndex: number;
         };
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees =
-          action.payload.manySortedTrainees;
+        draftState.competitionEntries[
+          action.payload.competitionEntryIndex
+        ].sortedTrainees = action.payload.sortedTrainees;
       });
     },
     removeCompetitionAttendance: (
@@ -49,23 +50,25 @@ const competitionsSlice = createSlice({
       action: {
         type: string;
         payload: {
-          oneAttendingTraineeIndex: number;
-          oneCompetitionStoreIndex: number;
+          attendingTraineeIndex: number;
+          competitionEntryIndex: number;
         };
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState[
-          action.payload.oneCompetitionStoreIndex
+        draftState.competitionEntries[
+          action.payload.competitionEntryIndex
         ].sortedTrainees.notAttendingTrainees.unshift(
-          draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees
-            .attendingTrainees[action.payload.oneAttendingTraineeIndex]
+          draftState.competitionEntries[action.payload.competitionEntryIndex]
+            .sortedTrainees.attendingTrainees[
+            action.payload.attendingTraineeIndex
+          ]
         );
 
-        draftState[
-          action.payload.oneCompetitionStoreIndex
+        draftState.competitionEntries[
+          action.payload.competitionEntryIndex
         ].sortedTrainees.attendingTrainees.splice(
-          action.payload.oneAttendingTraineeIndex,
+          action.payload.attendingTraineeIndex,
           1
         );
       });
@@ -75,69 +78,78 @@ const competitionsSlice = createSlice({
       action: {
         type: string;
         payload: {
-          oneNotAttendingTraineeIndex: number;
-          oneCompetitionStoreIndex: number;
+          notAttendingTraineeIndex: number;
+          competitionEntryIndex: number;
         };
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState[
-          action.payload.oneCompetitionStoreIndex
+        draftState.competitionEntries[
+          action.payload.competitionEntryIndex
         ].sortedTrainees.attendingTrainees.push(
-          draftState[action.payload.oneCompetitionStoreIndex].sortedTrainees
-            .notAttendingTrainees[action.payload.oneNotAttendingTraineeIndex]
+          draftState.competitionEntries[action.payload.competitionEntryIndex]
+            .sortedTrainees.notAttendingTrainees[
+            action.payload.notAttendingTraineeIndex
+          ]
         );
 
-        draftState[
-          action.payload.oneCompetitionStoreIndex
+        draftState.competitionEntries[
+          action.payload.competitionEntryIndex
         ].sortedTrainees.notAttendingTrainees.splice(
-          action.payload.oneNotAttendingTraineeIndex,
+          action.payload.notAttendingTraineeIndex,
           1
         );
       });
     },
-    removeCompetition: (
+    removeCompetitionEntry: (
       state,
-      action: { type: string; payload: { oneCompetitionStoreIndex: number } }
+      action: { type: string; payload: { competitionEntryIndex: number } }
     ) => {
       return produce(state, (draftState) => {
-        draftState.splice(action.payload.oneCompetitionStoreIndex, 1);
+        draftState.competitionEntries.splice(
+          action.payload.competitionEntryIndex,
+          1
+        );
       });
     },
-    addCompetition: (
+    addCompetitionEntry: (
       state,
       action: {
         type: string;
-        payload: { oneCompetitionStore: CompetitionStore };
+        payload: { competitionEntry: CompetitionEntry };
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState.unshift(action.payload.oneCompetitionStore);
+        draftState.competitionEntries.unshift(action.payload.competitionEntry);
       });
     },
-    updateCompetition: (
+    updateCompetitionEntry: (
       state,
       action: {
         type: string;
         payload: {
-          oneCompetitionStore: CompetitionStore;
-          oneCompetitionStoreIndex: number;
+          nullableCompetitionEntry: NullableCompetitionEntry;
+          competitionEntryIndex: number;
         };
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState.splice(
-          action.payload.oneCompetitionStoreIndex,
-          1,
-          action.payload.oneCompetitionStore
-        );
+        draftState.competitionEntries[action.payload.competitionEntryIndex] = {
+          ...draftState.competitionEntries[
+            action.payload.competitionEntryIndex
+          ],
+          ...action.payload.nullableCompetitionEntry,
+        };
       });
     },
   },
 });
 
-export const useCompetitionsSelector: TypedUseSelectorHook<GlobalState> =
-  useReduxSelector;
+export const useCompetitionsSelector = (
+  state: GlobalState
+): CompetitionStore => {
+  return state.competitionsSlice;
+};
 export const competitionsActions = competitionsSlice.actions;
 
 export default competitionsSlice.reducer;

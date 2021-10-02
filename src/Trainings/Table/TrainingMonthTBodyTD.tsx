@@ -32,10 +32,10 @@ export const TrainingMonthTBodyTD = ({
   return (
     <td
       className={
-        "trainingMonthEntry " +
-        (selected ? "Selected " : "") +
-        (trainingEntryKVP.trainingEntry?.hasAttended ? "Attended " : "") +
-        (isPayed ? "Payed " : "")
+        "TMonthEntry " +
+        (selected ? "TMonthSelected " : "") +
+        (trainingEntryKVP.trainingEntry?.hasAttended ? "TMonthAttended " : "") +
+        (isPayed ? "TMonthPayed " : "")
       }
       onClick={onClickHandler}
     >

@@ -10,12 +10,12 @@ import {
   SortingSettings,
 } from "../Slices/Trainees/ITraineesSlice";
 import { getNextSortingMethod } from "../../Addons/Functional/Sorting";
-import { myMoment } from "../../Addons/Functional/DateConverter";
+import moment from "moment";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
   const convertedTrainees = data.map((trainee) => {
-    return { ...trainee, birthday: myMoment(trainee.birthday) };
+    return { ...trainee, birthday: moment(trainee.birthday) };
   });
   console.log(convertedTrainees);
   dispatch(

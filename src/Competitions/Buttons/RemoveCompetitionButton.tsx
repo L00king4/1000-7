@@ -4,23 +4,17 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
 import { removeCompetition } from "../../Redux/Services/CompetitionsService";
-import { CompetitionStore } from "../../Redux/Slices/Competitions/CompetitionsSlice";
+import { CompetitionEntry } from "../../Redux/Slices/Competitions/ICompetitionsSlice";
+import { CompetitionModelKVP } from "../ICompetitions";
 
 export const RemoveCompetitionButton = ({
-  competitionStore,
+  competitionModelKVP,
 }: {
-  competitionStore: CompetitionStore;
+  competitionModelKVP: CompetitionModelKVP;
 }) => {
   const dispatch = useDispatch();
   const removeCompetitionHandler = () => {
-    axios
-      .get(api.Competitions.Events.Remove(competitionStore.competition.id))
-      .then((res) => {
-        if (res.data > 0) {
-          console.log("Changed " + res.data);
-          removeCompetition(dispatch, competitionStore);
-        }
-      });
+    removeCompetition(dispatch, competitionModelKVP);
   };
   return (
     <button

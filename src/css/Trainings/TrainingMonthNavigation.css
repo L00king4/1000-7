@@ -1,0 +1,11 @@
+.TMonthNav {
+  top: 0;
+  left: 0;
+  transform: translate(10%, 0%);
+}
+
+button.TMonthNavButton {
+  width: 600px;
+  height: 100px;
+  font-size: 80px;
+}

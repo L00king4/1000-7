@@ -1,50 +1,68 @@
-table.trainingMonth {
+table.TMonth {
   border-spacing: 18px;
   text-align: center;
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: scroll;
+  color: rgb(197, 197, 197);
   /* margin-left: auto;
   margin-right: auto; */
 }
 
-th.trainingInfo {
+th.TMonthTrainingInfo {
   border: 5px solid white;
   padding: 5px 1px;
   border-radius: 0px 0px 40px 40px;
+  background: rgb(135, 35, 35);
+
+  font-size: 42px;
+
+  max-width: 125px;
+  min-width: 125px;
+
+  max-height: 125px;
+  min-height: 125px;
 }
 
-th.trainingMonthTopLeft {
-  border: 10px solid rgb(255, 255, 255);
+th.TMonthDate {
+  border: 10px solid white;
+  background: rgb(255, 0, 157);
   padding: 5px 1px;
   border-radius: 0px 0px 40px 0px;
-  font-size: 30px;
+  font-size: 60px;
+  width: 300px;
 }
 
-td.trainingMonthEntry {
+td.TMonthEntry {
   border-radius: 25%;
   width: 125px;
   height: 125px;
   border: 5px solid black;
 }
 
-td.Selected {
+td.TMonthSelected {
   border: 5px solid white;
 }
 
-td.Attended {
+td.TMonthAttended {
   background: rgb(255, 132, 0);
 }
 
-td.Payed {
+td.TMonthPayed {
   background: rgb(14, 209, 69);
   background-repeat: no-repeat, no-repeat;
   background-position: -500% 65%;
   background-size: 125px;
 }
 
-td.trainingTrainee {
+td.TMonthTrainee {
   border-radius: 0px 40px 40px 0px;
   border: 5px solid rgb(255, 255, 255);
+  font-size: 40px;
+  background: rgb(50, 35, 135);
+}
+
+th.TMonthTrainingAdd {
+  border: 5px dashed white;
 }

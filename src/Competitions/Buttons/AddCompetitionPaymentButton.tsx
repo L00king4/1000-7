@@ -8,42 +8,37 @@ import {
   addCompetitionPayment,
   updateCompetition,
 } from "../../Redux/Services/CompetitionsService";
-import { CompetitionStore } from "../../Redux/Slices/Competitions/CompetitionsSlice";
-import { CompetitionTraineeModel } from "../ICompetitions";
+import { CompetitionEntry } from "../../Redux/Slices/Competitions/ICompetitionsSlice";
+import {
+  CompetitionEntryKVP,
+  CompetitionTraineeModel,
+  TypedCompetitionTraineeModelKVP,
+} from "../ICompetitions";
 
 export const AddCompetitionPaymentButton = ({
-  competitionStore,
-  trainee,
+  competitionEntryKVP,
+  traineeKVP,
 }: {
-  competitionStore: CompetitionStore;
-  trainee: CompetitionTraineeModel;
+  competitionEntryKVP: CompetitionEntryKVP;
+  traineeKVP: TypedCompetitionTraineeModelKVP;
 }) => {
   const dispatch = useDispatch();
   const AddCompetitionPaymentHandler = (amount: number) => {
-    axios
-      .post(api.Competitions.Payments.Add, {
-        eventID: competitionStore.competition.id,
-        amount: amount,
-        traineeID: trainee.id,
-      })
-      .then((res) => {
-        if (res.data !== -1) {
-          addCompetitionPayment(dispatch, competitionStore, trainee, amount);
-        }
-      });
+    addCompetitionPayment(dispatch, competitionEntryKVP, traineeKVP, amount);
   };
   const [amount, setAmount] = useState(0);
   const onAmountChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(parseFloat(e.target.value));
   };
+  const toPay = competitionEntryKVP.competitionEntry.competition.toPay;
   return (
     <div>
       <button
         onClick={() => {
-          AddCompetitionPaymentHandler(competitionStore.competition.toPay);
+          AddCompetitionPaymentHandler(toPay);
         }}
       >
-        Pay {competitionStore.competition.toPay}
+        Pay {toPay}
       </button>
       <input type="number" onChange={onAmountChangeHandler} />
       <button onClick={() => AddCompetitionPaymentHandler(amount)}>

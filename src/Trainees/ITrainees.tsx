@@ -20,7 +20,7 @@ export enum AgeGroup {
   None,
   Young,
   Elder,
-  All,
+  Both,
 }
 
 export enum BeltColor {

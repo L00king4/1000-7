@@ -19,7 +19,9 @@ import "../../../css/Trainees/EditTraineesTBodyTR.css";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
 import { DoubleTapButton } from "../../../Addons/Components/DoubleTapButton";
 import { EditTraineesTBodyTD } from "./EditTraineesTBodyTD";
-import { dateFormat, myMoment } from "../../../Addons/Functional/DateConverter";
+import { dateFormat } from "../../../Addons/Functional/DateConverter";
+import { useGlobalSelector } from "../../../Redux/Store";
+import moment from "moment";
 
 export const EditTraineesTBodyTR = ({
   trainee,
@@ -30,9 +32,8 @@ export const EditTraineesTBodyTR = ({
 }) => {
   const dispatch = useDispatch();
   // const correspondingTrainee = getTraineesStore().trainees[traineeIndex];
-  const correspondingTrainee = useTraineesSelector(
-    (state) => state.traineesSlice.trainees[traineeIndex]
-  );
+  const correspondingTrainee =
+    useGlobalSelector(useTraineesSelector).trainees[traineeIndex];
   const onFullnameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     editEditingTrainee(dispatch, { fullname: e.target.value }, traineeIndex);
   };
@@ -53,7 +54,7 @@ export const EditTraineesTBodyTR = ({
   const onBirthdayChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     editEditingTrainee(
       dispatch,
-      { birthday: myMoment(e.target.value) },
+      { birthday: moment(e.target.value) },
       traineeIndex
     );
   };

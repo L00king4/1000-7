@@ -1,48 +1,54 @@
-import produce from "@reduxjs/toolkit/node_modules/immer";
 import axios from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import {
+  CompetitionEntryKVP,
   CompetitionModel,
+  CompetitionModelKVP,
   CompetitionTraineeModel,
+  CompetitionTraineeModelKVP,
+  NoIDCompetitionModel,
+  TypedCompetitionTraineeModelKVP,
 } from "../../Competitions/ICompetitions";
 import {
   getEmptySortedTrainees,
   SortedTrainees,
 } from "../../Trainees/SortedTrainees";
+import { competitionsActions } from "../Slices/Competitions/CompetitionsSlice";
 import {
-  competitionsActions,
+  CompetitionEntry,
   CompetitionStore,
-} from "../Slices/Competitions/CompetitionsSlice";
-import globalStore from "../Store";
+} from "../Slices/Competitions/ICompetitionsSlice";
 
 export const fetchCompetitions = async (dispatch: Dispatch<any>) => {
+  console.log("AAAA");
   const { data } = await axios.get<CompetitionModel[]>(
     api.Competitions.Events.GetAll
   );
-  let manyCompetitionStores: CompetitionStore[] = [];
+  console.log("AAAA");
+  let competitionEntries: CompetitionEntry[] = [];
   data.forEach((competition) =>
-    manyCompetitionStores.push({
+    competitionEntries.push({
       competition: competition,
       sortedTrainees: getEmptySortedTrainees(),
     })
   );
   dispatch(
-    competitionsActions.setCompetitions({
-      manyCompetitionStores: manyCompetitionStores,
+    competitionsActions.setCompetitionStore({
+      competitionStore: { competitionEntries: competitionEntries },
     })
   );
 };
 
 export const setSortedTrainees = (
   dispatch: Dispatch<any>,
-  oneCompetitionStore: CompetitionStore,
-  manySortedTrainees: SortedTrainees<CompetitionTraineeModel>
+  competitionEntry: CompetitionStore,
+  manySortedTrainees: SortedTrainees
 ) => {
   throw new ReferenceError("NOT IMPLEMENTED");
   // dispatch(
   //   competitionsActions.setSortedTrainees({
-  //     oneCompetitionStoreIndex: -1,
+  //     competitionEntryIndex: -1,
   //     manySortedTrainees: manySortedTrainees,
   //   })
   // );
@@ -50,22 +56,17 @@ export const setSortedTrainees = (
 
 export const fetchSortedTrainees = async (
   dispatch: Dispatch<any>,
-  oneCompetitionStore: CompetitionStore
+  eventID: number,
+  competitionEntryIndex: number
 ) => {
-  const { data } = await axios.get<SortedTrainees<CompetitionTraineeModel>>(
-    api.Competitions.Events.GetSortedTrainees(
-      oneCompetitionStore.competition.id
-    )
+  const { data } = await axios.get<SortedTrainees>(
+    api.Competitions.Events.GetSortedTrainees(eventID)
   );
-  const competitionStores = getCompetitionStores();
-  const competitionStoreIndex = competitionStores.findIndex(
-    (x) => x.competition === oneCompetitionStore.competition
-  );
-  if (competitionStoreIndex !== -1) {
+  if (competitionEntryIndex !== -1) {
     dispatch(
       competitionsActions.setSortedTrainees({
-        manySortedTrainees: data,
-        oneCompetitionStoreIndex: competitionStoreIndex,
+        sortedTrainees: data,
+        competitionEntryIndex: competitionEntryIndex,
       })
     );
   }
@@ -73,151 +74,128 @@ export const fetchSortedTrainees = async (
 
 export const removeCompetitionAttendance = (
   dispatch: Dispatch<any>,
-  oneAttendingTrainee: CompetitionTraineeModel,
-  oneCompetitionStore: CompetitionStore
+  traineeKVP: CompetitionTraineeModelKVP,
+  competitionModelKVP: CompetitionModelKVP
 ) => {
-  const comeptitionStores = getCompetitionStores();
-  const competitionStoreIndex = comeptitionStores.findIndex(
-    (x) => x === oneCompetitionStore
-  );
-  const competitionStore = comeptitionStores[competitionStoreIndex];
-  if (competitionStore) {
-    const attIndex =
-      competitionStore.sortedTrainees.attendingTrainees.findIndex(
-        (x) => x === oneAttendingTrainee
-      );
-    if (attIndex !== -1) {
-      dispatch(
-        competitionsActions.removeCompetitionAttendance({
-          oneCompetitionStoreIndex: competitionStoreIndex,
-          oneAttendingTraineeIndex: attIndex,
-        })
-      );
-    }
-  }
+  axios
+    .post(api.Competitions.Attendances.Remove, {
+      eventID: competitionModelKVP.competition.id,
+      traineeID: traineeKVP.trainee.id,
+    })
+    .then((res) => {
+      if (res.data !== -1) {
+        dispatch(
+          competitionsActions.removeCompetitionAttendance({
+            competitionEntryIndex: competitionModelKVP.index,
+            attendingTraineeIndex: traineeKVP.index,
+          })
+        );
+      }
+    });
 };
 
 export const addCompetitionAttendance = (
   dispatch: Dispatch<any>,
-  oneNotAttendingTrainee: CompetitionTraineeModel,
-  oneCompetitionStore: CompetitionStore
+  traineeKVP: CompetitionTraineeModelKVP,
+  competitionModelKVP: CompetitionModelKVP
 ) => {
-  const comeptitionStores = getCompetitionStores();
-  const competitionStoreIndex = comeptitionStores.findIndex(
-    (x) => x === oneCompetitionStore
-  );
-  if (competitionStoreIndex !== -1) {
-    const notAttIndex = comeptitionStores[
-      competitionStoreIndex
-    ].sortedTrainees.notAttendingTrainees.findIndex(
-      (x) => x === oneNotAttendingTrainee
-    );
-    if (notAttIndex !== -1) {
-      dispatch(
-        competitionsActions.addCompetitionAttendance({
-          oneCompetitionStoreIndex: competitionStoreIndex,
-          oneNotAttendingTraineeIndex: notAttIndex,
-        })
-      );
-    }
-  }
+  axios
+    .post(api.Competitions.Attendances.Add, {
+      eventID: competitionModelKVP.competition.id,
+      traineeID: traineeKVP.trainee.id,
+    })
+    .then((res) => {
+      if (res.data !== -1) {
+        dispatch(
+          competitionsActions.addCompetitionAttendance({
+            competitionEntryIndex: competitionModelKVP.index,
+            notAttendingTraineeIndex: traineeKVP.index,
+          })
+        );
+      }
+    });
 };
 
 export const removeCompetition = (
   dispatch: Dispatch<any>,
-  oneCompetitionStore: CompetitionStore
+  competitionModelKVP: CompetitionModelKVP
 ) => {
-  const oneCompetitionStoreIndex =
-    getOneCompetitionStoreIndex(oneCompetitionStore);
-  if (oneCompetitionStoreIndex !== -1) {
-    dispatch(
-      competitionsActions.removeCompetition({
-        oneCompetitionStoreIndex: oneCompetitionStoreIndex,
-      })
-    );
-  }
+  axios
+    .get(api.Competitions.Events.Remove(competitionModelKVP.competition.id))
+    .then((res) => {
+      if (res.data > 0) {
+        dispatch(
+          competitionsActions.removeCompetitionEntry({
+            competitionEntryIndex: competitionModelKVP.index,
+          })
+        );
+      }
+    });
 };
 
-export const addCompetition = (
+export const addCompetitionEntry = (
   dispatch: Dispatch<any>,
-  oneCompetitionStore: CompetitionStore
+  noidCompetition: NoIDCompetitionModel
 ) => {
-  dispatch(
-    competitionsActions.addCompetition({
-      oneCompetitionStore: oneCompetitionStore,
-    })
-  );
+  axios
+    .post<number>(api.Competitions.Events.Add, noidCompetition)
+    .then((res) => {
+      if (res.data !== -1) {
+        dispatch(
+          competitionsActions.addCompetitionEntry({
+            competitionEntry: {
+              competition: {
+                ...noidCompetition,
+                id: res.data,
+              },
+              sortedTrainees: getEmptySortedTrainees(),
+            },
+          })
+        );
+      }
+    });
 };
 
 export const updateCompetition = (
   dispatch: Dispatch<any>,
-  oneCompetitionStore: CompetitionStore
+  competitionEntry: CompetitionEntry,
+  competitionEntryIndex: number
 ) => {
-  const oneCompetitionStoreIndex =
-    getOneCompetitionStoreIndex(oneCompetitionStore);
-  if (oneCompetitionStoreIndex !== -1) {
-    dispatch(
-      competitionsActions.updateCompetition({
-        oneCompetitionStore: oneCompetitionStore,
-        oneCompetitionStoreIndex: oneCompetitionStoreIndex,
-      })
-    );
-  }
+  // dispatch(
+  //   competitionsActions.updateCompetition({
+  //     competitionEntry: competitionEntry,
+  //     competitionEntryIndex: competitionEntryIndex,
+  //   })
+  // );
 };
 
 export const addCompetitionPayment = (
   dispatch: Dispatch<any>,
-  oneCompetitionStore: CompetitionStore,
-  trainee: CompetitionTraineeModel,
+  competitionEntryKVP: CompetitionEntryKVP,
+  traineeTypeKVP: TypedCompetitionTraineeModelKVP,
   amount: number
 ) => {
-  const oneCompetitionStoreIndex =
-    getOneCompetitionStoreIndex(oneCompetitionStore);
-  if (oneCompetitionStoreIndex !== -1) {
-    const attIndex = getCompetitionStores()[
-      oneCompetitionStoreIndex
-    ].sortedTrainees.attendingTrainees.findIndex((x) => x === trainee);
-    if (attIndex !== -1) {
-      const foundTrainee =
-        oneCompetitionStore.sortedTrainees.attendingTrainees[attIndex];
-      const updatedTrainee: CompetitionTraineeModel = {
-        ...foundTrainee,
-        amountPayed: foundTrainee.amountPayed + amount,
-      };
-      const updatedSortedTrainees: SortedTrainees<CompetitionTraineeModel> = {
-        ...oneCompetitionStore.sortedTrainees,
-        attendingTrainees: produce(
-          oneCompetitionStore.sortedTrainees.attendingTrainees,
-          (draftState) => {
-            draftState.splice(attIndex, 1, updatedTrainee);
-          }
-        ),
-      };
-      dispatch(
-        competitionsActions.updateCompetition({
-          oneCompetitionStore: {
-            ...oneCompetitionStore,
-            sortedTrainees: updatedSortedTrainees,
-          },
-          oneCompetitionStoreIndex,
-        })
-      );
-    }
-  }
-};
-
-const getCompetitionStores = () => {
-  return globalStore.getState().competitionsSlice;
-};
-
-const getOneCompetitionStoreIndex = (competitionStore: CompetitionStore) => {
-  return globalStore
-    .getState()
-    .competitionsSlice.findIndex((x) => x === competitionStore);
-};
-
-const getOneCompetitionStore = (competitionStore: CompetitionStore) => {
-  return globalStore
-    .getState()
-    .competitionsSlice.find((x) => x === competitionStore);
+  competitionEntryKVP.competitionEntry.sortedTrainees[traineeTypeKVP.type][
+    traineeTypeKVP.index
+  ].amountPayed += amount;
+  axios
+    .post(api.Competitions.Payments.Add, {
+      eventID: competitionEntryKVP.competitionEntry.competition.id,
+      traineeID: traineeTypeKVP.trainee.id,
+      amount: amount,
+    })
+    .then((res) => {
+      if (res.data !== -1) {
+        dispatch(
+          competitionsActions.updateCompetitionEntry({
+            nullableCompetitionEntry: {
+              sortedTrainees: {
+                ...competitionEntryKVP.competitionEntry.sortedTrainees,
+              },
+            },
+            competitionEntryIndex: competitionEntryKVP.index,
+          })
+        );
+      }
+    });
 };

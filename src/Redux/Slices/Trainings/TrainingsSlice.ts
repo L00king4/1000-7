@@ -1,11 +1,14 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { produce } from "immer";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { AttendanceModel } from "../../../Interfaces/IAttendance";
 import { PaymentModel } from "../../../Interfaces/IPayment";
+import { GlobalState, useGlobalSelector } from "../../Store";
 import {
   NullableTrainingEntry,
   NullableTrainingsStore,
   TrainingEntry,
+  TrainingMonthSettings,
   TrainingsStore,
 } from "./ITrainingsSlice";
 
@@ -166,3 +169,11 @@ const trainingsSlice = createSlice({
 
 export const trainingsActions = trainingsSlice.actions;
 export default trainingsSlice.reducer;
+export const getTrainingsSlice = (state: GlobalState): TrainingsStore => {
+  return state.trainingsSlice;
+};
+export const getTrainingsMonthSettings = (
+  state: GlobalState
+): TrainingMonthSettings | undefined => {
+  return state.trainingsSlice.trainingMonth.settings;
+};

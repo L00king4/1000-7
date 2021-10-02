@@ -5,6 +5,7 @@ import {
   SortingTarget,
 } from "../../../../Redux/Slices/Trainees/ITraineesSlice";
 import { useTraineesSelector } from "../../../../Redux/Slices/Trainees/TraineesSlice";
+import { useGlobalSelector } from "../../../../Redux/Store";
 
 export const SortableTH = ({
   sortableProp,
@@ -16,9 +17,8 @@ export const SortableTH = ({
   children: React.ReactNode;
 }) => {
   const dispatch = useDispatch();
-  const sortingSettings = useTraineesSelector(
-    (state) => state.traineesSlice.settings.sorting
-  );
+  const sortingSettings =
+    useGlobalSelector(useTraineesSelector).settings.sorting;
   const onSortClickHandler = () => {
     sortTrainees(dispatch, {
       sortableProp: sortableProp,
