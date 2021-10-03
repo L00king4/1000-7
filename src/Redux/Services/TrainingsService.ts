@@ -27,7 +27,7 @@ export const fetchTrainingMonth = async (
 
   dispatch(
     trainingsActions.setTrainingsStore({
-      trainingMonth: { ...data, settings: { showedDate: date } },
+      trainingMonth: { ...data, info: { showedDate: date } },
     })
   );
 };
@@ -146,6 +146,15 @@ export const addPayments = (dispatch: Dispatch<any>, amount: number) => {
   });
   dispatch(trainingsActions.unselectAllEntries());
 };
+export const setShowAddTrainingMenu = (
+  dispatch: Dispatch<any>,
+  value: boolean
+) => {
+  dispatch(
+    trainingsActions.setShowedBooleans({ booleans: { AddTrainingMenu: value } })
+  );
+};
+
 const getTrainingStore = () => {
   return globalStore.getState().trainingsSlice;
 };

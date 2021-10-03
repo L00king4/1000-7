@@ -1,14 +1,14 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { AttendanceModel } from "../../../Interfaces/IAttendance";
 import { PaymentModel } from "../../../Interfaces/IPayment";
-import { GlobalState, useGlobalSelector } from "../../Store";
+import { GlobalState } from "../../Store";
 import {
+  NullableShowedBooleans,
   NullableTrainingEntry,
   NullableTrainingsStore,
-  TrainingEntry,
-  TrainingMonthSettings,
+  ShowedBooleans,
+  TrainingMonthInfo,
   TrainingsStore,
 } from "./ITrainingsSlice";
 
@@ -16,11 +16,14 @@ const initialState: TrainingsStore = {
   trainingMonth: {
     trainingInfos: [],
     trainingTrainees: [],
-    settings: undefined,
+    info: undefined,
   },
   selected: {
     count: 0,
     selectedTrainees: [],
+  },
+  showedBooleans: {
+    AddTrainingMenu: false,
   },
 };
 
@@ -170,6 +173,15 @@ const trainingsSlice = createSlice({
         });
       });
     },
+    setShowedBooleans: (
+      state,
+      action: { type: string; payload: { booleans: NullableShowedBooleans } }
+    ) => {
+      return {
+        ...state,
+        showedBooleans: { ...state.showedBooleans, ...action.payload.booleans },
+      };
+    },
   },
 });
 
@@ -180,6 +192,11 @@ export const getTrainingsSlice = (state: GlobalState): TrainingsStore => {
 };
 export const getTrainingsMonthSettings = (
   state: GlobalState
-): TrainingMonthSettings | undefined => {
-  return state.trainingsSlice.trainingMonth.settings;
+): TrainingMonthInfo | undefined => {
+  return state.trainingsSlice.trainingMonth.info;
+};
+export const getTrainingShowedBooleans = (
+  state: GlobalState
+): ShowedBooleans | undefined => {
+  return state.trainingsSlice.showedBooleans;
 };

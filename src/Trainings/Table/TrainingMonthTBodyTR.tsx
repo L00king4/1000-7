@@ -28,7 +28,7 @@ export const TrainingMonthTBodyTR = ({
         const trainingEntryIndex = trainingEntries.findIndex(
           (x) => x.eventID === trainingInfo.id
         );
-        const index =
+        const selectedTraineeEntryIndex =
           selectedTraineeEntries?.findIndex(
             (x) => x.trainingEntryID === trainingInfo.id
           ) ?? -1;
@@ -46,7 +46,7 @@ export const TrainingMonthTBodyTR = ({
             }}
             trainingInfo={trainingInfo}
             trainingTraineeKVP={trainingTraineeKVP}
-            selected={index !== -1}
+            selected={selectedTraineeEntryIndex !== -1}
           />
         );
       })}

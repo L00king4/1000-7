@@ -36,7 +36,7 @@ export interface TrainingTrainee {
   trainingPayedSpans: TrainingPayedSpans;
 }
 
-export interface TrainingMonthSettings {
+export interface TrainingMonthInfo {
   showedDate: Moment;
 }
 
@@ -54,7 +54,7 @@ export interface TrainingInfo extends Training {}
 export interface TrainingMonth {
   trainingInfos: Training[];
   trainingTrainees: TrainingTrainee[];
-  settings?: TrainingMonthSettings;
+  info?: TrainingMonthInfo;
 }
 
 export interface NullableTrainingMonth {
@@ -66,9 +66,18 @@ export interface Selected {
   selectedTrainees: SelectedTrainee[];
 }
 
+export interface ShowedBooleans {
+  AddTrainingMenu: boolean;
+}
+
+export interface NullableShowedBooleans {
+  AddTrainingMenu?: boolean;
+}
+
 export interface TrainingsStore {
   trainingMonth: TrainingMonth;
   selected: Selected;
+  showedBooleans: ShowedBooleans;
 }
 export interface NullableTrainingsStore {
   trainingMonth?: TrainingMonth;
