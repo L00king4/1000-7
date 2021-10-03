@@ -1,13 +1,24 @@
-table.traineesTable {
-  font-size: 30px;
-  margin: 2%;
+.Trainees {
+  margin: 0px 0px;
+  padding: 0px 0px;
 }
 
-td.traineesEntry,
-th.traineesEntry {
+table.TraineesTable {
+  font-size: 30px;
+  margin: 0;
+}
+
+td.TraineesEntry,
+th.TraineesEntry {
   border: 2px solid #dddddd;
   text-align: left;
   padding: 2px 32px;
+}
+
+tbody.TraineesTableTBody {
+}
+
+thead.TraineesTableTHead {
 }
 
 tbody.spaced:before {

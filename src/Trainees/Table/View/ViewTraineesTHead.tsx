@@ -1,23 +1,35 @@
 import { SortingTarget } from "../../../Redux/Slices/Trainees/ITraineesSlice";
-import { SortableTH } from "../Shared/Components/SortableTH";
+import { TraineesTableSortableTH } from "../Shared/Components/TraineesTableSortableTH";
 
 export const ViewTraineesTHead = () => {
   const sortingTarget: SortingTarget = "both";
   return (
-    <thead>
+    <thead className="TraineesTableTHead">
       <tr>
-        <SortableTH sortableProp={"fullname"} sortingTarget={sortingTarget}>
+        <TraineesTableSortableTH
+          sortableProp={"fullname"}
+          sortingTarget={sortingTarget}
+        >
           Fullname
-        </SortableTH>
-        <SortableTH sortableProp={"ageGroup"} sortingTarget={sortingTarget}>
+        </TraineesTableSortableTH>
+        <TraineesTableSortableTH
+          sortableProp={"ageGroup"}
+          sortingTarget={sortingTarget}
+        >
           Age Group
-        </SortableTH>
-        <SortableTH sortableProp={"birthday"} sortingTarget={sortingTarget}>
+        </TraineesTableSortableTH>
+        <TraineesTableSortableTH
+          sortableProp={"birthday"}
+          sortingTarget={sortingTarget}
+        >
           Birthday/Age
-        </SortableTH>
-        <SortableTH sortableProp={"beltColor"} sortingTarget={sortingTarget}>
+        </TraineesTableSortableTH>
+        <TraineesTableSortableTH
+          sortableProp={"beltColor"}
+          sortingTarget={sortingTarget}
+        >
           Belt Color
-        </SortableTH>
+        </TraineesTableSortableTH>
       </tr>
     </thead>
   );

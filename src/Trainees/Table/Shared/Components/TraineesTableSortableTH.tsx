@@ -7,7 +7,7 @@ import {
 import { useTraineesSelector } from "../../../../Redux/Slices/Trainees/TraineesSlice";
 import { useGlobalSelector } from "../../../../Redux/Store";
 
-export const SortableTH = ({
+export const TraineesTableSortableTH = ({
   sortableProp,
   children,
   sortingTarget = "both",
@@ -27,7 +27,7 @@ export const SortableTH = ({
     });
   };
   return (
-    <th onClick={() => onSortClickHandler()}>
+    <th className="TraineesEntry" onClick={() => onSortClickHandler()}>
       {children}
       {sortingSettings.sortingMethod !== "default" &&
         sortingSettings.sortableProp === sortableProp &&

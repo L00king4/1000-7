@@ -49,3 +49,7 @@
   display: block;
   margin: 20px;
 }
+
+.AddCompButton {
+  width: fit-content;
+}

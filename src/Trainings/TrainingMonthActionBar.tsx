@@ -7,12 +7,12 @@ import {
 import "../css/Trainings/TrainingMonthActionBar.css";
 import { useGlobalSelector } from "../Redux/Store";
 import { getTrainingsSlice } from "../Redux/Slices/Trainings/TrainingsSlice";
+import { Fragment } from "react";
 
 export const TrainingMonthActionBar = () => {
   const dispatch = useDispatch();
   const testingAmount = 20;
-  const selectedCount =
-    useGlobalSelector(getTrainingsSlice).selectedTrainees.length;
+  const selectedCount = useGlobalSelector(getTrainingsSlice).selected.count;
   const unselectHandler = () => {
     unselectAllEntries(dispatch);
   };
@@ -23,7 +23,14 @@ export const TrainingMonthActionBar = () => {
     addPayments(dispatch, testingAmount);
   };
   return (
-    <div className="TMonthActionBar">
+    <div
+      className={
+        "TMonthActionBar " +
+        (selectedCount > 0
+          ? "TMonthActionBarEnabled "
+          : "TMonthActionBarDisabled ")
+      }
+    >
       <div className="TMonthActionSelectedCount">
         Selected {selectedCount} entries
       </div>

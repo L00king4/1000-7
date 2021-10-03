@@ -2,7 +2,7 @@ import { ViewTraineesTBody } from "./ViewTraineesTBody";
 import { ViewTraineesTHead } from "./ViewTraineesTHead";
 
 export const ViewTraineesTable = () => (
-  <table>
+  <table className="TraineesTable">
     <ViewTraineesTHead />
     <ViewTraineesTBody />
   </table>

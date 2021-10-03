@@ -36,7 +36,7 @@ export const toggleSelectTrainingEntry = (
   trainingInfoID: number,
   trainingTraineeID: number
 ) => {
-  const selectedTrainees = getTrainingStore().selectedTrainees;
+  const selectedTrainees = getTrainingStore().selected.selectedTrainees;
   const selectedTraineeIndex = selectedTrainees.findIndex(
     (selectedTrainee) => selectedTrainee.trainingTraineeID === trainingTraineeID
   );
@@ -109,7 +109,7 @@ export const unselectAllEntries = (dispatch: Dispatch<any>) => {
 export const addAttendances = (dispatch: Dispatch<any>) => {
   const attendances: AttendanceModel[] = [];
   const trainingStore = getTrainingStore();
-  trainingStore.selectedTrainees.forEach((trainee) => {
+  trainingStore.selected.selectedTrainees.forEach((trainee) => {
     trainee.selectedTrainingEntries.forEach((entry) => {
       attendances.push({
         traineeID: trainee.trainingTraineeID,
@@ -130,7 +130,7 @@ export const addAttendances = (dispatch: Dispatch<any>) => {
 export const addPayments = (dispatch: Dispatch<any>, amount: number) => {
   const payments: PaymentModel[] = [];
   const trainingStore = getTrainingStore();
-  trainingStore.selectedTrainees.forEach((trainee) => {
+  trainingStore.selected.selectedTrainees.forEach((trainee) => {
     trainee.selectedTrainingEntries.forEach((entry) => {
       payments.push({
         amount: amount,

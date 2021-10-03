@@ -2,7 +2,7 @@ import { EditTraineesTBody } from "./EditTraineesTBody";
 import { EditTraineesTHead } from "./EditTraineesTHead";
 
 export const EditTraineesTable = () => (
-  <table>
+  <table className="TraineesTable">
     <EditTraineesTHead />
     <EditTraineesTBody />
   </table>

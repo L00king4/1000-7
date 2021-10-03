@@ -1,21 +1,41 @@
 .TMonthActionBar {
+  width: 100%;
+  left: 0;
   bottom: 0;
   z-index: 1;
   position: fixed;
-  width: 100%;
   background-color: black;
-  transition: 1s;
-  margin: 0px;
+  margin: 0 auto;
   padding: 0px;
   font-size: 6px;
+
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding-left: 30px;
 }
 
 .TMonthAction {
   display: inline-block;
   font-size: 30px;
   margin: 30px;
+  border: 1px solid white;
 }
 
 .TMonthActionSelectedCount {
   color: red;
+  font-size: 30px;
+  display: inline-block;
+}
+
+.TMonthActionBarEnabled {
+  height: 107px;
+  transition: 0.7s;
+  overflow: hidden;
+}
+
+.TMonthActionBarDisabled {
+  height: 0px;
+  transition: 0.3s;
+  overflow: hidden;
 }

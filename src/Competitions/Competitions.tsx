@@ -11,22 +11,14 @@ import "../css/Competitions/Competitions.css";
 
 export const Competitions = () => {
   const dispatch = useDispatch();
-  const [showAddCompetition, setShowAddCompetition] = useState(false);
   const competitionStore = useGlobalSelector(useCompetitionsSelector);
   useEffect(() => {
     fetchCompetitions(dispatch);
   }, []);
   return (
     <div>
-      <div onClick={() => setShowAddCompetition(!showAddCompetition)}>
-        Add competition
-      </div>
-      {showAddCompetition && <AddCompetition />}
-      <ul
-        css={css`
-          list-style-type: none;
-        `}
-      >
+      <AddCompetition />
+      <ul>
         {competitionStore.competitionEntries.map(
           (competitionEntry, competitionEntryIndex) => (
             <Competition

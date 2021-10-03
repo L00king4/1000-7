@@ -11,7 +11,7 @@ export const ViewTraineesTBody = () => {
   const { sorting, filtering } = traineesStore.settings;
 
   return (
-    <tbody className="spaced">
+    <tbody className="TraineesTableTBody spaced">
       {Object.entries(trainees)
         .sort(([xIndex, xTrainee], [yIndex, yTrainee]) => {
           const xvalue = xTrainee[sorting.sortableProp]?.toString() ?? "99";

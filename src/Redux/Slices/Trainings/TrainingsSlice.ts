@@ -18,7 +18,10 @@ const initialState: TrainingsStore = {
     trainingTrainees: [],
     settings: undefined,
   },
-  selectedTrainees: [],
+  selected: {
+    count: 0,
+    selectedTrainees: [],
+  },
 };
 
 const trainingsSlice = createSlice({
@@ -54,7 +57,7 @@ const trainingsSlice = createSlice({
       });
     },
     unselectAllEntries: (state) => {
-      return { ...state, selectedTrainees: [] };
+      return { ...state, selected: { count: 0, selectedTrainees: [] } };
     },
     selectEntry: (
       state,
@@ -64,11 +67,12 @@ const trainingsSlice = createSlice({
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState.selectedTrainees[
+        draftState.selected.selectedTrainees[
           action.payload.trainingTraineeIndex
         ].selectedTrainingEntries.push({
           trainingEntryID: action.payload.trainingEntryID,
         });
+        draftState.selected.count++;
       });
     },
     unselectEntry: (
@@ -79,9 +83,10 @@ const trainingsSlice = createSlice({
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState.selectedTrainees[
+        draftState.selected.selectedTrainees[
           action.payload.trainingTraineeIndex
         ].selectedTrainingEntries.splice(action.payload.trainingEntryIndex, 1);
+        draftState.selected.count--;
       });
     },
     selectEntryOnEmptyTrainee: (
@@ -92,12 +97,13 @@ const trainingsSlice = createSlice({
       }
     ) => {
       return produce(state, (draftState) => {
-        draftState.selectedTrainees.push({
+        draftState.selected.selectedTrainees.push({
           trainingTraineeID: action.payload.trainingTraineeID,
           selectedTrainingEntries: [
             { trainingEntryID: action.payload.trainingEntryID },
           ],
         });
+        draftState.selected.count++;
       });
     },
     addAttendances: (

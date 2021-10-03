@@ -7,14 +7,15 @@ import {
   getTraineesStore,
   resetAllUpdatingTrainees,
   saveAllEditingTrainees,
-} from "../../Redux/Services/TraineesService";
-import "../../css/Trainees/Trainees.css";
-import { AddTrainee } from "../AddTrainee";
-import { EditTraineesTable } from "./Edit/EditTraineesTable";
-import { ViewTraineesTable } from "./View/VIewTraineesTable";
+} from "../Redux/Services/TraineesService";
+import "../css/Trainees/Trainees.css";
+import { AddTrainee } from "./AddTrainee";
+import { EditTraineesTable } from "./Table/Edit/EditTraineesTable";
+import { ViewTraineesTable } from "./Table/View/VIewTraineesTable";
 import axios from "axios";
-import api from "../../ApiEndpoints";
-import { DoubleTapButton } from "../../Addons/Components/DoubleTapButton";
+import api from "../ApiEndpoints";
+import { DoubleTapButton } from "../Addons/Components/DoubleTapButton";
+import "../css/Trainees/Trainees.css";
 
 export const Trainees = () => {
   const dispatch = useDispatch();
@@ -40,8 +41,8 @@ export const Trainees = () => {
   }, []);
   //test
   return (
-    <div>
-      <div>
+    <div className="Trainees">
+      <div className="TraineesActions">
         <button
           onClick={onEditModeChangeHandler}
           css={css`

@@ -1,3 +1,4 @@
+import produce from "@reduxjs/toolkit/node_modules/immer";
 import axios from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
@@ -175,9 +176,13 @@ export const addCompetitionPayment = (
   traineeTypeKVP: TypedCompetitionTraineeModelKVP,
   amount: number
 ) => {
-  competitionEntryKVP.competitionEntry.sortedTrainees[traineeTypeKVP.type][
-    traineeTypeKVP.index
-  ].amountPayed += amount;
+  const newSortedTrainees = produce(
+    competitionEntryKVP.competitionEntry.sortedTrainees,
+    (draftState) => {
+      draftState[traineeTypeKVP.type][traineeTypeKVP.index].amountPayed +=
+        amount;
+    }
+  );
   axios
     .post(api.Competitions.Payments.Add, {
       eventID: competitionEntryKVP.competitionEntry.competition.id,
@@ -189,9 +194,7 @@ export const addCompetitionPayment = (
         dispatch(
           competitionsActions.updateCompetitionEntry({
             nullableCompetitionEntry: {
-              sortedTrainees: {
-                ...competitionEntryKVP.competitionEntry.sortedTrainees,
-              },
+              sortedTrainees: newSortedTrainees,
             },
             competitionEntryIndex: competitionEntryKVP.index,
           })

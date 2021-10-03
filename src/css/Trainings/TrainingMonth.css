@@ -1,13 +1,11 @@
 table.TMonth {
+  left: 0;
   border-spacing: 18px;
   text-align: center;
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: scroll;
   color: rgb(197, 197, 197);
-  /* margin-left: auto;
-  margin-right: auto; */
 }
 
 th.TMonthTrainingInfo {
@@ -23,6 +21,9 @@ th.TMonthTrainingInfo {
 
   max-height: 125px;
   min-height: 125px;
+
+  position: sticky;
+  top: 85px;
 }
 
 th.TMonthDate {
@@ -32,6 +33,10 @@ th.TMonthDate {
   border-radius: 0px 0px 40px 0px;
   font-size: 60px;
   width: 300px;
+  position: sticky;
+  top: 85px;
+  left: 0px;
+  z-index: 1;
 }
 
 td.TMonthEntry {
@@ -61,6 +66,9 @@ td.TMonthTrainee {
   border: 5px solid rgb(255, 255, 255);
   font-size: 40px;
   background: rgb(50, 35, 135);
+  position: sticky;
+  left: 0;
+  /* top: 310px; */
 }
 
 th.TMonthTrainingAdd {

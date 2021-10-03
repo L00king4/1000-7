@@ -61,10 +61,14 @@ export interface NullableTrainingMonth {
   trainingInfos?: Training[];
   trainingTrainees?: TrainingTrainee[];
 }
+export interface Selected {
+  count: number;
+  selectedTrainees: SelectedTrainee[];
+}
 
 export interface TrainingsStore {
   trainingMonth: TrainingMonth;
-  selectedTrainees: SelectedTrainee[];
+  selected: Selected;
 }
 export interface NullableTrainingsStore {
   trainingMonth?: TrainingMonth;

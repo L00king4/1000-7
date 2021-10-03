@@ -11,11 +11,12 @@ export const TrainingMonthTBody = ({
 }: {
   trainingsStore: TrainingsStore;
 }) => {
+  const selectedTrainees = trainingsStore.selected.selectedTrainees;
   return (
     <tbody>
       {trainingsStore.trainingMonth.trainingTrainees.map(
         (trainingTrainee, trainingTraineeIndex) => {
-          const index = trainingsStore.selectedTrainees.findIndex(
+          const index = selectedTrainees.findIndex(
             (x) => x.trainingTraineeID === trainingTrainee.trainee.id
           );
           return (
@@ -29,7 +30,7 @@ export const TrainingMonthTBody = ({
                 trainingTrainee: trainingTrainee,
               }}
               selectedTraineeEntries={
-                trainingsStore.selectedTrainees[index]?.selectedTrainingEntries
+                selectedTrainees[index]?.selectedTrainingEntries
               }
             />
           );

@@ -5,5 +5,8 @@ export const TrainingMonthTBodyTDTrainee = ({
 }: {
   children?: React.ReactNode;
 }) => {
+  const asd = (ddd: string) => {
+    console.log(ddd);
+  };
   return <td className="TMonthTrainee">{children}</td>;
 };

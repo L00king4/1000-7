@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import store from "./Redux/Store";
 import { Provider } from "react-redux";
 import "./css/index.css";
+import "./css/Shared/modal.css";
 
 ReactDOM.render(
   <React.StrictMode>
