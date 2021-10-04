@@ -1,3 +1,8 @@
+.CompetitionsMain {
+  justify-content: center;
+  display: flex;
+}
+
 .CompetitionEntry {
   display: inline-block;
   background-color: #6ac46a;

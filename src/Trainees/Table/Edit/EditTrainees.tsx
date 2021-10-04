@@ -21,7 +21,7 @@ export const EditTrainees = () => {
   };
   return (
     <Fragment>
-      <div className="TraineesActions">
+      <div className="TraineesTableActions">
         <button onClick={onEditModeChangeHandler}>Exit Editing Mode</button>
         <DoubleTapButton
           buttonText={"Save changes"}

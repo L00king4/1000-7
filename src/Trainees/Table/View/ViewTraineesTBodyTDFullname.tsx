@@ -12,7 +12,7 @@ export const ViewTraineesTBodyTDFullname = ({
   };
   return (
     <td
-      className="TraineesEntry TraineesEntryFullname"
+      className="TraineesTableEntry TraineesTableEntryFullname"
       onClick={onClickHandler}
     >
       {children}

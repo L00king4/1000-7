@@ -2,4 +2,4 @@ export const EditTraineesTBodyTD = ({
   children,
 }: {
   children: React.ReactNode;
-}) => <td className="TraineesEntry">{children}</td>;
+}) => <td className="TraineesTableEntry">{children}</td>;

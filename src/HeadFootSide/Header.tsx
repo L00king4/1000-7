@@ -3,10 +3,20 @@ import { css } from "@emotion/react";
 import { Fragment, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-type Tab = "Competitions" | "Trainees" | "Trainings" | "None";
+const getCurrTab = () => {
+  // eslint-disable-next-line no-restricted-globals
+};
+
+type Tab =
+  | "Competitions"
+  | "Trainees/Table"
+  | "Trainees/Block"
+  | "Trainings"
+  | "None";
+
 export const Header = () => {
   const location = useLocation();
-  const [currTab, setCurrTab] = useState<Tab>("None");
+  const [currTab, setCurrTab] = useState<Tab>();
   const [navLinksVisible, setNavLinksVisible] = useState(false);
   const onClickHandler = (caller: Tab) => {
     setCurrTab(caller);
@@ -20,7 +30,7 @@ export const Header = () => {
           setNavLinksVisible(!navLinksVisible);
         }}
       ></i>
-      <div className="currnav">{location.pathname.substring(1)}</div>
+      <div className="currnav">{location.pathname.replace("/", " ")}</div>
       <div className={navLinksVisible ? "navlinks-showed" : "navlinks-hidden"}>
         <Fragment>
           <Link
@@ -31,12 +41,20 @@ export const Header = () => {
             Competitions
           </Link>
           <Link
-            to="/Trainees"
+            to="/Trainees/Table"
             className="navlink"
-            onClick={() => onClickHandler("Trainees")}
+            onClick={() => onClickHandler("Trainees/Table")}
           >
             Trainees
           </Link>
+          <Link
+            to="/Trainees/Block"
+            className="navlink"
+            onClick={() => onClickHandler("Trainees/Block")}
+          >
+            Trainees
+          </Link>
+
           <Link
             to="/Trainings"
             className="navlink"

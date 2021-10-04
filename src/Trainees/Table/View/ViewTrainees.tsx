@@ -11,7 +11,7 @@ export const ViewTrainees = () => {
   };
   return (
     <Fragment>
-      <div className="TraineesActions">
+      <div className="TraineesTableActions">
         <button onClick={onEditModeChangeHandler}>Enter Editing Mode</button>
       </div>
 

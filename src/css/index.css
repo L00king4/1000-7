@@ -15,7 +15,6 @@ body {
   margin: 150px 30px;
   align-items: center;
   justify-content: center;
-  display: flex;
 }
 
 .leftnav {
@@ -63,7 +62,7 @@ i.navicon {
 
 .navlinks-showed {
   transition: 0.65s;
-  height: 280px;
+  height: 360px;
   overflow: hidden;
 }
 

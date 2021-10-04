@@ -1,4 +1,4 @@
-.Trainees {
+.TraineesTableMain {
   margin: 0px 0px;
   padding: 0px 0px;
 }
@@ -8,8 +8,8 @@ table.TraineesTable {
   margin: 0;
 }
 
-td.TraineesEntry,
-th.TraineesEntry {
+td.TraineesTableEntry,
+th.TraineesTableEntry {
   border: 2px solid #dddddd;
   text-align: left;
   padding: 2px 32px;

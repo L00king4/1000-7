@@ -16,7 +16,7 @@ export const Competitions = () => {
     fetchCompetitions(dispatch);
   }, []);
   return (
-    <div>
+    <div className="CompetitionsMain">
       <AddCompetition />
       <ul>
         {competitionStore.competitionEntries.map(

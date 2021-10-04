@@ -6,8 +6,9 @@ import { Content } from "./HeadFootSide/Content";
 import Header from "./HeadFootSide/Header";
 import "./App.css";
 import { AddCompetition } from "./Competitions/AddCompetitions";
-import { Trainees } from "./Trainees/Trainees";
+import { TraineesTable } from "./Trainees/TraineesTable";
 import { Trainings } from "./Trainings/Trainings";
+import { TraineesBlock } from "./Trainees/TraineesBlock";
 
 export const App = () => {
   return (
@@ -22,7 +23,16 @@ export const App = () => {
               path="/Competitions"
               component={() => <Competitions />}
             />
-            <Route exact path="/Trainees" component={() => <Trainees />} />
+            <Route
+              exact
+              path="/Trainees/Table"
+              component={() => <TraineesTable />}
+            />
+            <Route
+              exact
+              path="/Trainees/Block"
+              component={() => <TraineesBlock />}
+            />
             <Route exact path="/Trainings" component={() => <Trainings />} />
           </Switch>
         </Content>

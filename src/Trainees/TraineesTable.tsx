@@ -11,7 +11,7 @@ import { getTraineesShowedBooleans } from "../Redux/Slices/Trainees/TraineesSlic
 import { EditTrainees } from "./Table/Edit/EditTrainees";
 import { ViewTrainees } from "./Table/View/ViewTrainees";
 
-export const Trainees = () => {
+export const TraineesTable = () => {
   const dispatch = useDispatch();
   const showedBooleans = useGlobalSelector(getTraineesShowedBooleans);
   // const debug = useGlobalSelector(getTraineesStore);
@@ -21,7 +21,7 @@ export const Trainees = () => {
   }, []);
   //test
   return (
-    <div className="Trainees">
+    <div className="TraineesTableMain">
       {showedBooleans?.showUpdateAllTrainees ? (
         <EditTrainees />
       ) : (

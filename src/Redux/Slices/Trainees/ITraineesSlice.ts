@@ -91,3 +91,9 @@ export interface NullableTraineesStore extends NullableTrainees {
   settings?: NullableSettings;
   showedBooleans?: NullableTraineesShowedBooleans;
 }
+
+export interface Trainee2EditingTraineeKVP {
+  index: number;
+  trainee: TraineeModel;
+  editingTrainee: TraineeModel;
+}
