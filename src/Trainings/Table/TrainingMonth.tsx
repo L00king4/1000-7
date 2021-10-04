@@ -11,7 +11,7 @@ import { useGlobalSelector } from "../../Redux/Store";
 export const TrainingMonth = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    fetchTrainingMonth(dispatch, moment("2021-03-13"));
+    fetchTrainingMonth(dispatch, moment("2021-03"));
   }, []);
   const trainingStore = useGlobalSelector(getTrainingsSlice);
   return (

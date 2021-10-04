@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 export const Modal = ({
   hideModalFunc,
@@ -11,7 +11,6 @@ export const Modal = ({
     const win: Window = window;
     const fireIfClickedOutside = (e: Event) => {
       const target = e.target as HTMLElement;
-      console.log("asdasd");
       if (target.className === "modal") {
         hideModalFunc();
         win.removeEventListener("click", fireIfClickedOutside);

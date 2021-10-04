@@ -5,8 +5,7 @@ import AddCompetitionAttendanceButton from "./Buttons/AddCompetitionAttendanceBu
 import RemoveCompetitionAttendanceButton from "./Buttons/RemoveCompetitionAttendanceButton";
 import AddCompetitionPaymentButton from "./Buttons/AddCompetitionPaymentButton";
 import { CompetitionTrainee } from "./CompetitionTrainee";
-import {} from "../Redux/Store";
-import { CompetitionEntryKVP } from "./ICompetitions";
+import { CompetitionEntryKVP } from "../Redux/Slices/Competitions/ICompetitionsSlice";
 
 export const CompetitionSortedTrainees = ({
   competitionEntryKVP,

@@ -22,13 +22,13 @@ export const ViewTraineesTHead = () => {
           sortableProp={"birthday"}
           sortingTarget={sortingTarget}
         >
-          Birthday/Age
+          Age
         </TraineesTableSortableTH>
         <TraineesTableSortableTH
           sortableProp={"beltColor"}
           sortingTarget={sortingTarget}
         >
-          Belt Color
+          Belt
         </TraineesTableSortableTH>
       </tr>
     </thead>

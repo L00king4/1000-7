@@ -2,13 +2,10 @@
 import { css } from "@emotion/react";
 import { useDispatch } from "react-redux";
 import { addCompetitionAttendance } from "../../Redux/Services/CompetitionsService";
-
 import {
-  CompetitionEntryKVP,
   CompetitionModelKVP,
-  CompetitionTraineeModel,
   CompetitionTraineeModelKVP,
-} from "../ICompetitions";
+} from "../../Redux/Slices/Competitions/ICompetitionsSlice";
 
 export const AddCompetitionAttendanceButton = ({
   competitionModelKVP,

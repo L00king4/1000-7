@@ -49,6 +49,8 @@ i.navicon {
   padding-bottom: 10px;
   border-bottom: 1px white;
   color: gold;
+  width: fit-content;
+  margin-left: 2%;
 }
 
 .currnav {

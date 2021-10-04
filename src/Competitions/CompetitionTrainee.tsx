@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { CompetitionTraineeModel } from "./ICompetitions";
+import { CompetitionTraineeModel } from "../Redux/Slices/Competitions/ICompetitionsSlice";
 
 export const CompetitionTrainee = ({
   trainee,

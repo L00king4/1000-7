@@ -5,7 +5,6 @@ import {
 } from "react-redux";
 import competitionsSlice from "./Slices/Competitions/CompetitionsSlice";
 import traineesSlice from "./Slices/Trainees/TraineesSlice";
-import { TrainingsStore } from "./Slices/Trainings/ITrainingsSlice";
 import trainingsSlice from "./Slices/Trainings/TrainingsSlice";
 
 const globalStore = configureStore({

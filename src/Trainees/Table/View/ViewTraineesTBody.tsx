@@ -1,9 +1,12 @@
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
-import { AgeGroup, BeltColor } from "../../ITrainees";
 import { ViewTraineesTBodyTD } from "./ViewTraineesTBodyTD";
 import { SortingMethodEnum } from "../../../Addons/Functional/Sorting";
 import { birthday2Age } from "../../../Addons/Functional/Birthday2Age";
 import { useGlobalSelector } from "../../../Redux/Store";
+import {
+  AgeGroup,
+  BeltColor,
+} from "../../../Redux/Slices/Trainees/ITraineesSlice";
 
 export const ViewTraineesTBody = () => {
   const traineesStore = useGlobalSelector(useTraineesSelector);

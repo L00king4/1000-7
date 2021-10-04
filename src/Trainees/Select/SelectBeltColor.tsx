@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react";
 import { getEnumKVPs } from "../../Addons/Functional/EnumFunctions";
-import { BeltColor } from "../ITrainees";
+import { BeltColor } from "../../Redux/Slices/Trainees/ITraineesSlice";
 
 export const SelectBeltColor = ({
   onBeltColorChangeHandler,

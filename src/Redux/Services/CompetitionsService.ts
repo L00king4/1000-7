@@ -2,23 +2,18 @@ import produce from "@reduxjs/toolkit/node_modules/immer";
 import axios from "axios";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
-import {
-  CompetitionEntryKVP,
-  CompetitionModel,
-  CompetitionModelKVP,
-  CompetitionTraineeModel,
-  CompetitionTraineeModelKVP,
-  NoIDCompetitionModel,
-  TypedCompetitionTraineeModelKVP,
-} from "../../Competitions/ICompetitions";
-import {
-  getEmptySortedTrainees,
-  SortedTrainees,
-} from "../../Trainees/SortedTrainees";
+import { getEmptySortedTrainees } from "../../Competitions/CompetitionAddons/getEmptySortedTrainees";
 import { competitionsActions } from "../Slices/Competitions/CompetitionsSlice";
 import {
   CompetitionEntry,
   CompetitionStore,
+  CompetitionEntryKVP,
+  CompetitionModel,
+  CompetitionModelKVP,
+  CompetitionTraineeModelKVP,
+  NoIDCompetitionModel,
+  SortedTrainees,
+  TypedCompetitionTraineeModelKVP,
 } from "../Slices/Competitions/ICompetitionsSlice";
 
 export const fetchCompetitions = async (dispatch: Dispatch<any>) => {

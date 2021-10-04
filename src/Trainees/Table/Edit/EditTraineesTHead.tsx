@@ -34,7 +34,7 @@ export const EditTraineesTHead = () => {
           sortableProp={"beltColor"}
           sortingTarget={sortingTarget}
         >
-          Belt Color
+          Belt
         </TraineesTableSortableTH>
       </tr>
     </thead>

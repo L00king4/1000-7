@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import { AttendanceModel } from "../../Interfaces/IAttendance";
@@ -19,8 +19,11 @@ const defaultTrainingEntry: Omit<TrainingEntry, "eventID"> = {
 
 export const fetchTrainingMonth = async (
   dispatch: Dispatch<any>,
-  date: Moment
+  date?: Moment
 ) => {
+  if (!date) {
+    date = moment();
+  }
   const { data } = await axios.get<TrainingMonth>(
     api.Trainings.Events.GetMonth(date)
   );
@@ -151,7 +154,9 @@ export const setShowAddTrainingMenu = (
   value: boolean
 ) => {
   dispatch(
-    trainingsActions.setShowedBooleans({ booleans: { AddTrainingMenu: value } })
+    trainingsActions.setTrainingsStore({
+      showedBooleans: { showAddTraining: value },
+    })
   );
 };
 

@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { Modal } from "../../Addons/Components/Modal";
 import { setShowAddTrainingMenu } from "../../Redux/Services/TrainingsService";
-import { AddTrainingMenu } from "../AddTrainingMenu";
 
 export const TrainingMonthTHeadAddTrainingTH = ({
   children,

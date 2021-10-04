@@ -2,14 +2,16 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import { useState } from "react";
-import { CompetitionEntryKVP, CompetitionTraineeModel } from "./ICompetitions";
 import api from "../ApiEndpoints";
 import { CompetitionSortedTrainees } from "./CompetitionSortedTrainees";
 import { useDispatch } from "react-redux";
 import { RemoveCompetitionButton } from "./Buttons/RemoveCompetitionButton";
 import { fetchSortedTrainees } from "../Redux/Services/CompetitionsService";
 import "../css/Shared/Arrows.css";
-import { CompetitionEntry } from "../Redux/Slices/Competitions/ICompetitionsSlice";
+import {
+  CompetitionEntry,
+  CompetitionEntryKVP,
+} from "../Redux/Slices/Competitions/ICompetitionsSlice";
 
 export const Competition = ({
   competitionEntryKVP,

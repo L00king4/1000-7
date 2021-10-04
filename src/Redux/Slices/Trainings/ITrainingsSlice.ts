@@ -54,34 +54,35 @@ export interface TrainingInfo extends Training {}
 export interface TrainingMonth {
   trainingInfos: Training[];
   trainingTrainees: TrainingTrainee[];
-  info?: TrainingMonthInfo;
+  info: TrainingMonthInfo;
 }
 
 export interface NullableTrainingMonth {
   trainingInfos?: Training[];
   trainingTrainees?: TrainingTrainee[];
 }
-export interface Selected {
+export interface TrainingsSelectedProp {
   count: number;
   selectedTrainees: SelectedTrainee[];
 }
 
-export interface ShowedBooleans {
-  AddTrainingMenu: boolean;
+export interface TrainingsShowedBooleans {
+  showAddTraining: boolean;
 }
 
-export interface NullableShowedBooleans {
-  AddTrainingMenu?: boolean;
+export interface NullableTrainingsShowedBooleans {
+  showAddTraining?: boolean;
 }
 
 export interface TrainingsStore {
   trainingMonth: TrainingMonth;
-  selected: Selected;
-  showedBooleans: ShowedBooleans;
+  selected: TrainingsSelectedProp;
+  showedBooleans: TrainingsShowedBooleans;
 }
 export interface NullableTrainingsStore {
   trainingMonth?: TrainingMonth;
   selectedTrainees?: SelectedTrainee[];
+  showedBooleans?: NullableTrainingsShowedBooleans;
 }
 
 export interface TrainingTraineeKVP {

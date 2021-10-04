@@ -4,8 +4,10 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import api from "../../ApiEndpoints";
 import { removeCompetition } from "../../Redux/Services/CompetitionsService";
-import { CompetitionEntry } from "../../Redux/Slices/Competitions/ICompetitionsSlice";
-import { CompetitionModelKVP } from "../ICompetitions";
+import {
+  CompetitionEntry,
+  CompetitionModelKVP,
+} from "../../Redux/Slices/Competitions/ICompetitionsSlice";
 
 export const RemoveCompetitionButton = ({
   competitionModelKVP,

@@ -12,16 +12,20 @@ import {
 import { birthday2Age } from "../../../Addons/Functional/Birthday2Age";
 import { InputBirthday } from "../../Input/InputBirthday";
 import { InputFullname } from "../../Input/InputFullname";
-import { AgeGroup, BeltColor, TraineeModel } from "../../ITrainees";
 import { SelectAgeGroup } from "../../Select/SelectAgeGroup";
 import { SelectBeltColor } from "../../Select/SelectBeltColor";
 import "../../../css/Trainees/EditTraineesTBodyTR.css";
 import { useTraineesSelector } from "../../../Redux/Slices/Trainees/TraineesSlice";
 import { DoubleTapButton } from "../../../Addons/Components/DoubleTapButton";
 import { EditTraineesTBodyTD } from "./EditTraineesTBodyTD";
-import { dateFormat } from "../../../Addons/Functional/DateConverter";
+import { dateFormat } from "../../../Addons/Functional/DateFormats";
 import { useGlobalSelector } from "../../../Redux/Store";
 import moment from "moment";
+import {
+  AgeGroup,
+  BeltColor,
+  TraineeModel,
+} from "../../../Redux/Slices/Trainees/ITraineesSlice";
 
 export const EditTraineesTBodyTR = ({
   trainee,
@@ -31,7 +35,6 @@ export const EditTraineesTBodyTR = ({
   traineeIndex: number;
 }) => {
   const dispatch = useDispatch();
-  // const correspondingTrainee = getTraineesStore().trainees[traineeIndex];
   const correspondingTrainee =
     useGlobalSelector(useTraineesSelector).trainees[traineeIndex];
   const onFullnameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +70,6 @@ export const EditTraineesTBodyTR = ({
   const onDeleteClickHandler = () => {
     removeTrainee(dispatch, trainee.id, traineeIndex);
   };
-  if (trainee.id === 10) console.log(getTraineesStore());
   return (
     <tr>
       {/* Fullname */}

@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Modal } from "../Addons/Components/Modal";
 import { addCompetitionEntry } from "../Redux/Services/CompetitionsService";
-import { NoIDCompetitionModel } from "./ICompetitions";
+import { NoIDCompetitionModel } from "../Redux/Slices/Competitions/ICompetitionsSlice";
 
 export const AddCompetition = () => {
   const [showModal, setShowModal] = useState(false);

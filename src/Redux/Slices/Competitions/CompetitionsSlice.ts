@@ -1,17 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
-import { useSelector as useReduxSelector } from "react-redux";
-import { TypedUseSelectorHook } from "react-redux";
-import {
-  CompetitionModel,
-  CompetitionTraineeModel,
-} from "../../../Competitions/ICompetitions";
-import { SortedTrainees } from "../../../Trainees/SortedTrainees";
 import { GlobalState } from "../../Store";
 import {
   CompetitionEntry,
   CompetitionStore,
   NullableCompetitionEntry,
+  SortedTrainees,
 } from "./ICompetitionsSlice";
 
 const initialState: CompetitionStore = { competitionEntries: [] };

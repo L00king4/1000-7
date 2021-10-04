@@ -3,14 +3,16 @@ import { Dispatch } from "react";
 import api from "../../ApiEndpoints";
 import globalStore from "../Store";
 import { traineesActions } from "../Slices/Trainees/TraineesSlice";
-import { NullableTraineeModel, TraineeModel } from "../../Trainees/ITrainees";
 import {
   FilteringSettings,
-  SortableProp,
+  NullableTraineesShowedBooleans,
   SortingSettings,
+  NullableTraineeModel,
+  TraineeModel,
 } from "../Slices/Trainees/ITraineesSlice";
 import { getNextSortingMethod } from "../../Addons/Functional/Sorting";
 import moment from "moment";
+import { datetimeFormat } from "../../Addons/Functional/DateFormats";
 
 export const fetchTrainees = async (dispatch: Dispatch<any>) => {
   const { data } = await axios.get<TraineeModel[]>(api.Trainees.GetAll);
@@ -71,7 +73,18 @@ export const saveEditingTrainee = (
 };
 
 export const saveAllEditingTrainees = (dispatch: Dispatch<any>) => {
-  dispatch(traineesActions.saveAllEditingTrainees());
+  const { trainees, editingTrainees } = getTraineesStore();
+  const updatedTrainees = editingTrainees
+    .filter((x) => !trainees.includes(x))
+    .map((x) => {
+      return { ...x, birthday: x.birthday.format(datetimeFormat) };
+    });
+  console.log(updatedTrainees);
+  axios.post(api.Trainees.UpdateRange, updatedTrainees).then((res) => {
+    if (res.data !== -1) {
+      dispatch(traineesActions.saveAllEditingTrainees());
+    }
+  });
 };
 
 export const resetUpdatingTrainee = (
@@ -117,15 +130,18 @@ export const filterTrainees = (
   );
 };
 
+export const setTraineesShowedBooleans = (
+  dispatch: Dispatch<any>,
+  booleans: NullableTraineesShowedBooleans
+) => {
+  dispatch(
+    traineesActions.setTraineesStore({ showedBooleans: { ...booleans } })
+  );
+};
+
 // HELPING METHODS
 export const getTraineesStore = () => {
   return globalStore.getState().traineesSlice;
-};
-
-const getTraineeIndex = (trainee: TraineeModel) => {
-  return globalStore
-    .getState()
-    .traineesSlice.trainees.findIndex((x) => x === trainee);
 };
 
 export const getEditingTraineeByIndex = (traineeIndex: number) => {

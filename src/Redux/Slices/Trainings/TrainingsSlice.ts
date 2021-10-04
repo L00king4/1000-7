@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
+import moment from "moment";
 import { AttendanceModel } from "../../../Interfaces/IAttendance";
 import { PaymentModel } from "../../../Interfaces/IPayment";
 import { GlobalState } from "../../Store";
 import {
-  NullableShowedBooleans,
   NullableTrainingEntry,
+  NullableTrainingsShowedBooleans,
   NullableTrainingsStore,
-  ShowedBooleans,
   TrainingMonthInfo,
+  TrainingsShowedBooleans,
   TrainingsStore,
 } from "./ITrainingsSlice";
 
@@ -16,14 +17,14 @@ const initialState: TrainingsStore = {
   trainingMonth: {
     trainingInfos: [],
     trainingTrainees: [],
-    info: undefined,
+    info: { showedDate: moment() },
   },
   selected: {
     count: 0,
     selectedTrainees: [],
   },
   showedBooleans: {
-    AddTrainingMenu: false,
+    showAddTraining: false,
   },
 };
 
@@ -38,6 +39,10 @@ const trainingsSlice = createSlice({
       return {
         ...state,
         ...action.payload,
+        showedBooleans: {
+          ...state.showedBooleans,
+          ...action.payload.showedBooleans,
+        },
       };
     },
     updateTrainingEntry: (
@@ -173,15 +178,18 @@ const trainingsSlice = createSlice({
         });
       });
     },
-    setShowedBooleans: (
-      state,
-      action: { type: string; payload: { booleans: NullableShowedBooleans } }
-    ) => {
-      return {
-        ...state,
-        showedBooleans: { ...state.showedBooleans, ...action.payload.booleans },
-      };
-    },
+    // setShowedBooleans: (
+    //   state,
+    //   action: {
+    //     type: string;
+    //     payload: { booleans: NullableTrainingsShowedBooleans };
+    //   }
+    // ) => {
+    //   return {
+    //     ...state,
+    //     showedBooleans: { ...state.showedBooleans, ...action.payload.booleans },
+    //   };
+    // },
   },
 });
 
@@ -192,11 +200,11 @@ export const getTrainingsSlice = (state: GlobalState): TrainingsStore => {
 };
 export const getTrainingsMonthSettings = (
   state: GlobalState
-): TrainingMonthInfo | undefined => {
+): TrainingMonthInfo => {
   return state.trainingsSlice.trainingMonth.info;
 };
 export const getTrainingShowedBooleans = (
   state: GlobalState
-): ShowedBooleans | undefined => {
+): TrainingsShowedBooleans | undefined => {
   return state.trainingsSlice.showedBooleans;
 };

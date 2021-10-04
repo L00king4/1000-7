@@ -24,7 +24,7 @@ Trainees:
 4. Move all axios posts/gets to services.
 5. [DONE] Filtering for specific columns.
 6. Double-tap(click) on trainee to update it.
-7.
+7. Divide Trainees into Table/n-traineecard-per-row View
 
 ---
 

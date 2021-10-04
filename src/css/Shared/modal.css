@@ -9,6 +9,7 @@
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
   justify-content: center;
   align-items: center;
+  transition: 1s;
 }
 
 /* Modal Content */
@@ -16,9 +17,33 @@
   background: grey;
   margin: auto;
   margin-top: 15%;
-  padding: 20px;
-  border: 1px solid #888;
+  border-left: 15px solid purple;
   width: fit-content;
+  font-size: 35px;
+}
+
+.modal-body {
+  padding: 10px;
+}
+.modal-header {
+  padding: 10px;
+  font-size: 45px;
+  background: rgb(79, 79, 79);
+}
+
+.modal-footer {
+  padding: 10px;
+  background: rgb(79, 79, 79);
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+}
+
+.modal-hidden {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0);
+  transition: 0.3s;
 }
 
 .modal-button {

@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react";
 import { getEnumKVPs } from "../../Addons/Functional/EnumFunctions";
-import { AgeGroup } from "../ITrainees";
+import { AgeGroup } from "../../Redux/Slices/Trainees/ITraineesSlice";
 
 export const SelectAgeGroup = ({
   onAgeGroupChangeHandler,
